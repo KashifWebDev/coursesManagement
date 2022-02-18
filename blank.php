@@ -20,7 +20,7 @@ $path = ROOT_DIR;
 <!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-<?=require_once "includes/sideBar.inc.php";?>
+<?=require_once "includes/instructorSideBar.inc.php";?>
 <!-- End Sidebar-->
 
   <main id="main" class="main">
@@ -29,7 +29,7 @@ $path = ROOT_DIR;
       <h1>Blank Page</h1>
       <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=ROOT_DIR?>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<?=ROOT_DIR?>instructorDashboard.php">Dashboard</a></li>
           <li class="breadcrumb-item">Pages</li>
           <li class="breadcrumb-item active">Blank</li>
         </ol>

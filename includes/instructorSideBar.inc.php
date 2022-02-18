@@ -16,17 +16,17 @@
             </a>
             <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="forms-elements.html">
-                        <i class="bi bi-circle"></i><span>My Courses</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-layouts.html">
+                    <a href="<?=$path?>instructor-create-course.php">
                         <i class="bi bi-circle"></i><span>Add New Course</span>
                     </a>
                 </li>
                 <li>
-                    <a href="forms-editors.html">
+                    <a href="<?=$path?>instructor-all-courses.php">
+                        <i class="bi bi-circle"></i><span>My Courses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?=$path?>instructor-my-students.php">
                         <i class="bi bi-circle"></i><span>My Students</span>
                     </a>
                 </li>
@@ -54,14 +54,14 @@
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
+            <a class="nav-link collapsed" href="<?=$path?>profile.php">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
             </a>
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-login.html">
+            <a class="nav-link collapsed" href="#">
                 <i class="bi bi-box-arrow-left"></i>
                 <span>Sign Out</span>
             </a>
