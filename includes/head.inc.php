@@ -22,5 +22,6 @@
     <link href="<?=$path?>assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="<?=$path?>assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
+
     <!-- Template Main CSS File -->
     <link href="<?=$path?>assets/css/style.css?v=<?=rand()?>" rel="stylesheet">
