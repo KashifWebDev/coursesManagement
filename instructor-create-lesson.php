@@ -86,8 +86,8 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="floatingNumOfTries" placeholder="Number Of Tries">
-                                                    <label for="floatingNumOfTries">Number Of Tries</label>
+                                                    <input type="text" class="form-control" id="floatingNumOfTries" placeholder="Number Of Attempts">
+                                                    <label for="floatingNumOfTries">Number Of Attempts</label>
                                                 </div>
                                             </div>
 
