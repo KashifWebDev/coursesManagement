@@ -39,12 +39,12 @@
             </a>
             <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="tables-general.html">
+                    <a href="<?=$path?>instructor-create-coupon.php">
                         <i class="bi bi-circle"></i><span>Add New Coupon</span>
                     </a>
                 </li>
                 <li>
-                    <a href="tables-data.html">
+                    <a href="<?=$path?>instructor-all-coupons.php">
                         <i class="bi bi-circle"></i><span>All Coupon</span>
                     </a>
                 </li>

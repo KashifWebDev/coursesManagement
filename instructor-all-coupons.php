@@ -8,7 +8,7 @@
 
 <head>
     <?php
-    $title = "My Students"." | TeachMe How";
+    $title = "All Coupons"." | TeachMe How";
         require "includes/head.inc.php";
     ?>
 </head>
@@ -26,11 +26,11 @@
   <main id="main" class="main">
 
       <div class="pagetitle">
-          <h1>Profile</h1>
+          <h1>All Coupons</h1>
           <nav>
               <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="<?=$path?>instructorDashboard.php">Dashboard</a></li>
-                  <li class="breadcrumb-item active">My Students</li>
+                  <li class="breadcrumb-item active">All Coupons</li>
               </ol>
           </nav>
       </div><!-- End Page Title -->
@@ -47,46 +47,40 @@
                               <thead>
                               <tr>
                                   <th scope="col">#</th>
-                                  <th scope="col">Name</th>
-                                  <th scope="col">Course</th>
-                                  <th scope="col">Age</th>
-                                  <th scope="col">Start Date</th>
+                                  <th scope="col">Coupon Code</th>
+                                  <th scope="col">Course Name</th>
+                                  <th scope="col">Expiry Date</th>
                               </tr>
                               </thead>
                               <tbody>
                               <tr>
                                   <th scope="row">1</th>
-                                  <td>Brandon Jacob</td>
+                                  <td>YxZPKZ</td>
                                   <td>Designer</td>
-                                  <td>28</td>
                                   <td>2016-05-25</td>
                               </tr>
                               <tr>
                                   <th scope="row">2</th>
-                                  <td>Bridie Kessler</td>
+                                  <td>rh3M75</td>
                                   <td>Developer</td>
-                                  <td>35</td>
                                   <td>2014-12-05</td>
                               </tr>
                               <tr>
                                   <th scope="row">3</th>
-                                  <td>Ashleigh Langosh</td>
+                                  <td>74QxLK</td>
                                   <td>Finance</td>
-                                  <td>45</td>
                                   <td>2011-08-12</td>
                               </tr>
                               <tr>
                                   <th scope="row">4</th>
-                                  <td>Angus Grady</td>
+                                  <td>4hITkb</td>
                                   <td>HR</td>
-                                  <td>34</td>
                                   <td>2012-06-11</td>
                               </tr>
                               <tr>
                                   <th scope="row">5</th>
-                                  <td>Raheem Lehner</td>
+                                  <td>t7a3Cq</td>
                                   <td>Dynamic Division Officer</td>
-                                  <td>47</td>
                                   <td>2011-04-19</td>
                               </tr>
                               </tbody>
