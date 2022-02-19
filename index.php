@@ -23,6 +23,14 @@ $path = ROOT_DIR;
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
+                <?php if(isset($_GET["accountCreated"])){ ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <h4 class="alert-heading">Account Created</h4>
+                            <p>Congrats! Your account was created successfully. To continue using platform, please check your registered email and follow the instructions.</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                <?php } ?>
+
               <div class="d-flex justify-content-center">
                 <a href="<?=$path?>" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo_top.png" alt="" style="max-height: 80px;">

@@ -39,7 +39,7 @@ $path = ROOT_DIR;
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                  <form class="row g-3 needs-validation" novalidate method="post" action="index.php?accountCreated=1">
 
                     <div class="col-md-6">
                       <label for="firstName" class="form-label">First Name</label>

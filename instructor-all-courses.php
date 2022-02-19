@@ -48,6 +48,7 @@
                                   <th scope="col">#</th>
                                   <th scope="col">Course Name</th>
                                   <th scope="col">Lessons</th>
+                                  <th scope="col">Actions</th>
                               </tr>
                               </thead>
                               <tbody>
@@ -55,77 +56,159 @@
                                   <th scope="row">1</th>
                                   <td>Brandon Jacob</td>
                                   <td>28</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">2</th>
                                   <td>Bridie Kessler</td>
                                   <td>35</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">3</th>
                                   <td>Ashleigh Langosh</td>
                                   <td>45</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">4</th>
                                   <td>Angus Grady</td>
                                   <td>34</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">5</th>
                                   <td>Raheem Lehner</td>
                                   <td>47</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">6</th>
                                   <td>Brandon Jacob</td>
                                   <td>28</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">7</th>
                                   <td>Bridie Kessler</td>
                                   <td>35</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">8</th>
                                   <td>Ashleigh Langosh</td>
                                   <td>45</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">9</th>
                                   <td>Angus Grady</td>
                                   <td>34</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">10</th>
                                   <td>Raheem Lehner</td>
                                   <td>47</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">11</th>
                                   <td>Brandon Jacob</td>
                                   <td>28</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">12</th>
                                   <td>Bridie Kessler</td>
                                   <td>35</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">13</th>
                                   <td>Ashleigh Langosh</td>
                                   <td>45</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">14</th>
                                   <td>Angus Grady</td>
                                   <td>34</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
                               <tr>
                                   <th scope="row">15</th>
                                   <td>Raheem Lehner</td>
                                   <td>47</td>
+                                  <td>
+                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
+                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                  </td>
                               </tr>
+                              <div class="modal fade" id="delModal" tabindex="-1">
+                                  <div class="modal-dialog modal-lg">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                              <h5 class="modal-title">Delete Course</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                              Are you sure you want to delete this course?
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                              <button type="button" class="btn btn-danger">Delete</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div><!-- End Large Modal-->
+                              
+                              
+                              
+                              
+                              
                               </tbody>
                           </table>
                           <!-- End Table with stripped rows -->
@@ -139,6 +222,7 @@
 
   </main><!-- End #main -->
 
+  
 
   <?=require_once "includes/footer.inc.php";?>
 
