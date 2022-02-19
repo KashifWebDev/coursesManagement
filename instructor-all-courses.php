@@ -25,14 +25,17 @@
 
   <main id="main" class="main">
 
-      <div class="pagetitle">
-          <h1>My Courses</h1>
-          <nav>
-              <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="<?=ROOT_DIR?>instructorDashboard.php">Dashboard</a></li>
-                  <li class="breadcrumb-item">My Courses</li>
-              </ol>
-          </nav>
+      <div class="pagetitle d-flex justify-content-between">
+          <div>
+              <h1>My Courses</h1>
+              <nav>
+                  <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="<?=ROOT_DIR?>instructorDashboard.php">Dashboard</a></li>
+                      <li class="breadcrumb-item">My Courses</li>
+                  </ol>
+              </nav>
+          </div>
+          <a class="btn btn-primary" href="instructor-create-course.php">Add a New Course</a>
       </div><!-- End Page Title -->
 
       <section class="section">
