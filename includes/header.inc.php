@@ -1,9 +1,9 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center">
-<!--            <img src="--><?//=$path?><!--assets/img/logo/CourseMaker-logos_transparent.png" alt="">-->
-            <span class="d-none d-lg-block">Course Maker</span>
+        <a href="instructorDashboard.php" class="logo d-flex align-items-center">
+            <img src="<?=$path?>assets/img/logo_top.png" alt="">
+            <span class="d-none d-lg-block">TeachMe How</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->

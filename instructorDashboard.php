@@ -8,7 +8,7 @@
 
 <head>
     <?php
-    $title = "Dashboard"." | Course Maker";
+    $title = "Dashboard"." | TeachMe How";
         require "includes/head.inc.php";
     ?>
 </head>

@@ -346,14 +346,18 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 .logo img {
-  max-height: 175px;
-  /*margin-right: 6px;*/
+  max-height: 40px;
+  margin-right: 6px;
+  /*margin-bottom: 16px;*/
 }
 .logo span {
   font-size: 26px;
   font-weight: 700;
   color: #012970;
   font-family: "Nunito", sans-serif;
+}
+.logo span p{
+  text-align: -webkit-center;
 }
 
 .header {

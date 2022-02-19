@@ -8,7 +8,7 @@ $path = ROOT_DIR;
 
 <head>
     <?php
-    $title = "Blank Page"." | Course Maker";
+    $title = "Blank Page"." | TeachMe How";
     require "includes/head.inc.php";
     ?>
 </head>

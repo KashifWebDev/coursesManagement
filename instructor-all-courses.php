@@ -8,7 +8,7 @@
 
 <head>
     <?php
-    $title = "My Profile"." | Course Maker";
+    $title = "My Profile"." | TeachMe How";
         require "includes/head.inc.php";
     ?>
 </head>

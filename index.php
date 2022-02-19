@@ -8,7 +8,7 @@ $path = ROOT_DIR;
 
 <head>
     <?php
-    $title = "Login"." | Course Maker";
+    $title = "Login"." | TeachMe How";
     require "includes/head.inc.php";
     ?>
 </head>
@@ -25,8 +25,11 @@ $path = ROOT_DIR;
 
               <div class="d-flex justify-content-center">
                 <a href="<?=$path?>" class="logo d-flex align-items-center w-auto">
-                  <img src="assets/img/logo/CourseMaker-logos_transparent.png" alt="">
-<!--                  <span class="d-none d-lg-block">NiceAdmin</span>-->
+                  <img src="assets/img/logo_top.png" alt="" style="max-height: 80px;">
+                  <span class="d-none d-lg-block fw-bolder d-flex align-items-center justify-content-center flex-column">
+                      <p>Teach me</p>
+                      <p >How</p>
+                  </span>
                 </a>
               </div><!-- End Logo -->
 
