@@ -59,6 +59,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -68,6 +69,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -77,6 +79,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -86,6 +89,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -95,6 +99,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -104,6 +109,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -113,6 +119,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -122,6 +129,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -131,6 +139,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -140,6 +149,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -149,6 +159,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -158,6 +169,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -167,6 +179,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -176,6 +189,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <tr>
@@ -185,6 +199,7 @@
                                   <td>
                                       <a href="instructor-edit-course.php" class="btn btn-outline-primary"><i class="bi bi-pencil-fill"></i></a>
                                       <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
+                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
                                   </td>
                               </tr>
                               <div class="modal fade" id="delModal" tabindex="-1">

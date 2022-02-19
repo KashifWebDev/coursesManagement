@@ -4,7 +4,7 @@
         &copy; Copyright <strong><span>CourseMaker</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-        Designed by <a href="https://kashifali.me/">Kashif Ali</a>
+<!--        Designed by <a href="https://kashifali.me/">Kashif Ali</a>-->
     </div>
 </footer><!-- End Footer -->
 
