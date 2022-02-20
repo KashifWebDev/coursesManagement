@@ -25,15 +25,68 @@
 
   <main id="main" class="main">
 
-      <div class="pagetitle">
-          <h1>Profile</h1>
-          <nav>
-              <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="<?=$path?>instructorDashboard.php">Dashboard</a></li>
-                  <li class="breadcrumb-item active">My Students</li>
-              </ol>
-          </nav>
+      <div class="pagetitle d-flex justify-content-between">
+          <div>
+              <h1>Profile</h1>
+              <nav>
+                  <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="<?=$path?>instructorDashboard.php">Dashboard</a></li>
+                      <li class="breadcrumb-item active">My Students</li>
+                  </ol>
+              </nav>
+          </div>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-check-fill me-2"></i>Add New Student</button>
       </div><!-- End Page Title -->
+
+      <div class="modal fade" id="basicModal" tabindex="-1">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Enroll New Student</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+
+                      <form>
+                          <div class="row">
+                              <div class="col-md-12 mb-3">
+                                  <div class="form-floating">
+                                      <input type="text" class="form-control" id="floatingName" placeholder="First Name">
+                                      <label for="floatingName">First Name</label>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 mb-3">
+                                  <div class="form-floating">
+                                      <input type="text" class="form-control" id="floatingName" placeholder="Last Name">
+                                      <label for="floatingName">Last Name</label>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 mb-3">
+                                  <div class="form-floating">
+                                      <input type="email" class="form-control" id="floatingName" placeholder="Email">
+                                      <label for="floatingName">Email</label>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <button type="button" class="btn btn-primary w-100">
+                                      <i class="ri-mail-send-line me-1"></i>
+                                      Send Invitation
+                                  </button>
+                              </div>
+                              <div class="col-md-6">
+                                  <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                                      <i class="ri-close-circle-line"></i>
+                                      Cancel
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div><!-- End Basic Modal-->
 
       <section class="section">
           <div class="row">

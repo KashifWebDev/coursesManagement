@@ -37,7 +37,7 @@
               </nav>
           </div>
           <div>
-              <a class="btn btn-primary" href="instructor-create-lesson.php">Add a New Lesson</a>
+              <a class="btn btn-primary" href="instructor-create-lesson.php"><i class="bi bi-cloud-plus me-2"></i>Add a New Lesson</a>
           </div>
       </div><!-- End Page Title -->
 

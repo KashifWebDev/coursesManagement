@@ -35,7 +35,7 @@
                   </ol>
               </nav>
           </div>
-          <a class="btn btn-primary" href="instructor-create-course.php">Add a New Course</a>
+          <a class="btn btn-primary" href="instructor-create-course.php"><i class="bi bi-cloud-plus me-2"></i>Add a New Course</a>
       </div><!-- End Page Title -->
 
       <section class="section">
