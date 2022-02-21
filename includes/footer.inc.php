@@ -21,4 +21,4 @@
 <script src="<?=$path?>assets/vendor/echarts/echarts.min.js"></script>
 
 <!-- Template Main JS File -->
-<script src="<?=$path?>assets/js/main.js"></script>
+<script src="<?=$path?>assets/js/main.js?v=<?=rand()?>"></script>

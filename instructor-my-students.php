@@ -35,7 +35,11 @@
                   </ol>
               </nav>
           </div>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-check-fill me-2"></i>Add New Student</button>
+          <div>
+
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-check-fill me-2"></i>Add New Student</button>
+              <button type="button" class="btn btn-success" ><i class="ri-file-excel-line me-2" style="font-size: 17px;"></i>Export All</button>
+          </div>
       </div><!-- End Page Title -->
 
       <div class="modal fade" id="basicModal" tabindex="-1">

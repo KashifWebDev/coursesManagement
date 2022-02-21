@@ -1,4 +1,1 @@
-<?php
-function rootPath(){
-    return __DIR__;
-}
+<?php ?>

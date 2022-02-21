@@ -57,6 +57,22 @@
                                   </div>
                               </div>
 
+                              <div class="col-md-12 d-flex align-items-center">
+                                  <p class="mb-0 me-2">Select Course Access</p>
+
+                                  <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" checked>
+                                  <label class="btn btn-outline-info me-2" for="option4">Draft</label>
+
+                                  <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" >
+                                  <label class="btn btn-outline-secondary me-2" for="option1">Free</label>
+
+                                  <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                                  <label class="btn btn-outline-danger me-2" for="option2">Registration</label>
+
+                                  <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+                                  <label class="btn btn-outline-success me-2" for="option3">Paid</label>
+                              </div>
+
                               <div class="col-md-12">
                                   <textarea class="tinymce-editor">
                                     <h3><strong><em>Course Description here....</em></strong></h3>

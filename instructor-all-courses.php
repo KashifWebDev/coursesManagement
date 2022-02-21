@@ -60,9 +60,7 @@
                                   <td>Brandon Jacob</td>
                                   <td>28</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -70,9 +68,7 @@
                                   <td>Bridie Kessler</td>
                                   <td>35</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -80,9 +76,7 @@
                                   <td>Ashleigh Langosh</td>
                                   <td>45</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -90,9 +84,7 @@
                                   <td>Angus Grady</td>
                                   <td>34</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -100,9 +92,7 @@
                                   <td>Raheem Lehner</td>
                                   <td>47</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -110,9 +100,7 @@
                                   <td>Brandon Jacob</td>
                                   <td>28</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -120,9 +108,7 @@
                                   <td>Bridie Kessler</td>
                                   <td>35</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -130,9 +116,7 @@
                                   <td>Ashleigh Langosh</td>
                                   <td>45</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -140,9 +124,7 @@
                                   <td>Angus Grady</td>
                                   <td>34</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -150,9 +132,7 @@
                                   <td>Raheem Lehner</td>
                                   <td>47</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -160,9 +140,7 @@
                                   <td>Brandon Jacob</td>
                                   <td>28</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -170,9 +148,7 @@
                                   <td>Bridie Kessler</td>
                                   <td>35</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -180,9 +156,7 @@
                                   <td>Ashleigh Langosh</td>
                                   <td>45</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -190,9 +164,7 @@
                                   <td>Angus Grady</td>
                                   <td>34</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <tr>
@@ -200,9 +172,7 @@
                                   <td>Raheem Lehner</td>
                                   <td>47</td>
                                   <td>
-                                      <a href="instructor-edit-course.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit Course"><i class="bi bi-pencil-fill"></i></a>
-                                      <button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delModal"><i class="bi bi-trash2-fill"></i></button>
-                                      <a href="instructor-course-lessons.php" class="btn btn-outline-success"><i class="bi bi-blockquote-left"></i>Lessons</a>
+                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
                                   </td>
                               </tr>
                               <div class="modal fade" id="delModal" tabindex="-1">
