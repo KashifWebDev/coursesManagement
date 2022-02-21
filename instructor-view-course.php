@@ -32,6 +32,61 @@
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
     }
+    if(isset($_POST["editCourse"])){
+    $title = sanitizeParam($_POST["title"]);
+    $access = sanitizeParam($_POST["options"]);
+    $description = sanitizeParam($_POST["description"]);
+
+    $s = "UPDATE courses SET title='$title', access='$access',description='description'  WHERE id=$courseID";
+    if(mysqli_query($con, $s)){
+        header('Location: instructor-view-course.php?courseID='.$courseID);
+    }
+}
+    if(isset($_POST['uploadImg'])) {
+        $target_dir = "assets/img/courses-thumnail/";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        $fileName = $_FILES["fileToUpload"]["name"];
+        if ($check !== false) {
+            echo "File is an image - " . $check["mime"] . ".";
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+        // Check file size
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif") {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+            // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+//                echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
+                    $s = "UPDATE courses SET thumbnail='$fileName' WHERE id=$courseID";
+//                    echo $s; exit(); die();
+                    mysqli_query($con, $s);
+                    header('Location: instructor-view-course.php?courseID='.$courseID);
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+
+    $s = "SELECT * FROM courses WHERE id=$courseID";
+    $res = mysqli_query($con, $s);
+    $courseRow = mysqli_fetch_array($res);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,27 +114,83 @@
           <div class="card-body p-2">
               <div class="row">
                   <div class="col-md-3 d-flex flex-column align-items-center">
-                      <div class="course-img-container w-100">
-                          <img id="courseImgThumbnail" src="assets/img/courses-thumnail/test.jpg" alt="Profile" class="img-thumbnail h-100 w-100">
-                          <button id="courseImageChange" class="btn btn-primary">
-                              <i class="bi bi-image-fill me-2"></i>
-                              Upload
-                          </button>
-                      </div>
+                      <form action="" method="post" id="image_upload_form"  enctype="multipart/form-data">
+                          <div class="course-img-container w-100">
+                              <img id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail h-100 w-100">
+                              <button type="button" id="courseImageChange" class="btn btn-primary">
+                                  <i class="bi bi-image-fill me-2"></i>
+                                  Upload
+                              </button>
+                          </div>
+                          <input id='fileid' type='file' name="fileToUpload" hidden/>
+                          <input id="proceedUploadImage" name="uploadImg" type="submit"  hidden/>
+                      </form>
                   </div>
                   <div class="col-md-9">
                       <div class="d-flex align-items-center">
                           <h2 class="mb-2 customHeading">
-                              Some Course Name
+                              <?=$courseRow["title"];?>
                           </h2>
-                          <span class="badge bg-info ms-3" style="height: fit-content">Free Coruse</span>
-                          <button class="btn btn-outline-secondary ms-3">
+                          <span class="badge bg-info ms-3" style="height: fit-content"><?=$courseRow["access"];?></span>
+                          <button class="btn btn-outline-secondary ms-3"  data-bs-toggle="modal" data-bs-target="#editCourse">
                               <i class="bi bi-pencil-fill" style="font-size: initial"></i>
                           </button>
                       </div>
-                      <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
-                          Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit.
-                          Fuga sequi sed ea saepe at unde.</p>
+                      <p class="small fst-italic">
+                          <?=$courseRow["description"];?>
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="modal fade" id="editCourse" tabindex="-1">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header bg-primary text-light">
+                      <h5 class="modal-title">Edit Course</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form class="row g-3" action="" method="post">
+                          <div class="col-md-12">
+                              <label for="inputNanme4" class="form-label">Course Title</label>
+                              <input type="text" class="form-control" id="inputNanme4" value="<?=$courseRow["title"];?>" name="title">
+                          </div>
+
+                          <div class="col-md-12 d-flex flex-column">
+                              <p class="me-2">Select Course Access</p>
+
+                              <div>
+                                  <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" value="Draft" <?=$courseRow["access"]=="Draft"?"checked":"";?>>
+                                  <label class="btn btn-outline-info me-2" for="option4">Draft</label>
+
+                                  <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" value="Free" <?=$courseRow["access"]=="Free"?"checked":"";?>>
+                                  <label class="btn btn-outline-secondary me-2" for="option1">Free</label>
+
+                                  <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" value="Registration" <?=$courseRow["access"]=="Registration"?"checked":"";?>>
+                                  <label class="btn btn-outline-danger me-2" for="option2">Registration</label>
+
+                                  <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off" value="Paid" <?=$courseRow["access"]=="Paid"?"checked":"";?>>
+                                  <label class="btn btn-outline-success me-2" for="option3">Paid</label>
+                              </div>
+                          </div>
+
+                          <div class="col-md-12">
+                              <textarea class="tinymce-editor" name="description">
+                                    <?=$courseRow["description"];?>
+                              </textarea>
+                          </div>
+
+                          <div class="row justify-content-center">
+                              <div class="col-md-6">
+                                  <button type="submit" id="submitBtn" class="btn btn-primary w-100 mt-3 rounded-pill" name="editCourse">
+                                      <i class="bi bi-pencil-fill me-2"></i>
+                                      Edit Course
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
                   </div>
               </div>
           </div>
@@ -385,6 +496,17 @@
       $( "#lesssonType_1" ).show();
       getLessons();
 
+
+      $("#courseImageChange").click(function() {
+          // document.getElementById('fileid').click();
+          $("#fileid").click();
+          // document.getElementById('fileid').click();
+      });
+
+      $("#fileid").change(function() {
+          $("#proceedUploadImage").click();
+      });
+
       $(document).ready(function(){
           $('[data-bs-toggle="tooltip"]').tooltip();
           $('.sortable').sortable({
@@ -511,7 +633,6 @@
       function placeHolderIcon(visible) {
           $('#placeholderIcon').attr('style','display:'+visible+' !important');
       }
-
   </script>
 
 </body>
