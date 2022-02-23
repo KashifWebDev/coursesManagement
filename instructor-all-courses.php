@@ -49,132 +49,41 @@
                               <thead>
                               <tr>
                                   <th scope="col">#</th>
-                                  <th scope="col">Course Name</th>
+                                  <th scope="col">Course Title</th>
                                   <th scope="col">Lessons</th>
+                                  <th scope="col">Access Type</th>
+                                  <th scope="col">Status</th>
                                   <th scope="col">Actions</th>
                               </tr>
                               </thead>
                               <tbody>
-                              <tr>
-                                  <th scope="row">1</th>
-                                  <td>Brandon Jacob</td>
-                                  <td>28</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">2</th>
-                                  <td>Bridie Kessler</td>
-                                  <td>35</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">3</th>
-                                  <td>Ashleigh Langosh</td>
-                                  <td>45</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">4</th>
-                                  <td>Angus Grady</td>
-                                  <td>34</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">5</th>
-                                  <td>Raheem Lehner</td>
-                                  <td>47</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">6</th>
-                                  <td>Brandon Jacob</td>
-                                  <td>28</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">7</th>
-                                  <td>Bridie Kessler</td>
-                                  <td>35</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">8</th>
-                                  <td>Ashleigh Langosh</td>
-                                  <td>45</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">9</th>
-                                  <td>Angus Grady</td>
-                                  <td>34</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">10</th>
-                                  <td>Raheem Lehner</td>
-                                  <td>47</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">11</th>
-                                  <td>Brandon Jacob</td>
-                                  <td>28</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">12</th>
-                                  <td>Bridie Kessler</td>
-                                  <td>35</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">13</th>
-                                  <td>Ashleigh Langosh</td>
-                                  <td>45</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">14</th>
-                                  <td>Angus Grady</td>
-                                  <td>34</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">15</th>
-                                  <td>Raheem Lehner</td>
-                                  <td>47</td>
-                                  <td>
-                                     <a href="instructor-view-course.php" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
-                                  </td>
-                              </tr>
+                              <?php
+                              $sql = "SELECT c.id as coursePrimaryKey, c.title, COUNT(l.course_id) AS total_lessons, c.thumbnail, c.access, c.draft, c.courseID
+                                        FROM courses c LEFT JOIN lessons l
+                                        ON l.course_id = c.id GROUP BY c.id";
+                              $res = mysqli_query($con, $sql);
+                              while($row = mysqli_fetch_array($res)){
+                                  $badgeClass = $row["draft"]==0 ? "success" : "warning";
+                                  $badgeTxt = $row["draft"]==0 ? "Active" : "Draft";
+                              ?>
+                                  <tr>
+                                      <th scope="row"><?=$row["coursePrimaryKey"]?></th>
+                                      <td>
+                                          <img style="max-height: 40px;" class="me-2 img-thumbnail" src="assets/img/courses-thumnail/default.jpg" alt="">
+                                          <?=$row["title"]?>
+                                      </td>
+                                      <td><?=$row["total_lessons"]?></td>
+                                      <td><?=$row["access"]?></td>
+                                      <td>
+                                          <span style="border-radius: 10px" class="bg-<?=$badgeClass?> text-white px-2 py-1"><?=$badgeTxt?></span>
+                                      </td>
+                                      <td>
+                                          <a href="instructor-view-course.php?courseID=<?=$row["coursePrimaryKey"]?>" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
+                                      </td>
+                                  </tr>
+                              <?php } ?>
+
+
                               <div class="modal fade" id="delModal" tabindex="-1">
                                   <div class="modal-dialog modal-lg">
                                       <div class="modal-content">

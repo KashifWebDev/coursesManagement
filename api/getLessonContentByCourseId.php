@@ -67,7 +67,12 @@ function video($courseID, $lessonID, $row){
 
 
     return editDel($courseID, $lessonID).'
-      '.$url.'
+    <iframe width="560" height="315"
+     src="'.getYoutubeEmbedUrl($url).'"
+     title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+      
       
         <!-- Edit Lesson Modal-->
       <div class="modal fade" id="EditLesson" tabindex="-1">
@@ -317,4 +322,20 @@ function video($courseID, $lessonID, $row){
       });
       </script>
     ';
+}
+
+
+function getYoutubeEmbedUrl($url)
+{
+    $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
+    $longUrlRegex = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
+
+    if (preg_match($longUrlRegex, $url, $matches)) {
+        $youtube_id = $matches[count($matches) - 1];
+    }
+
+    if (preg_match($shortUrlRegex, $url, $matches)) {
+        $youtube_id = $matches[count($matches) - 1];
+    }
+    return 'https://www.youtube.com/embed/' . $youtube_id ;
 }

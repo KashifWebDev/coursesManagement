@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^course-([0-9]+)$ public-course.php?id=$1

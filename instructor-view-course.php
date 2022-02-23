@@ -11,6 +11,7 @@
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
     }
+
     if(isset($_POST["editVideo"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $video = sanitizeParam($_POST["video"]);
@@ -23,6 +24,16 @@
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
     }
+
+    if(isset($_POST["updateDraftStatus"])){
+        $setStatus = $_POST["setStatus"]=="active" ? 0:1;
+
+        $s = "UPDATE courses SET draft=$setStatus WHERE id=$courseID";
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
     if(isset($_GET["delLesson"])){
         $courseID = sanitizeParam($_GET["courseID"]);
         $lessonID = sanitizeParam($_GET["lessonID"]);
@@ -32,16 +43,57 @@
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
     }
-    if(isset($_POST["editCourse"])){
-    $title = sanitizeParam($_POST["title"]);
-    $access = sanitizeParam($_POST["options"]);
-    $description = sanitizeParam($_POST["description"]);
 
-    $s = "UPDATE courses SET title='$title', access='$access',description='description'  WHERE id=$courseID";
+    if(isset($_GET["delCourse"])){
+        $courseID = sanitizeParam($_GET["delCourse"]);
+
+        $s = "DELETE FROM courses WHERE id=$courseID";
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-all-courses.php');
+        }
+    }
+
+    if(isset($_POST["editCourse"])){
+//        print_r($_POST);exit();die();
+        $course_title = sanitizeParam($_POST["course_title"]);
+        $randomCourseID = sanitizeParam($_POST["courseID"]);
+        $access_type = sanitizeParam($_POST["access_type"]);
+        $timeLimit = sanitizeParam($_POST["timeLimit"]);
+        $timeLimitValue = sanitizeParam($_POST["timeLimitValue"]);
+        $reg_req_email = isset($_POST["reg_req_email"]) ? 1 : 0;
+        $reg_req_phone = isset($_POST["reg_req_phone"]) ? 1 : 0;
+        $reg_req_address = isset($_POST["reg_req_address"]) ? 1 : 0;
+        $reg_req_tos = isset($_POST["reg_req_tos"]) ? 1 : 0;
+        $price = sanitizeParam($_POST["price"]);
+        $paypal_email = sanitizeParam($_POST["paypal_email"]);
+        $instructor_name = sanitizeParam($_POST["instructor_name"]);
+        $course_description = sanitizeParam($_POST["course_description"]);
+
+        if($access_type=="Free"){
+            $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = $paypal_email = null;
+            $price = 0;
+        }
+        if($access_type=="Registration"){
+            $paypal_email = null;
+            $price = 0;
+        }
+        if($access_type=="Paid"){
+            $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = null;
+        }
+
+        $s = "UPDATE courses SET title='$course_title',access='$access_type',description='$course_description',courseID=$randomCourseID,
+              timeLimitType='$timeLimit',timeLimitType='$timeLimitValue',registration_required_email='$reg_req_email',
+              registration_required_phone='$reg_req_phone',registration_required_address='$reg_req_address',
+              registration_required_tos='$reg_req_tos',price='$price',paypal_email='$paypal_email',
+                   instructor_name='$instructor_name' WHERE id=$courseID";
+        if(!mysqli_query($con, $s)){
+            echo mysqli_error($con); exi(); die();
+        }
     if(mysqli_query($con, $s)){
         header('Location: instructor-view-course.php?courseID='.$courseID);
     }
 }
+
     if(isset($_POST['uploadImg'])) {
         $target_dir = "assets/img/courses-thumnail/";
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -115,7 +167,7 @@
               <div class="row">
                   <div class="col-md-3 d-flex flex-column align-items-center">
                       <form action="" method="post" id="image_upload_form"  enctype="multipart/form-data">
-                          <div class="course-img-container w-100">
+                          <div class="course-img-container w-100 h-100">
                               <img id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail h-100 w-100">
                               <button type="button" id="courseImageChange" class="btn btn-primary">
                                   <i class="bi bi-image-fill me-2"></i>
@@ -127,25 +179,37 @@
                       </form>
                   </div>
                   <div class="col-md-9">
-                      <div class="d-flex align-items-center">
-                          <h2 class="mb-2 customHeading">
-                              <?=$courseRow["title"];?>
-                          </h2>
-                          <span class="badge bg-info ms-3" style="height: fit-content"><?=$courseRow["access"];?></span>
-                          <button class="btn btn-outline-secondary ms-3"  data-bs-toggle="modal" data-bs-target="#editCourse">
-                              <i class="bi bi-pencil-fill" style="font-size: initial"></i>
-                          </button>
+                      <div class="d-flex justify-content-between">
+                          <div><div class="d-flex align-items-center">
+                                  <h2 class="mb-2 customHeading">
+                                      <?=$courseRow["title"];?>
+                                  </h2>
+                                  <span class="badge bg-info ms-3" style="height: fit-content"><?=$courseRow["access"];?></span>
+                                  <span class="badge bg-primary ms-1" style="height: fit-content"><?php echo $courseRow["draft"]==1 ? "Draft":"Active"; ?></span>
+                              </div>
+                              <p class="small fst-italic">
+                                  <?=$courseRow["description"];?>
+                              </p>
+                          </div>
+                          <div class="d-flex flex-column">
+                              <button class="btn btn-outline-danger mb-2" data-bs-toggle="modal" data-bs-target="#delCourseModel">
+                                  <i class="bi bi-trash-fill me-2"></i> Delete Course
+                              </button>
+                              <button class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#draftCourseModel">
+                                  <i class="ri-save-3-line me-2"></i> Draft Course
+                              </button>
+                              <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editCourse">
+                                  <i class="bi bi-pencil-fill me-2"></i> Edit Course
+                              </button>
+                          </div>
                       </div>
-                      <p class="small fst-italic">
-                          <?=$courseRow["description"];?>
-                      </p>
                   </div>
               </div>
           </div>
       </div>
 
       <div class="modal fade" id="editCourse" tabindex="-1">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
               <div class="modal-content">
                   <div class="modal-header bg-primary text-light">
                       <h5 class="modal-title">Edit Course</h5>
@@ -155,38 +219,171 @@
                       <form class="row g-3" action="" method="post">
                           <div class="col-md-12">
                               <label for="inputNanme4" class="form-label">Course Title</label>
-                              <input type="text" class="form-control" id="inputNanme4" value="<?=$courseRow["title"];?>" name="title">
+                              <input type="text" class="form-control" id="inputNanme4" name="course_title" value="<?=$courseRow["title"]?>">
                           </div>
-
-                          <div class="col-md-12 d-flex flex-column">
-                              <p class="me-2">Select Course Access</p>
-
-                              <div>
-                                  <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" value="Draft" <?=$courseRow["access"]=="Draft"?"checked":"";?>>
-                                  <label class="btn btn-outline-info me-2" for="option4">Draft</label>
-
-                                  <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" value="Free" <?=$courseRow["access"]=="Free"?"checked":"";?>>
-                                  <label class="btn btn-outline-secondary me-2" for="option1">Free</label>
-
-                                  <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" value="Registration" <?=$courseRow["access"]=="Registration"?"checked":"";?>>
-                                  <label class="btn btn-outline-danger me-2" for="option2">Registration</label>
-
-                                  <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off" value="Paid" <?=$courseRow["access"]=="Paid"?"checked":"";?>>
-                                  <label class="btn btn-outline-success me-2" for="option3">Paid</label>
+                          <div class="col-md-12">
+                              <label for="inputNanme4" class="form-label">Link to the course publication</label>
+                              <div class="input-group mb-3">
+                                  <span class="input-group-text" id="basic-addon3">https://teachmehow.me/course-</span>
+                                  <input type="text" name="courseID" class="form-control" value=" <?=$courseRow["courseID"]?>">
                               </div>
                           </div>
+                          <h5 class="card-title">Payment Settings</h5>
+                          <div class="col-md-12 d-flex align-items-center">
+                              <p class="mb-0 me-2">Payment Settings And Course Access</p>
 
-                          <div class="col-md-12">
-                              <textarea class="tinymce-editor" name="description">
-                                    <?=$courseRow["description"];?>
-                              </textarea>
+                              <input type="radio" class="btn-check" name="access_type" id="option1" autocomplete="off" value="Free" " <?php if($courseRow["access"]=="Free") echo "checked"; ?>>
+                              <label class="btn btn-outline-success me-2" for="option1">
+                                  <i class="ri-book-open-line me-2"></i>Free
+                              </label>
+
+                              <input type="radio" class="btn-check" name="access_type" id="option2" autocomplete="off" value="Registration" <?php if($courseRow["access"]=="Registration") echo "checked"; ?>>
+                              <label class="btn btn-outline-success me-2" for="option2">
+                                  <i class="ri-login-box-fill me-2"></i>Registration
+                              </label>
+
+                              <input type="radio" class="btn-check" name="access_type" id="option3" autocomplete="off" value="Paid" <?php if($courseRow["access"]=="Paid") echo "checked"; ?>>
+                              <label class="btn btn-outline-success me-2" for="option3">
+                                  <i class="ri-paypal-fill me-2"></i>Paid
+                              </label>
                           </div>
+                          <div id="registration" class="row">
+                              <div class="col-md-12 mt-2">
+                                  <p>Time Limit for students</p>
+                                  <div class="input-group mb-3">
+                                      <select class="form-select" id="selectTimeLimitFactor" name="timeLimit">
+                                          <option value="Without Time Limit" <?php if($courseRow["title"]=="Without Time Limit") echo "selected"; ?>>Without Time Limit</option>
+                                          <option value="Days" <?php if($courseRow["title"]=="Days") echo "selected"; ?>>Days</option>
+                                          <option value="Months" <?php if($courseRow["title"]=="Months") echo "selected"; ?>>Months</option>
+                                          <option value="Years" <?php if($courseRow["title"]=="Years") echo "selected"; ?>>Years</option>
+                                      </select>
+                                      <input type="text" class="form-control" id="timeLimitValueId" value="0" name="timeLimitValue">
+                                  </div>
+                              </div>
+                              <div class="col-md-9">
+                                  <div class="row mb-3">
+                                      <legend class="col-form-label col-sm-6 pt-0">Registration form fields</legend>
+                                      <div class="col-sm-6">
 
+                                          <div class="form-check">
+                                              <input name="reg_req_email" class="form-check-input" type="checkbox" id="gridCheck1" <?php if($courseRow["registration_required_email"]) echo "checked"; ?>>
+                                              <label class="form-check-label" for="gridCheck1">
+                                                  Email
+                                              </label>
+                                          </div>
+
+                                          <div class="form-check">
+                                              <input name="reg_req_phone" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_phone"]) echo "checked"; ?>>
+                                              <label class="form-check-label" for="gridCheck2">
+                                                  Phone Number
+                                              </label>
+                                          </div>
+
+                                          <div class="form-check">
+                                              <input name="reg_req_address" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_address"]) echo "checked"; ?>>
+                                              <label class="form-check-label" for="gridCheck2">
+                                                  Address
+                                              </label>
+                                          </div>
+
+                                          <div class="form-check">
+                                              <input name="reg_req_tos" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_tos"]) echo "checked"; ?>>
+                                              <label class="form-check-label" for="gridCheck2">
+                                                  Terms of use and services
+                                              </label>
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div id="paid" class="row mt-2">
+                              <div class="col-md-6">
+                                  <label for="inputNanme4" class="form-label">Price in NIS (including VAT)</label>
+                                  <input type="number" class="form-control" id="inputNanme4" name="price" value="<?=$courseRow["price"]?>">
+                              </div>
+                              <div class="col-md-6">
+                                  <label for="inputNanme4" class="form-label">Business Email Registered in PayPal</label>
+                                  <input type="email" class="form-control" id="inputNanme4" name="paypal_email" value="<?=$courseRow["paypal_email"]?>">
+                              </div>
+                          </div>
+                          <h5 class="card-title">About Course</h5>
+                          <div class="col-md-6">
+                              <label for="inputNanme4" class="form-label">Instructor Name</label>
+                              <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$courseRow["instructor_name"]?>">
+                          </div>
+                          <div class="col-md-12 mt-3">
+                                  <textarea class="tinymce-editor" name="course_description">
+                                     <?=$courseRow["description"]?>
+                                  </textarea>
+                          </div>
                           <div class="row justify-content-center">
                               <div class="col-md-6">
-                                  <button type="submit" id="submitBtn" class="btn btn-primary w-100 mt-3 rounded-pill" name="editCourse">
+                                  <button name="editCourse" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                       <i class="bi bi-pencil-fill me-2"></i>
-                                      Edit Course
+                                      Update Course
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="modal fade" id="delCourseModel" tabindex="-1">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header bg-danger text-white">
+                      <h5 class="modal-title">Delete Lesson</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      Are you sure you want to delete this lesson?
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button id="submitBtn2" type="button" class="btn btn-danger" onclick="location.href = 'instructor-view-course.php?delCourse=<?=$courseID?>'">
+                          <i class="bi bi-trash3-fill me-2"></i>
+                          Delete
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="modal fade" id="draftCourseModel" tabindex="-1">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header bg-secondary text-white">
+                      <h5 class="modal-title">Update Course Status</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form action="" method="post">
+                          <fieldset class="row mb-3">
+                              <div class="col-sm-10">
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="setStatus" id="gridRadios" value="active" <?php if(!$courseRow["draft"]) echo "checked"; ?>>
+                                      <label class="form-check-label" for="gridRadios">
+                                          Set course active
+                                      </label>
+                                  </div>
+                              </div>
+                              <div class="col-sm-10">
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="setStatus" id="gridRadios1" value="draft" <?php if($courseRow["draft"]) echo "checked"; ?>>
+                                      <label class="form-check-label" for="gridRadios1">
+                                          Set as Draft
+                                      </label>
+                                  </div>
+                              </div>
+                          </fieldset>
+                          <div class="row justify-content-around">
+                              <div class="col-md-6">
+                                  <button type="submit" name="updateDraftStatus" class="btn btn-secondary w-100" id="submitBtn1">
+                                      <i class="ri-save-3-line me-2"></i>
+                                      Save Changes
                                   </button>
                               </div>
                           </div>
@@ -633,6 +830,58 @@
       function placeHolderIcon(visible) {
           $('#placeholderIcon').attr('style','display:'+visible+' !important');
       }
+  </script>
+
+  <script>
+      $("#registration").hide();
+      $("#paid").hide();
+      $("input#timeLimitValueId").hide();
+      $('input[type=radio][name=access_type]').change(function() {
+          if (this.value == 'Free') {
+              $("#registration").hide();
+              $("#paid").hide();
+          }
+          else if (this.value == 'Registration') {
+              $("#registration").show();
+              $("#paid").hide();
+          }
+          else if (this.value == 'Paid') {
+              $("#registration").hide();
+              $("#paid").show();
+          }
+      });
+      $('#selectTimeLimitFactor').change(function() {
+          if($(this).val()==="Days" || $(this).val()==="Months" || $(this).val()==="Years"){
+              $("input#timeLimitValueId").show();
+          }else{
+              $("input#timeLimitValueId").hide();
+          }
+      });
+
+      $('#submitBtn').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
+      $('#submitBtn1').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
+      $('#submitBtn2').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
   </script>
 
 </body>
