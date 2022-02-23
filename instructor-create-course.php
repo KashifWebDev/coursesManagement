@@ -18,24 +18,26 @@
         $course_description = sanitizeParam($_POST["course_description"]);
 
         if($access_type=="Free"){
-            $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = $paypal_email = null;
+            $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = $paypal_email = 0;
             $price = 0;
         }
         if($access_type=="Registration"){
-            $paypal_email = null;
+            $paypal_email = 0;
             $price = 0;
         }
         if($access_type=="Paid"){
-            $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = null;
+            $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = 0;
         }
 
         $s = "INSERT INTO courses (instructor_id, title, access, description, courseID,timeLimitType, timeLimitValue, registration_required_email,registration_required_phone,registration_required_address,registration_required_tos, price, paypal_email,instructor_name)
              VALUES
             (1, '$course_title', '$access_type', '$course_description',$courseID, '$timeLimit', $timeLimitValue, $reg_req_email, $reg_req_phone,$reg_req_address, $reg_req_tos, $price, '$paypal_email', '$instructor_name')";
-
+//        echo $s;
         if(!mysqli_query($con, $s)){
-            echo mysqli_error($con); exi(); die();
+            echo mysqli_error($con); exit(); die();
         }
+        $newID = mysqli_insert_id($con);
+        header('Location: instructor-view-course.php?courseID='.$newID);
     }
 ?>
 <!DOCTYPE html>

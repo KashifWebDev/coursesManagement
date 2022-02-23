@@ -784,7 +784,7 @@
                   if(length){
                       $('#lessonsList').append('<ul class="list-group sortable" id="lessonsListItems"></ul>');
                       for (lesson of lessons) {
-                          $("#lessonsList ul").append('<li class="list-group-item" id="'+lesson.id+'" onclick="getLessonContent('+lesson.id+')">'+lesson.name+'</li>');
+                          $("#lessonsList ul").append('<li class="list-group-item" id="'+lesson.id+'" onclick="getLessonContent('+lesson.id+')"><i class="bi bi-grip-vertical me-3"></i>'+lesson.name+'</li>');
                       }
                   }else{
                       $('#lessonsList').append('<hr><h5 class="text-center">No Lessons Found</h5>');
