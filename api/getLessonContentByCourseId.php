@@ -45,7 +45,7 @@ if(mysqli_num_rows($res)){
                 </div>
               </div>
               
-               <iframe width="560" height="315"
+               <iframe width="100%" height="400px"
                  src="<?=getYoutubeEmbedUrl($url)?>"
                  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen>

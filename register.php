@@ -25,7 +25,7 @@ $path = ROOT_DIR;
 
               <div class="d-flex justify-content-center">
                 <a href="<?=$path?>" class="logo d-flex align-items-center w-auto">
-                    <img src="assets/img/logo/CourseMaker-logos_transparent.png" alt="">
+                    <img src="assets/img/logo_top.png" alt="">
 <!--                  <span class="d-none d-lg-block">NiceAdmin</span>-->
                 </a>
               </div><!-- End Logo -->

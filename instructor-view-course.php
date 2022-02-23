@@ -195,12 +195,17 @@
                               <button class="btn btn-outline-danger mb-2" data-bs-toggle="modal" data-bs-target="#delCourseModel">
                                   <i class="bi bi-trash-fill me-2"></i> Delete Course
                               </button>
-                              <button class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#draftCourseModel">
-                                  <i class="ri-save-3-line me-2"></i> Draft Course
-                              </button>
-                              <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editCourse">
-                                  <i class="bi bi-pencil-fill me-2"></i> Edit Course
-                              </button>
+                              <div class="d-flex justify-content-end me-2">
+                                  <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#draftCourseModel">
+                                      <i class="ri-save-3-line me-1"></i>
+                                  </button>
+                                  <button class="btn btn-primary ms-2"  data-bs-toggle="modal" data-bs-target="#editCourse">
+                                      <i class="bi bi-pencil-fill me-1"></i>
+                                  </button>
+                                  <a class="btn btn-info text-white ms-1" href="course-<?=$courseRow["courseID"]?>">
+                                      <i class="bi bi-eye-fill"></i>
+                                  </a>
+                              </div>
                           </div>
                       </div>
                   </div>
