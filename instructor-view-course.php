@@ -12,6 +12,19 @@
         }
     }
 
+    if(isset($_POST["saveColors"])){;
+
+        $back = sanitizeParam($_POST["back"]);
+        $front = sanitizeParam($_POST["front"]);
+
+        $s = "UPDATE courses SET back_clr='$back', front_clr='$front'
+                WHERE id=$courseID ";
+//        echo $s; exit(); die();
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
     if(isset($_POST["editVideo"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $video = sanitizeParam($_POST["video"]);
@@ -398,6 +411,44 @@
           </div>
       </div>
 
+      <div class="modal fade" id="colorPickerModal" tabindex="-1">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Menu Color Selection</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form action="" method="post">
+                          <div class="row mb-3">
+                              <label for="inputColor" class="col-sm-6 col-form-label">Background Color</label>
+                              <div class="col-sm-6">
+                                  <input type="color" name="back" class="form-control form-control-color"
+                                         id="bgcolor" value="<?=$courseRow["back_clr"]?>" title="Choose your color">
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <label for="inputColor" class="col-sm-6 col-form-label">Text Color</label>
+                              <div class="col-sm-6">
+                                  <input type="color" name="front"
+                                         class="form-control form-control-color" id="frontColor" value="<?=$courseRow["front_clr"]?>" title="Choose your color">
+                              </div>
+                          </div>
+                          <hr>
+                          <div class="row justify-content-center">
+                              <div class="col-md-6">
+                                  <button class="btn btn-primary w-100" id="submitBtn" name="saveColors">
+                                      <i class="ri-save-fill me-2"></i>
+                                      Save Colors
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
       <section class="section">
           <div class="row">
               <div class="col-lg-12">
@@ -405,8 +456,13 @@
                   <div class="card">
                       <div class="card-body p-2">
                           <div class="row">
-                              <div class="col-md-3 justify-content-center shadow-lg pb-3">
-                                  <h3 class="customHeading text-center">Lessons</h3>
+                              <div class="col-md-3 justify-content-center shadow-lg pb-3 customColors">
+                                  <div class="d-flex justify-content-around align-items-center">
+                                      <h3 class="customHeading text-center" id="lsnHeading">Lessons</h3>
+                                      <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#colorPickerModal">
+                                          <i class="bi bi-palette"></i>
+                                      </button>
+                                  </div>
                                   <div id="lessonsList">
                                       <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
                                           <div class="spinner-border text-primary" role="status">
@@ -794,6 +850,7 @@
                   }else{
                       $('#lessonsList').append('<hr><h5 class="text-center">No Lessons Found</h5>');
                   }
+                  implementColors();
               },
               error: function(xhr) {
                   alert("Error while fetching courses!\n "+xhr);
@@ -819,6 +876,7 @@
                   }else{
                       $('#courseContent').append(response);
                   }
+                  implementColors();
               },
               error: function(xhr) {
                   alert("Error while fetching courses!\n "+xhr);
@@ -887,6 +945,31 @@
               $this.html(loadingText);
           }
       });
+
+      $('#bgcolor').on('input',
+          function() {
+              $('.customColors').css('background-color', $(this).val());
+              $('#lessonsListItems li').css('background-color', $(this).val());
+          }
+      );
+
+      $('#frontColor').on('input',
+          function() {
+              $('li.list-group-item').css('color', $(this).val());
+              $('.customColors').css('color', $(this).val());
+              $('#lsnHeading').css('color', $(this).val());
+          }
+      );
+
+      function implementColors() {
+          $('.customColors').css('background-color', '<?=$courseRow["back_clr"]?>');
+          $('.list-group-item').css('background-color', '<?=$courseRow["back_clr"]?>');
+
+          $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
+          $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
+          $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
+      }
+      implementColors();
   </script>
 
 </body>

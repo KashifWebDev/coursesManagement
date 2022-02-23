@@ -69,8 +69,8 @@ $courseID = $courseRow["id"];
           <div class="card">
             <div class="card-body">
               <div class="row">
-                  <div class="col-md-3 justify-content-center shadow-lg pb-3">
-                      <h3 class="customHeading text-center">Lessons</h3>
+                  <div class="col-md-3 justify-content-center shadow-lg pb-3 customColors">
+                      <h3 class="customHeading text-center" id="lsnHeading">Lessons</h3>
                       <div id="lessonsList">
                           <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
                               <div class="spinner-border text-primary" role="status">
@@ -176,6 +176,7 @@ $courseID = $courseRow["id"];
                 }else{
                     $('#lessonsList').append('<hr><h5 class="text-center">No Lessons Found</h5>');
                 }
+                implementColors();
             },
             error: function(xhr) {
                 alert("Error while fetching courses!\n "+xhr);
@@ -204,6 +205,7 @@ $courseID = $courseRow["id"];
                 }else{
                     $('#courseContent').append(response);
                 }
+                implementColors();
             },
             error: function(xhr) {
                 alert("Error while fetching courses!\n "+xhr);
@@ -223,6 +225,15 @@ $courseID = $courseRow["id"];
     function placeHolderIcon(visible) {
         $('#placeholderIcon').attr('style','display:'+visible+' !important');
     }
+    function implementColors() {
+        $('.customColors').css('background-color', '<?=$courseRow["back_clr"]?>');
+        $('.list-group-item').css('background-color', '<?=$courseRow["back_clr"]?>');
+
+        $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
+        $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
+        $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
+    }
+    implementColors();
 </script>
 
 
