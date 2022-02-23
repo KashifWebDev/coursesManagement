@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2022 at 09:53 AM
+-- Generation Time: Feb 23, 2022 at 01:23 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.30
 
@@ -44,16 +44,18 @@ CREATE TABLE `courses` (
   `registration_required_tos` tinyint(1) DEFAULT NULL,
   `price` int(5) DEFAULT NULL,
   `paypal_email` varchar(50) DEFAULT NULL,
-  `instructor_name` varchar(50) NOT NULL
+  `instructor_name` varchar(50) NOT NULL,
+  `back_clr` varchar(10) NOT NULL DEFAULT '#ffffff',
+  `front_clr` varchar(10) NOT NULL DEFAULT '#000000'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `instructor_id`, `title`, `thumbnail`, `access`, `description`, `draft`, `courseID`, `timeLimitType`, `timeLimitValue`, `registration_required_email`, `registration_required_phone`, `registration_required_address`, `registration_required_tos`, `price`, `paypal_email`, `instructor_name`) VALUES
-(1, 11, 'First Course', '12_DBLW4993.JPG', 'Free', '<p>description</p>', 1, 0, '', 0, 0, 0, 0, 0, 0, '', ''),
-(5, 1, 'asdfadsf', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, 2081827979, 'Without Time Limit', 0, 0, 0, 0, 0, 23, 'kmalik748@gmail.com', 'Kelin Anderson');
+INSERT INTO `courses` (`id`, `instructor_id`, `title`, `thumbnail`, `access`, `description`, `draft`, `courseID`, `timeLimitType`, `timeLimitValue`, `registration_required_email`, `registration_required_phone`, `registration_required_address`, `registration_required_tos`, `price`, `paypal_email`, `instructor_name`, `back_clr`, `front_clr`) VALUES
+(1, 11, 'First Course', '12_DBLW4993.JPG', 'Registration', '<p>description</p>', 1, 123, '', 0, 0, 0, 0, 0, 0, '', '', '#000000', '#ffffff'),
+(5, 1, 'asdfadsf', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, 2081827979, 'Without Time Limit', 0, 0, 0, 0, 0, 23, 'kmalik748@gmail.com', 'Kelin Anderson', '#ffffff', '#000000');
 
 -- --------------------------------------------------------
 
@@ -75,10 +77,10 @@ CREATE TABLE `lessons` (
 --
 
 INSERT INTO `lessons` (`id`, `course_id`, `name`, `type`, `content`, `arrange_order`) VALUES
-(3, 1, 'Third Course', 'video', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/2sxEsG64CsY\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', 2),
-(6, 1, 'Forth Lesson', 'video', 'https://www.youtube.com/watch?v=n_RDt2LK_tY&ab_channel=Mythpat', 4),
-(7, 1, 'Testing Video', 'video', 'https://www.youtube.com/watch?v=X9yBNiDRn78', 3),
-(8, 1, 'Ron Video', 'video', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/dxHTkqSpz-w\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', 1),
+(3, 1, 'Third Course', 'video', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/2sxEsG64CsY\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', 4),
+(6, 1, 'Forth Lesson', 'video', 'https://www.youtube.com/watch?v=n_RDt2LK_tY&ab_channel=Mythpat', 3),
+(7, 1, 'Testing Video', 'video', 'https://www.youtube.com/watch?v=X9yBNiDRn78', 1),
+(8, 1, 'Ron Video', 'video', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/dxHTkqSpz-w\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', 2),
 (10, 2, 'new', 'video', 'https://www.youtube.com/watch?v=2-dndZVOPEM&ab_channel=Geoislam', 1),
 (13, 5, 'First Lesson', 'video', 'https://www.youtube.com/watch?v=RrpNF9Mu1mQ', 1),
 (15, 5, 'test', 'video', 'https://www.youtube.com/watch?v=m-f0TnCfqtM&ab_channel=ARYDigital', 2);
