@@ -4,13 +4,23 @@
     $path = ROOT_DIR;
     $courseID = sanitizeParam($_GET["courseID"]);
 
-    if(isset($_POST["addVideo"])){
+    if(isset($_POST["saveLesson_typeVideo"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $video = sanitizeParam($_POST["video"]);
-        $chapterNum = sanitizeParam($_POST["chapterNum"]);
 
-        $s = "INSERT INTO lessons (course_id, name, type, content, chapter_id) VALUES
-                ($courseID, '$lessonName', 'video', '$video', $chapterNum)";
+        $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
+                ($courseID, '$lessonName', 'video', '$video')";
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
+    if(isset($_POST["saveLesson_typeText"])){
+        $lessonName = sanitizeParam($_POST["lessonName"]);
+        $lessonContent = sanitizeParam($_POST["lessonContent"]);
+
+        $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
+                ($courseID, '$lessonName', 'text', '$lessonContent')";
         if(mysqli_query($con, $s)){
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
@@ -20,8 +30,8 @@
         $chapterName = sanitizeParam($_POST["chapterName"]);
         $courseID = sanitizeParam($_POST["courseID"]);
 
-        $s = "INSERT INTO chapters (course_id, name)
-              VALUES ($courseID, '$chapterName')";
+        $s = "INSERT INTO lessons (course_id, name, is_chapter)
+              VALUES ($courseID, '$chapterName', 1)";
         if(mysqli_query($con, $s)){
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
@@ -40,7 +50,7 @@
         }
     }
 
-    if(isset($_POST["editVideo"])){
+    if(isset($_POST["updateLesson_typeVideo"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $video = sanitizeParam($_POST["video"]);
 
@@ -48,6 +58,19 @@
         $lessonID = sanitizeParam($_POST["lessonID"]);
 
         $s = "UPDATE lessons SET name='$lessonName', content='$video' WHERE course_id=$courseID AND id=$lessonID";
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
+    if(isset($_POST["updateLesson_typeText"])){
+        $lessonName = sanitizeParam($_POST["lessonName"]);
+        $lessonContent = sanitizeParam($_POST["lessonContent"]);
+
+        $courseID = sanitizeParam($_POST["courseID"]);
+        $lessonID = sanitizeParam($_POST["lessonID"]);
+
+        $s = "UPDATE lessons SET name='$lessonName', content='$lessonContent' WHERE course_id=$courseID AND id=$lessonID";
         if(mysqli_query($con, $s)){
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
@@ -197,7 +220,7 @@
                       <form action="" method="post" id="image_upload_form"  enctype="multipart/form-data">
                           <div class="course-img-container w-100 h-100">
                               <img id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail h-100 w-100">
-                              <button type="button" id="courseImageChange" class="btn btn-primary">
+                              <button type="button" id="courseImageChange" class="btn btn-primary w-75">
                                   <i class="bi bi-image-fill me-2"></i>
                                   Upload
                               </button>
@@ -230,7 +253,7 @@
                                   <button class="btn btn-primary ms-2"  data-bs-toggle="modal" data-bs-target="#editCourse">
                                       <i class="bi bi-pencil-fill me-1"></i>
                                   </button>
-                                  <a class="btn btn-info text-white ms-1" href="course-<?=$courseRow["courseID"]?>">
+                                  <a target="_blank" class="btn btn-info text-white ms-1" href="course-<?=$courseRow["courseID"]?>">
                                       <i class="bi bi-eye-fill"></i>
                                   </a>
                               </div>
@@ -265,7 +288,11 @@
                                       <id id="ChaptersList"></id>
                                   </div>
                                   <hr>
-                                  <button class="btn w-100 customColors" data-bs-toggle="modal" data-bs-target="#addChapter">
+                                  <button class="btn w-100 customColors" data-bs-toggle="modal" data-bs-target="#addNewLesson">
+                                      <i class="bi bi-plus-square-dotted"></i>
+                                      <span>Add a Lesson</span>
+                                  </button>
+                                  <button class="btn w-100 customColors mt-2" data-bs-toggle="modal" data-bs-target="#addChapter">
                                       <i class="bi bi-plus-square-dotted"></i>
                                       <span>Add a Chapter</span>
                                   </button>
@@ -280,7 +307,10 @@
                                       </div>
                                       <div id="courseContent">
                                           <div id="placeholderIcon" class="d-flex align-items-center justify-content-center">
-<!--                                              <i style="font-size: 155px;" class="ri-play-list-2-fill text-secondary"></i>-->
+                                              <div class="container-fluid p-5 text-white text-center h-100 d-flex flex-column justify-content-center customColors">
+                                                  <h1 class="customColors">Start adding new lessons to the course!</h1>
+                                                  <p style="font-size: larger" class="customColors">Please use the left menu to add/edit lessosn and chapters!</p>
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
@@ -318,7 +348,7 @@
   <div class="modal fade" id="addNewLesson" tabindex="-1">
       <div class="modal-dialog modal-lg">
           <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header bg-primary text-white">
                   <h5 class="modal-title">Add Lesson</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -328,27 +358,33 @@
                       <div class="col-md-12 d-flex align-items-center">
                           <p class="form-label me-2">Select Lesson Type  </p>
                           <input type="radio" class="btn-check" name="options" id="option11" autocomplete="off" checked="" value="test">
-                          <label class="btn btn-outline-info me-2" for="option11" style="margin-right: 10px!important;">
+                          <label class="btn btn-outline-primary me-2" for="option11" style="margin-right: 10px!important;">
                               <i class="bi bi-list-check"></i>
                               Test
                           </label>
 
                           <input type="radio" class="btn-check" name="options" id="option22" autocomplete="off" value="link">
-                          <label class="btn btn-outline-info me-2" for="option22">
+                          <label class="btn btn-outline-primary me-2" for="option22">
                               <i class="ri-links-line"></i>
                               Link
                           </label>
 
                           <input type="radio" class="btn-check" name="options" id="option33" autocomplete="off" value="file">
-                          <label class="btn btn-outline-info me-2" for="option33">
+                          <label class="btn btn-outline-primary me-2" for="option33">
                               <i class="ri-file-line"></i>
                               File
                           </label>
 
                           <input type="radio" class="btn-check" name="options" id="option44" autocomplete="off" value="video">
-                          <label class="btn btn-outline-info" for="option44">
+                          <label class="btn btn-outline-primary" for="option44">
                               <i class="ri-video-fill"></i>
                               Video
+                          </label>
+
+                          <input type="radio" class="btn-check" name="options" id="option55" autocomplete="off" value="text">
+                          <label class="btn btn-outline-primary ms-2" for="option55">
+                              <i class="bi bi-text-left"></i>
+                              Text
                           </label>
 
                       </div>
@@ -512,7 +548,36 @@
 
                                   <div class="col-md-12 d-flex justify-content-center">
                                       <div class="col-md-6">
-                                          <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" name="addVideo" id="submitBtn">
+                                          <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" name="saveLesson_typeVideo" id="submitBtn">
+                                              <i class="bi bi-plus-circle-fill me-2"></i>
+                                              Save Lesson
+                                          </button>
+                                      </div>
+                                  </div>
+
+                              </form>
+                          </div>
+                      </div>
+                      <div id="lesssonType_5" style="display: none;">
+                          <div class="row">
+                              <form action="" method="post" class="row1 g-3">
+
+                                  <div class="col-md-12 mb-3">
+                                      <div class="form-floating">
+                                          <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName">
+                                          <label for="floatingName">Lesson Name</label>
+                                      </div>
+                                  </div>
+
+                                  <div class="col-md-12 mt-3">
+                                      <textarea class="tinymce-editor" name="lessonContent">
+                                        <h3><strong><em>Lesson Description here....</em></strong></h3>
+                                      </textarea>
+                                  </div>
+
+                                  <div class="col-md-12 d-flex justify-content-center">
+                                      <div class="col-md-6">
+                                          <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" name="saveLesson_typeText" id="submitBtn">
                                               <i class="bi bi-plus-circle-fill me-2"></i>
                                               Save Lesson
                                           </button>
@@ -879,6 +944,9 @@
           else if (this.value == 'video') {
               $( "#lesssonType_4" ).show();
           }
+          else if (this.value == 'text') {
+              $( "#lesssonType_5" ).show();
+          }
       });
 
       $('#submitBtn').on('click', function() {
@@ -954,6 +1022,7 @@
           $( "#lesssonType_2" ).hide();
           $( "#lesssonType_3" ).hide();
           $( "#lesssonType_4" ).hide();
+          $( "#lesssonType_5" ).hide();
       }
 
       function getLessons() {

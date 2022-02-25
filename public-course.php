@@ -22,11 +22,11 @@ $courseID = $courseRow["id"];
 
 <body>
 
-<header id="header" class="header fixed-top d-flex align-items-center justify-content-between">
+<header id="header" class="header fixed-top d-flex align-items-center justify-content-between customColors">
 
     <div class="d-flex align-items-center justify-content-between">
-        <img style="max-height: 60px;" id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail h-100 w-100">
-        <i class="bi bi-list toggle-sidebar-btn"></i>
+        <img style="max-height: 60px;max-width: 80px;" id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail">
+        <i class="bi bi-list toggle-sidebar-btn" id="lsnHeading"></i>
     </div><!-- End Logo -->
 
     <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
@@ -38,7 +38,7 @@ $courseID = $courseRow["id"];
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2 customColors" id="lsnHeading">K. Anderson</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -96,12 +96,12 @@ $courseID = $courseRow["id"];
 </header>
 
 <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar customColors">
 
     <div class="row">
         <div class="col-md-12 justify-content-center pb-3 customColors">
             <div class="d-flex justify-content-around align-items-center mb-3">
-                <h3 class="customHeading text-center" id="lsnHeading">Chapters</h3>
+                <h3 class="customHeading text-center customColors" id="lsnHeading">Chapters</h3>
             </div>
             <div id="lessonsList">
                 <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
@@ -115,25 +115,40 @@ $courseID = $courseRow["id"];
         </div>
     </div>
 
+    <div class="siteSignature text-center bg-light" style="position: absolute; bottom: 0; left: 20px; right: 20px;">
+        <div class="d-flex align-items-center justify-content-center">
+            <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
+            <div class="d-flex flex-column ps-2 fw-bold">
+                <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
+                <p class="m-0 bottomSignature">TeachMeHow.me</p>
+            </div>
+        </div>
+    </div>
 </aside>
 <!-- End Sidebar-->
 
-  <main id="main" class="main">
-        <div class="card">
+  <main id="main" class="main" style="height: 95vh;">
+        <div class="card" style="height: 85%;">
               <div class="card-body p-2">
-                  <div class="row">
-                      <div class="col-md-12 d-flex flex-column align-items-center">
+                  <div class="row h-100">
+                      <div class="col-md-12 d-flex flex-column align-items-center h-100">
                           <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
                               <div class="spinner-border text-primary" role="status">
                                   <span class="visually-hidden">Loading...</span>
                               </div>
                               <span class="ms-2">Fetching Lessons..</span>
                           </div>
-                          <div id="courseContent" class="w-100">
-                              <div class="row justify-content-center">
+                          <div id="courseContent" class="w-100 h-100">
+                              <div class="row justify-content-center h-100">
                                   <?php
-                                  if($courseRow["access"]=="Registration") echo signUp();
-                                  if($courseRow["access"]=="Paid") echo paypal();
+                                  if($courseRow["access"]=="Registration"){
+                                      echo signUp();
+                                  }
+                                  elseif($courseRow["access"]=="Paid"){
+                                      echo paypal();
+                                  }else{
+                                      echo defaultTxt();
+                                  }
                                   ?>
                               </div>
                           </div>
@@ -141,32 +156,32 @@ $courseID = $courseRow["id"];
                   </div>
               </div>
           </div>
-        <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
+        <section class="section" style="dheight: 20%;">
+          <div class="row">
+            <div class="col-lg-12">
 
 
-            <div class="card">
-                <div class="card-body p-2">
-                    <div class="row">
-                        <div class="col-md-2 d-flex flex-column align-items-center">
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
-                            <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
-                            <h3 style="font-size: 18px;">Instructor</h3>
-                        </div>
-                        <div class="col-md-10">
-                            <h5 class="card-title">About Instructor</h5>
-                            <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
-                                Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
-                                odit. Fuga sequi sed ea saepe at unde.</p>
+                <div class="card">
+                    <div class="card-body p-2">
+                        <div class="row">
+                            <div class="col-md-2 d-flex flex-column align-items-center">
+                                <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
+                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
+                                <h3 style="font-size: 18px;">Instructor</h3>
+                            </div>
+                            <div class="col-md-10">
+                                <h5 class="card-title">About Instructor</h5>
+                                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
+                                    Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
+                                    odit. Fuga sequi sed ea saepe at unde.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-      </div>
-    </section>
+            </div>
+          </div>
+        </section>
   </main>
 
 <?=require_once "includes/footer.inc.php";?>
@@ -262,6 +277,7 @@ $courseID = $courseRow["id"];
 
         $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
         $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
+        $('.bottomSignature').css('color', '<?=$courseRow["back_clr"]?>');
         $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
     }
     implementColors();
@@ -388,6 +404,15 @@ function paypal(){
             </div>
         </div>
 
+    </div>
+';
+}
+
+function defaultTxt(){
+    return '
+    <div class="container-fluid p-5 text-white text-center h-100 d-flex flex-column justify-content-center customColors">
+      <h1 class="customColors">Welcome to the course!</h1>
+      <p style="font-size: larger" class="customColors">Please select the lessons from left menu to start learning!</p> 
     </div>
 ';
 }
