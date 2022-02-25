@@ -5,6 +5,8 @@ $output = array();
 
 $courseID = sanitizeParam($_POST["courseID"]);
 $lessonID = sanitizeParam($_POST["lessonID"]);
+$publicView = isset($_POST["publicView"]) && $_POST["publicView"] ? 1 : 0;
+
 $s = "SELECT * FROM lessons WHERE course_id=$courseID AND id=$lessonID";
 $res = mysqli_query($con, $s);
 if(mysqli_num_rows($res)){
@@ -12,6 +14,7 @@ if(mysqli_num_rows($res)){
     if($row["type"]=="video"){
         $url = isset($row["content"]) ? $row["content"] : "";
         $name = isset($row["name"]) ? $row["name"] : "";
+        if($publicView){
         ?>
               <div class="d-flex mb-3">
                   <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#EditLesson">
@@ -23,6 +26,7 @@ if(mysqli_num_rows($res)){
                       Delete
                   </button>
                 </div>
+            <?php } ?>
      
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">

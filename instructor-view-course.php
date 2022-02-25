@@ -3,10 +3,25 @@
     require_once "includes/functions.php";
     $path = ROOT_DIR;
     $courseID = sanitizeParam($_GET["courseID"]);
+
     if(isset($_POST["addVideo"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $video = sanitizeParam($_POST["video"]);
-        $s = "INSERT INTO lessons (course_id, name, type, content) VALUES ($courseID, '$lessonName', 'video', '$video')";
+        $chapterNum = sanitizeParam($_POST["chapterNum"]);
+
+        $s = "INSERT INTO lessons (course_id, name, type, content, chapter_id) VALUES
+                ($courseID, '$lessonName', 'video', '$video', $chapterNum)";
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
+    if(isset($_POST["addChapter"])){
+        $chapterName = sanitizeParam($_POST["chapterName"]);
+        $courseID = sanitizeParam($_POST["courseID"]);
+
+        $s = "INSERT INTO chapters (course_id, name)
+              VALUES ($courseID, '$chapterName')";
         if(mysqli_query($con, $s)){
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
@@ -226,229 +241,6 @@
           </div>
       </div>
 
-      <div class="modal fade" id="editCourse" tabindex="-1">
-          <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                  <div class="modal-header bg-primary text-light">
-                      <h5 class="modal-title">Edit Course</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <form class="row g-3" action="" method="post">
-                          <div class="col-md-12">
-                              <label for="inputNanme4" class="form-label">Course Title</label>
-                              <input type="text" class="form-control" id="inputNanme4" name="course_title" value="<?=$courseRow["title"]?>">
-                          </div>
-                          <div class="col-md-12">
-                              <label for="inputNanme4" class="form-label">Link to the course publication</label>
-                              <div class="input-group mb-3">
-                                  <span class="input-group-text" id="basic-addon3">https://teachmehow.me/course-</span>
-                                  <input type="text" name="courseID" class="form-control" value=" <?=$courseRow["courseID"]?>">
-                              </div>
-                          </div>
-                          <h5 class="card-title">Payment Settings</h5>
-                          <div class="col-md-12 d-flex align-items-center">
-                              <p class="mb-0 me-2">Payment Settings And Course Access</p>
-
-                              <input type="radio" class="btn-check" name="access_type" id="option1" autocomplete="off" value="Free" " <?php if($courseRow["access"]=="Free") echo "checked"; ?>>
-                              <label class="btn btn-outline-success me-2" for="option1">
-                                  <i class="ri-book-open-line me-2"></i>Free
-                              </label>
-
-                              <input type="radio" class="btn-check" name="access_type" id="option2" autocomplete="off" value="Registration" <?php if($courseRow["access"]=="Registration") echo "checked"; ?>>
-                              <label class="btn btn-outline-success me-2" for="option2">
-                                  <i class="ri-login-box-fill me-2"></i>Registration
-                              </label>
-
-                              <input type="radio" class="btn-check" name="access_type" id="option3" autocomplete="off" value="Paid" <?php if($courseRow["access"]=="Paid") echo "checked"; ?>>
-                              <label class="btn btn-outline-success me-2" for="option3">
-                                  <i class="ri-paypal-fill me-2"></i>Paid
-                              </label>
-                          </div>
-                          <div id="registration" class="row">
-                              <div class="col-md-12 mt-2">
-                                  <p>Time Limit for students</p>
-                                  <div class="input-group mb-3">
-                                      <select class="form-select" id="selectTimeLimitFactor" name="timeLimit">
-                                          <option value="Without Time Limit" <?php if($courseRow["title"]=="Without Time Limit") echo "selected"; ?>>Without Time Limit</option>
-                                          <option value="Days" <?php if($courseRow["title"]=="Days") echo "selected"; ?>>Days</option>
-                                          <option value="Months" <?php if($courseRow["title"]=="Months") echo "selected"; ?>>Months</option>
-                                          <option value="Years" <?php if($courseRow["title"]=="Years") echo "selected"; ?>>Years</option>
-                                      </select>
-                                      <input type="text" class="form-control" id="timeLimitValueId" value="0" name="timeLimitValue">
-                                  </div>
-                              </div>
-                              <div class="col-md-9">
-                                  <div class="row mb-3">
-                                      <legend class="col-form-label col-sm-6 pt-0">Registration form fields</legend>
-                                      <div class="col-sm-6">
-
-                                          <div class="form-check">
-                                              <input name="reg_req_email" class="form-check-input" type="checkbox" id="gridCheck1" <?php if($courseRow["registration_required_email"]) echo "checked"; ?>>
-                                              <label class="form-check-label" for="gridCheck1">
-                                                  Email
-                                              </label>
-                                          </div>
-
-                                          <div class="form-check">
-                                              <input name="reg_req_phone" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_phone"]) echo "checked"; ?>>
-                                              <label class="form-check-label" for="gridCheck2">
-                                                  Phone Number
-                                              </label>
-                                          </div>
-
-                                          <div class="form-check">
-                                              <input name="reg_req_address" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_address"]) echo "checked"; ?>>
-                                              <label class="form-check-label" for="gridCheck2">
-                                                  Address
-                                              </label>
-                                          </div>
-
-                                          <div class="form-check">
-                                              <input name="reg_req_tos" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_tos"]) echo "checked"; ?>>
-                                              <label class="form-check-label" for="gridCheck2">
-                                                  Terms of use and services
-                                              </label>
-                                          </div>
-
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div id="paid" class="row mt-2">
-                              <div class="col-md-6">
-                                  <label for="inputNanme4" class="form-label">Price in NIS (including VAT)</label>
-                                  <input type="number" class="form-control" id="inputNanme4" name="price" value="<?=$courseRow["price"]?>">
-                              </div>
-                              <div class="col-md-6">
-                                  <label for="inputNanme4" class="form-label">Business Email Registered in PayPal</label>
-                                  <input type="email" class="form-control" id="inputNanme4" name="paypal_email" value="<?=$courseRow["paypal_email"]?>">
-                              </div>
-                          </div>
-                          <h5 class="card-title">About Course</h5>
-                          <div class="col-md-6">
-                              <label for="inputNanme4" class="form-label">Instructor Name</label>
-                              <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$courseRow["instructor_name"]?>">
-                          </div>
-                          <div class="col-md-12 mt-3">
-                                  <textarea class="tinymce-editor" name="course_description">
-                                     <?=$courseRow["description"]?>
-                                  </textarea>
-                          </div>
-                          <div class="row justify-content-center">
-                              <div class="col-md-6">
-                                  <button name="editCourse" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
-                                      <i class="bi bi-pencil-fill me-2"></i>
-                                      Update Course
-                                  </button>
-                              </div>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <div class="modal fade" id="delCourseModel" tabindex="-1">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header bg-danger text-white">
-                      <h5 class="modal-title">Delete Lesson</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      Are you sure you want to delete this lesson?
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button id="submitBtn2" type="button" class="btn btn-danger" onclick="location.href = 'instructor-view-course.php?delCourse=<?=$courseID?>'">
-                          <i class="bi bi-trash3-fill me-2"></i>
-                          Delete
-                      </button>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <div class="modal fade" id="draftCourseModel" tabindex="-1">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header bg-secondary text-white">
-                      <h5 class="modal-title">Update Course Status</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <form action="" method="post">
-                          <fieldset class="row mb-3">
-                              <div class="col-sm-10">
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="setStatus" id="gridRadios" value="active" <?php if(!$courseRow["draft"]) echo "checked"; ?>>
-                                      <label class="form-check-label" for="gridRadios">
-                                          Set course active
-                                      </label>
-                                  </div>
-                              </div>
-                              <div class="col-sm-10">
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="setStatus" id="gridRadios1" value="draft" <?php if($courseRow["draft"]) echo "checked"; ?>>
-                                      <label class="form-check-label" for="gridRadios1">
-                                          Set as Draft
-                                      </label>
-                                  </div>
-                              </div>
-                          </fieldset>
-                          <div class="row justify-content-around">
-                              <div class="col-md-6">
-                                  <button type="submit" name="updateDraftStatus" class="btn btn-secondary w-100" id="submitBtn1">
-                                      <i class="ri-save-3-line me-2"></i>
-                                      Save Changes
-                                  </button>
-                              </div>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <div class="modal fade" id="colorPickerModal" tabindex="-1">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title">Menu Color Selection</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <form action="" method="post">
-                          <div class="row mb-3">
-                              <label for="inputColor" class="col-sm-6 col-form-label">Background Color</label>
-                              <div class="col-sm-6">
-                                  <input type="color" name="back" class="form-control form-control-color"
-                                         id="bgcolor" value="<?=$courseRow["back_clr"]?>" title="Choose your color">
-                              </div>
-                          </div>
-                          <div class="row mb-3">
-                              <label for="inputColor" class="col-sm-6 col-form-label">Text Color</label>
-                              <div class="col-sm-6">
-                                  <input type="color" name="front"
-                                         class="form-control form-control-color" id="frontColor" value="<?=$courseRow["front_clr"]?>" title="Choose your color">
-                              </div>
-                          </div>
-                          <hr>
-                          <div class="row justify-content-center">
-                              <div class="col-md-6">
-                                  <button class="btn btn-primary w-100" id="submitBtn" name="saveColors">
-                                      <i class="ri-save-fill me-2"></i>
-                                      Save Colors
-                                  </button>
-                              </div>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>
-
       <section class="section">
           <div class="row">
               <div class="col-lg-12">
@@ -457,9 +249,9 @@
                       <div class="card-body p-2">
                           <div class="row">
                               <div class="col-md-3 justify-content-center shadow-lg pb-3 customColors">
-                                  <div class="d-flex justify-content-around align-items-center">
-                                      <h3 class="customHeading text-center" id="lsnHeading">Lessons</h3>
-                                      <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#colorPickerModal">
+                                  <div class="d-flex justify-content-around align-items-center mb-3">
+                                      <h3 class="customHeading text-center" id="lsnHeading">Chapters</h3>
+                                      <button class="btn btn-outline-dark customColors" data-bs-toggle="modal" data-bs-target="#colorPickerModal">
                                           <i class="bi bi-palette"></i>
                                       </button>
                                   </div>
@@ -470,11 +262,12 @@
                                           </div>
                                           <span class="ms-2">Fetching Lessons..</span>
                                       </div>
+                                      <id id="ChaptersList"></id>
                                   </div>
                                   <hr>
-                                  <button class="btn btn-outline-primary w-100"  data-bs-toggle="modal" data-bs-target="#addNewLesson">
+                                  <button class="btn w-100 customColors" data-bs-toggle="modal" data-bs-target="#addChapter">
                                       <i class="bi bi-plus-square-dotted"></i>
-                                      Add a Lesson
+                                      <span>Add a Chapter</span>
                                   </button>
                               </div>
                               <div class="col-md-9">
@@ -520,10 +313,8 @@
           </div>
       </section>
 
-  </main><!-- End #main -->
+  </main>
 
-
-  <!-- Add New Lesson Modal-->
   <div class="modal fade" id="addNewLesson" tabindex="-1">
       <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -704,6 +495,7 @@
                       <div id="lesssonType_4" style="display: none;">
                           <div class="row">
                               <form action="" method="post" class="row1 g-3">
+                                  <input type="hidden" class="addLessonUnderChapterInputBox" name="chapterNum">
                                   <div class="col-md-12 mb-3">
                                       <div class="form-floating">
                                           <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName">
@@ -736,7 +528,262 @@
           </div>
       </div>
   </div>
-  <!-- Add New Lesson Modal -->
+
+  <div class="modal fade" id="editCourse" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header bg-primary text-light">
+                  <h5 class="modal-title">Edit Course</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form class="row g-3" action="" method="post">
+                      <div class="col-md-12">
+                          <label for="inputNanme4" class="form-label">Course Title</label>
+                          <input type="text" class="form-control" id="inputNanme4" name="course_title" value="<?=$courseRow["title"]?>">
+                      </div>
+                      <div class="col-md-12">
+                          <label for="inputNanme4" class="form-label">Link to the course publication</label>
+                          <div class="input-group mb-3">
+                              <span class="input-group-text" id="basic-addon3">https://teachmehow.me/course-</span>
+                              <input type="text" name="courseID" class="form-control" value=" <?=$courseRow["courseID"]?>">
+                          </div>
+                      </div>
+                      <h5 class="card-title">Payment Settings</h5>
+                      <div class="col-md-12 d-flex align-items-center">
+                          <p class="mb-0 me-2">Payment Settings And Course Access</p>
+
+                          <input type="radio" class="btn-check" name="access_type" id="option1" autocomplete="off" value="Free" " <?php if($courseRow["access"]=="Free") echo "checked"; ?>>
+                          <label class="btn btn-outline-success me-2" for="option1">
+                              <i class="ri-book-open-line me-2"></i>Free
+                          </label>
+
+                          <input type="radio" class="btn-check" name="access_type" id="option2" autocomplete="off" value="Registration" <?php if($courseRow["access"]=="Registration") echo "checked"; ?>>
+                          <label class="btn btn-outline-success me-2" for="option2">
+                              <i class="ri-login-box-fill me-2"></i>Registration
+                          </label>
+
+                          <input type="radio" class="btn-check" name="access_type" id="option3" autocomplete="off" value="Paid" <?php if($courseRow["access"]=="Paid") echo "checked"; ?>>
+                          <label class="btn btn-outline-success me-2" for="option3">
+                              <i class="ri-paypal-fill me-2"></i>Paid
+                          </label>
+                      </div>
+                      <div id="registration" class="row">
+                          <div class="col-md-12 mt-2">
+                              <p>Time Limit for students</p>
+                              <div class="input-group mb-3">
+                                  <select class="form-select" id="selectTimeLimitFactor" name="timeLimit">
+                                      <option value="Without Time Limit" <?php if($courseRow["title"]=="Without Time Limit") echo "selected"; ?>>Without Time Limit</option>
+                                      <option value="Days" <?php if($courseRow["title"]=="Days") echo "selected"; ?>>Days</option>
+                                      <option value="Months" <?php if($courseRow["title"]=="Months") echo "selected"; ?>>Months</option>
+                                      <option value="Years" <?php if($courseRow["title"]=="Years") echo "selected"; ?>>Years</option>
+                                  </select>
+                                  <input type="text" class="form-control" id="timeLimitValueId" value="0" name="timeLimitValue">
+                              </div>
+                          </div>
+                          <div class="col-md-9">
+                              <div class="row mb-3">
+                                  <legend class="col-form-label col-sm-6 pt-0">Registration form fields</legend>
+                                  <div class="col-sm-6">
+
+                                      <div class="form-check">
+                                          <input name="reg_req_email" class="form-check-input" type="checkbox" id="gridCheck1" <?php if($courseRow["registration_required_email"]) echo "checked"; ?>>
+                                          <label class="form-check-label" for="gridCheck1">
+                                              Email
+                                          </label>
+                                      </div>
+
+                                      <div class="form-check">
+                                          <input name="reg_req_phone" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_phone"]) echo "checked"; ?>>
+                                          <label class="form-check-label" for="gridCheck2">
+                                              Phone Number
+                                          </label>
+                                      </div>
+
+                                      <div class="form-check">
+                                          <input name="reg_req_address" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_address"]) echo "checked"; ?>>
+                                          <label class="form-check-label" for="gridCheck2">
+                                              Address
+                                          </label>
+                                      </div>
+
+                                      <div class="form-check">
+                                          <input name="reg_req_tos" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_tos"]) echo "checked"; ?>>
+                                          <label class="form-check-label" for="gridCheck2">
+                                              Terms of use and services
+                                          </label>
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div id="paid" class="row mt-2">
+                          <div class="col-md-6">
+                              <label for="inputNanme4" class="form-label">Price</label>
+                              <input type="number" class="form-control" id="inputNanme4" name="price" value="<?=$courseRow["price"]?>">
+                          </div>
+                          <div class="col-md-6">
+                              <label for="inputNanme4" class="form-label">Business Email Registered in PayPal</label>
+                              <input type="email" class="form-control" id="inputNanme4" name="paypal_email" value="<?=$courseRow["paypal_email"]?>">
+                          </div>
+                      </div>
+                      <h5 class="card-title">About Course</h5>
+                      <div class="col-md-6">
+                          <label for="inputNanme4" class="form-label">Instructor Name</label>
+                          <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$courseRow["instructor_name"]?>">
+                      </div>
+                      <div class="col-md-12 mt-3">
+                                  <textarea class="tinymce-editor" name="course_description">
+                                     <?=$courseRow["description"]?>
+                                  </textarea>
+                      </div>
+                      <div class="row justify-content-center">
+                          <div class="col-md-6">
+                              <button name="editCourse" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
+                                  <i class="bi bi-pencil-fill me-2"></i>
+                                  Update Course
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="delCourseModel" tabindex="-1">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header bg-danger text-white">
+                  <h5 class="modal-title">Delete Lesson</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  Are you sure you want to delete this lesson?
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button id="submitBtn2" type="button" class="btn btn-danger" onclick="location.href = 'instructor-view-course.php?delCourse=<?=$courseID?>'">
+                      <i class="bi bi-trash3-fill me-2"></i>
+                      Delete
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="draftCourseModel" tabindex="-1">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header bg-secondary text-white">
+                  <h5 class="modal-title">Update Course Status</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form action="" method="post">
+                      <fieldset class="row mb-3">
+                          <div class="col-sm-10">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="setStatus" id="gridRadios" value="active" <?php if(!$courseRow["draft"]) echo "checked"; ?>>
+                                  <label class="form-check-label" for="gridRadios">
+                                      Set course active
+                                  </label>
+                              </div>
+                          </div>
+                          <div class="col-sm-10">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="setStatus" id="gridRadios1" value="draft" <?php if($courseRow["draft"]) echo "checked"; ?>>
+                                  <label class="form-check-label" for="gridRadios1">
+                                      Set as Draft
+                                  </label>
+                              </div>
+                          </div>
+                      </fieldset>
+                      <div class="row justify-content-around">
+                          <div class="col-md-6">
+                              <button type="submit" name="updateDraftStatus" class="btn btn-secondary w-100" id="submitBtn1">
+                                  <i class="ri-save-3-line me-2"></i>
+                                  Save Changes
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="colorPickerModal" tabindex="-1">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                  <h5 class="modal-title">Menu Color Selection</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form action="" method="post">
+                      <div class="row mb-3">
+                          <label for="inputColor" class="col-sm-6 col-form-label">Background Color</label>
+                          <div class="col-sm-6">
+                              <input type="color" name="back" class="form-control form-control-color"
+                                     id="bgcolor" value="<?=$courseRow["back_clr"]?>" title="Choose your color">
+                          </div>
+                      </div>
+                      <div class="row mb-3">
+                          <label for="inputColor" class="col-sm-6 col-form-label">Text Color</label>
+                          <div class="col-sm-6">
+                              <input type="color" name="front"
+                                     class="form-control form-control-color" id="frontColor" value="<?=$courseRow["front_clr"]?>" title="Choose your color">
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="row justify-content-center">
+                          <div class="col-md-6">
+                              <button class="btn btn-primary w-100" id="submitBtn" name="saveColors">
+                                  <i class="ri-save-fill me-2"></i>
+                                  Save Colors
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="addChapter" tabindex="-1">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                  <h5 class="modal-title">Introduce new chapter</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form action="" method="post">
+                      <input type="hidden" name="courseID" value="<?=$courseID?>">
+                      <div class="row mb-3">
+                          <label for="inputText" class="col-sm-4 col-form-label">
+                              Chapter Title:
+                          </label>
+                          <div class="col-sm-8">
+                              <input type="text" class="form-control" name="chapterName">
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="row justify-content-center">
+                          <div class="col-md-6">
+                              <button class="btn btn-primary w-100" id="submitBtn" name="addChapter">
+                                  <i class="ri-add-box-fill me-2"></i>
+                                  Add Chapter
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
 
   
 
@@ -748,12 +795,32 @@
   <link rel="stylesheet" href="assets/vendor/jquery/jquery-ui.css">
 
   <script>
-      loader('none');
-      loader1('none');
+      var chaptersArray = [];
+
+      $("#registration").hide();
+      $("#paid").hide();
+      $("input#timeLimitValueId").hide();
+      $('input[type=radio][name=access_type]').change(function() {
+          if (this.value == 'Free') {
+              $("#registration").hide();
+              $("#paid").hide();
+          }
+          else if (this.value == 'Registration') {
+              $("#registration").show();
+              $("#paid").hide();
+          }
+          else if (this.value == 'Paid') {
+              $("#registration").hide();
+              $("#paid").show();
+          }
+      });
+
       hideAll();
       $( "#lesssonType_1" ).show();
       getLessons();
-
+      implementColors();
+      loader('none');
+      loader1('none');
 
       $("#courseImageChange").click(function() {
           // document.getElementById('fileid').click();
@@ -823,96 +890,7 @@
           }
       });
 
-      function hideAll() {
-          $( "#lesssonType_1" ).hide();
-          $( "#lesssonType_2" ).hide();
-          $( "#lesssonType_3" ).hide();
-          $( "#lesssonType_4" ).hide();
-      }
 
-      function getLessons() {
-          loader('block');
-          $.ajax({
-              url: "api/getLessonsByCourseId.php",
-              type: "post",
-              data: {
-                  courseID: <?=$courseID?>,
-              },
-              success: function(response) {
-                  loader('none');
-                  var lessons = $.parseJSON(response);
-                  var length = Object.keys(lessons).length;
-                  if(length){
-                      $('#lessonsList').append('<ul class="list-group sortable" id="lessonsListItems"></ul>');
-                      for (lesson of lessons) {
-                          $("#lessonsList ul").append('<li class="list-group-item" id="'+lesson.id+'" onclick="getLessonContent('+lesson.id+')"><i class="bi bi-grip-vertical me-3"></i>'+lesson.name+'</li>');
-                      }
-                  }else{
-                      $('#lessonsList').append('<hr><h5 class="text-center">No Lessons Found</h5>');
-                  }
-                  implementColors();
-              },
-              error: function(xhr) {
-                  alert("Error while fetching courses!\n "+xhr);
-              }
-          });
-      }
-
-      function getLessonContent(lessonID) {
-          placeHolderIcon("block");
-          $('#courseContent').empty();
-          loader1('block');
-          $.ajax({
-              url: "api/getLessonContentByCourseId.php",
-              type: "post",
-              data: {
-                  courseID: <?=$courseID?>,
-                  lessonID: lessonID,
-              },
-              success: function(response) {
-                  loader1('none');
-                  if(response==""){
-                      $('#courseContent').empty();
-                  }else{
-                      $('#courseContent').append(response);
-                  }
-                  implementColors();
-              },
-              error: function(xhr) {
-                  alert("Error while fetching courses!\n "+xhr);
-              }
-          });
-      }
-
-      function loader(visible) {
-          $('#loader').attr('style','display:'+visible+' !important');
-      }
-      function loader1(visible) {
-          $('#loader1').attr('style','display:'+visible+' !important');
-      }
-      function placeHolderIcon(visible) {
-          $('#placeholderIcon').attr('style','display:'+visible+' !important');
-      }
-  </script>
-
-  <script>
-      $("#registration").hide();
-      $("#paid").hide();
-      $("input#timeLimitValueId").hide();
-      $('input[type=radio][name=access_type]').change(function() {
-          if (this.value == 'Free') {
-              $("#registration").hide();
-              $("#paid").hide();
-          }
-          else if (this.value == 'Registration') {
-              $("#registration").show();
-              $("#paid").hide();
-          }
-          else if (this.value == 'Paid') {
-              $("#registration").hide();
-              $("#paid").show();
-          }
-      });
       $('#selectTimeLimitFactor').change(function() {
           if($(this).val()==="Days" || $(this).val()==="Months" || $(this).val()==="Years"){
               $("input#timeLimitValueId").show();
@@ -968,10 +946,107 @@
           $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
           $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
           $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
+          $("button.customColors").css('border', '1px solid <?=$courseRow["front_clr"]?>');
       }
-      implementColors();
-  </script>
 
+      function hideAll() {
+          $( "#lesssonType_1" ).hide();
+          $( "#lesssonType_2" ).hide();
+          $( "#lesssonType_3" ).hide();
+          $( "#lesssonType_4" ).hide();
+      }
+
+      function getLessons() {
+          loader('block');
+          $.ajax({
+              url: "api/getChaptersAndLessons.php",
+              type: "post",
+              data: {
+                  courseID: <?=$courseID?>,
+              },
+              success: function(response) {
+                  loader('none');
+                  $("#ChaptersList").html(response);
+                  implementColors();
+              },
+              error: function(xhr) {
+                  alert("Error while fetching courses!\n "+xhr);
+              }
+          });
+      }
+
+      function getLessonsOfChapters() {
+          $.ajax({
+              url: "api/getLessonsByCourseId.php",
+              type: "post",
+              data: {
+                  courseID: <?=$courseID?>,
+                  chapterIDs: chaptersArray,
+              },
+              success: function(response) {
+                  loader('none');
+                  var lessons = $.parseJSON(response);
+                  var length = Object.keys(lessons).length;
+                  if(length){
+                      $("#chapter_id_"+chapterID).append('<ul class="list-group sortable" id="lessonsListItems"></ul>');
+                      for (lesson of lessons) {
+                          $("#chapter_id_"+chapterID+" #lessonsListItems").append('<li class="list-group-item" id="'+lesson.id+'" onclick="getLessonContent('+lesson.id+')"><i class="bi bi-grip-vertical me-3"></i>'+lesson.name+'</li>');
+                      }
+                  }else{
+                      $("#chapter_id_"+chapterID).append('<hr><h5 class="text-center">No Lessons Found</h5>');
+                  }
+                  implementColors();
+              },
+              error: function(xhr) {
+                  alert("Error while fetching courses!\n "+xhr);
+              }
+          });
+      }
+
+      function getLessonContent(lessonID) {
+          placeHolderIcon("block");
+          $('#courseContent').empty();
+          loader1('block');
+          $.ajax({
+              url: "api/getLessonContentByCourseId.php",
+              type: "post",
+              data: {
+                  courseID: <?=$courseID?>,
+                  lessonID: lessonID,
+              },
+              success: function(response) {
+                  loader1('none');
+                  if(response==""){
+                      $('#courseContent').empty();
+                  }else{
+                      $('#courseContent').append(response);
+                  }
+                  implementColors();
+              },
+              error: function(xhr) {
+                  alert("Error while fetching courses!\n "+xhr);
+              }
+          });
+      }
+
+      function loader(visible) {
+          $('#loader').attr('style','display:'+visible+' !important');
+      }
+
+      function loader1(visible) {
+          $('#loader1').attr('style','display:'+visible+' !important');
+      }
+
+      function placeHolderIcon(visible) {
+          $('#placeholderIcon').attr('style','display:'+visible+' !important');
+      }
+
+      function addNewLesson(chapID) {
+          console.log(chapID);
+          $("#addNewLesson").modal('show');
+          $(".addLessonUnderChapterInputBox").val(chapID);
+      }
+  </script>
 </body>
 
 </html>

@@ -22,40 +22,119 @@ $courseID = $courseRow["id"];
 
 <body>
 
-<!-- ======= Header ======= -->
-<?=require_once "includes/header.inc.php";?>
-<!-- End Header -->
+<header id="header" class="header fixed-top d-flex align-items-center justify-content-between">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <img style="max-height: 60px;" id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail h-100 w-100">
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
+
+    <nav class="header-nav">
+        <ul class="d-flex align-items-center">
+
+            <li class="nav-item dropdown pe-3">
+
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                </a><!-- End Profile Iamge Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6>Kevin Anderson</h6>
+                        <span>Web Designer</span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <i class="bi bi-person"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <i class="bi bi-gear"></i>
+                            <span>Account Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                            <i class="bi bi-question-circle"></i>
+                            <span>Need Help?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+
+                </ul><!-- End Profile Dropdown Items -->
+            </li><!-- End Profile Nav -->
+
+        </ul>
+    </nav><!-- End Icons Navigation -->
+
+</header>
 
 <!-- ======= Sidebar ======= -->
-<?//=require_once "includes/instructorSideBar.inc.php";?>
+<aside id="sidebar" class="sidebar">
+
+    <div class="row">
+        <div class="col-md-12 justify-content-center pb-3 customColors">
+            <div class="d-flex justify-content-around align-items-center mb-3">
+                <h3 class="customHeading text-center" id="lsnHeading">Chapters</h3>
+            </div>
+            <div id="lessonsList">
+                <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span class="ms-2">Fetching Lessons..</span>
+                </div>
+                <id id="ChaptersList"></id>
+            </div>
+        </div>
+    </div>
+
+</aside>
 <!-- End Sidebar-->
 
-  <main id="main1" class="main" style="margin-top: 60px; padding: 20px 30px; transition: all 0.3s;">
+  <main id="main" class="main">
         <div class="card">
               <div class="card-body p-2">
                   <div class="row">
-                      <div class="col-md-3 d-flex flex-column align-items-center">
-                          <form>
-                              <div class="course-img-container w-100 h-100">
-                                  <img id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail h-100 w-100">
+                      <div class="col-md-12 d-flex flex-column align-items-center">
+                          <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
+                              <div class="spinner-border text-primary" role="status">
+                                  <span class="visually-hidden">Loading...</span>
                               </div>
-                              <input id='fileid' type='file' name="fileToUpload" hidden/>
-                              <input id="proceedUploadImage" name="uploadImg" type="submit"  hidden/>
-                          </form>
-                      </div>
-                      <div class="col-md-9">
-                          <div class="d-flex justify-content-between">
-                              <div>
-                                  <div class="d-flex align-items-center">
-                                      <h2 class="mb-2 customHeading">
-                                          <?=$courseRow["title"];?>
-                                      </h2>
-                                      <span class="badge bg-info ms-3" style="height: fit-content"><?=$courseRow["access"];?></span>
-                                      <span class="badge bg-primary ms-1" style="height: fit-content"><?php echo $courseRow["draft"]==1 ? "Draft":"Active"; ?></span>
-                                  </div>
-                                  <p class="small fst-italic">
-                                      <?=$courseRow["description"];?>
-                                  </p>
+                              <span class="ms-2">Fetching Lessons..</span>
+                          </div>
+                          <div id="courseContent" class="w-100">
+                              <div class="row justify-content-center">
+                                  <?php
+                                  if($courseRow["access"]=="Registration") echo signUp();
+                                  if($courseRow["access"]=="Paid") echo paypal();
+                                  ?>
                               </div>
                           </div>
                       </div>
@@ -66,46 +145,6 @@ $courseID = $courseRow["id"];
       <div class="row">
         <div class="col-lg-12">
 
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                  <div class="col-md-3 justify-content-center shadow-lg pb-3 customColors">
-                      <h3 class="customHeading text-center" id="lsnHeading">Lessons</h3>
-                      <div id="lessonsList">
-                          <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
-                              <div class="spinner-border text-primary" role="status">
-                                  <span class="visually-hidden">Loading...</span>
-                              </div>
-                              <span class="ms-2">Fetching Lessons..</span>
-                          </div>
-                      </div>
-                      <hr>
-                      <button class="btn btn-outline-primary w-100"  data-bs-toggle="modal" data-bs-target="#addNewLesson">
-                          <i class="bi bi-plus-square-dotted"></i>
-                          Add a Lesson
-                      </button>
-                  </div>
-                  <div class="col-md-9">
-                      <div class="col-md-12 justify-content-center">
-                          <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
-                              <div class="spinner-border text-primary" role="status">
-                                  <span class="visually-hidden">Loading...</span>
-                              </div>
-                              <span class="ms-2">Fetching Lessons..</span>
-                          </div>
-                          <div id="courseContent">
-                              <div class="row justify-content-center">
-                                  <?php
-                                    if($courseRow["access"]=="Registration") echo signUp();
-                                    if($courseRow["access"]=="Paid") echo paypal();
-                                  ?>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-          </div>
 
             <div class="card">
                 <div class="card-body p-2">
@@ -155,27 +194,18 @@ $courseID = $courseRow["id"];
     });
 
 
-
     function getLessons() {
         loader('block');
         $.ajax({
-            url: "api/getLessonsByCourseId.php",
+            url: "api/getChaptersAndLessons.php",
             type: "post",
             data: {
                 courseID: <?=$courseID?>,
+                publicView: true
             },
             success: function(response) {
                 loader('none');
-                var lessons = $.parseJSON(response);
-                var length = Object.keys(lessons).length;
-                if(length){
-                    $('#lessonsList').append('<ul class="list-group sortable" id="lessonsListItems"></ul>');
-                    for (lesson of lessons) {
-                        $("#lessonsList ul").append('<li class="list-group-item" id="'+lesson.id+'" onclick="getLessonContent('+lesson.id+')"><i class="bi bi-grip-vertical me-3"></i>'+lesson.name+'</li>');
-                    }
-                }else{
-                    $('#lessonsList').append('<hr><h5 class="text-center">No Lessons Found</h5>');
-                }
+                $("#ChaptersList").html(response);
                 implementColors();
             },
             error: function(xhr) {
@@ -197,6 +227,7 @@ $courseID = $courseRow["id"];
             data: {
                 courseID: <?=$courseID?>,
                 lessonID: lessonID,
+                publicView: true
             },
             success: function(response) {
                 loader1('none');

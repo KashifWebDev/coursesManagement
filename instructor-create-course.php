@@ -164,7 +164,7 @@
                               </div>
                               <div id="paid" class="row mt-2">
                                   <div class="col-md-6">
-                                      <label for="inputNanme4" class="form-label">Price in NIS (including VAT)</label>
+                                      <label for="inputNanme4" class="form-label">Price</label>
                                       <input type="number" class="form-control" id="inputNanme4" name="price">
                                   </div>
                                   <div class="col-md-6">
