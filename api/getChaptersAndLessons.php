@@ -9,9 +9,10 @@ $res1 = mysqli_query($con, $s);
 if(mysqli_num_rows($res1)){
     ?> <ul class="list-group <?php if(!$publicView) echo "sortable"; ?>" id="lessonsListItems"> <?php
     while ($lessonsRow = mysqli_fetch_array($res1, MYSQLI_ASSOC)){
-        $chap_class = $lessonsRow["is_chapter"] ? "fw-bold mt-4 border h5" : "";
+        $isChap = $lessonsRow["is_chapter"];
+        $chap_class = $isChap ? "fw-bold mt-4 border h5" : "";
         ?>
-            <li class="list-group-item <?=$chap_class?>" id="<?=$lessonsRow["id"]?>" onclick="getLessonContent(<?=$lessonsRow["id"]?>)">
+            <li class="list-group-item <?=$chap_class?>" id="<?=$lessonsRow["id"]?>" <?php if(!$isChap){ ?> onclick="getLessonContent(<?=$lessonsRow["id"]?>)" <?php } ?>>
                 <?php if(!$publicView){ ?> <i class="bi bi-grip-vertical me-3"></i> <?php } ?>
                 <?=$lessonsRow["name"]?>
             </li>

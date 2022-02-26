@@ -15,6 +15,33 @@
         }
     }
 
+    if(isset($_POST["saveLesson_typeLink"])){
+        $lessonName = sanitizeParam($_POST["lessonName"]);
+        $link = sanitizeParam($_POST["link"]);
+
+        $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
+                ($courseID, '$lessonName', 'link', '$link')";
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
+    if(isset($_POST["updateLesson_typeLink"])){
+        $lessonName = sanitizeParam($_POST["lessonName"]);
+        $link = sanitizeParam($_POST["link"]);
+
+        $courseID = sanitizeParam($_POST["courseID"]);
+        $lessonID = sanitizeParam($_POST["lessonID"]);
+
+        $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
+                ($courseID, '$lessonName', 'link', '$link')";
+        $s = "UPDATE lessons SET name='$lessonName',content='$link'
+              WHERE course_id=$courseID AND id=$lessonID";
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
     if(isset($_POST["saveLesson_typeText"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $lessonContent = sanitizeParam($_POST["lessonContent"]);
@@ -23,6 +50,82 @@
                 ($courseID, '$lessonName', 'text', '$lessonContent')";
         if(mysqli_query($con, $s)){
             header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
+    if(isset($_POST["saveLesson_typeFile"])){
+        $lessonName = sanitizeParam($_POST["lessonName"]);
+
+
+        $target_dir = "assets/lessonsFiles/";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $fileName = $_FILES["fileToUpload"]["name"];
+        // Check file size
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            $uploadErrMsg = "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+        if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
+            strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
+            || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
+            $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
+            $uploadOk = 0;
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "<script>alert('".$uploadErrMsg."');</script>";
+        } else {
+            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                    $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
+                    ($courseID, '$lessonName', 'file', '$fileName')";
+                    if(mysqli_query($con, $s)){
+                        header('Location: instructor-view-course.php?courseID='.$courseID);
+                    }
+            } else {
+                echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+            }
+        }
+    }
+
+    if(isset($_POST["updateLesson_typeFile"])){
+        $lessonName = sanitizeParam($_POST["lessonName"]);
+
+        $courseID = sanitizeParam($_POST["courseID"]);
+        $lessonID = sanitizeParam($_POST["lessonID"]);
+
+        $target_dir = "assets/lessonsFiles/";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $fileName = $_FILES["fileToUpload"]["name"];
+        // Check file size
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            $uploadErrMsg = "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+        if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
+            strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
+            || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
+            $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
+            $uploadOk = 0;
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "<script>alert('".$uploadErrMsg."');</script>";
+        } else {
+            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                    $s = "UPDATE lessons SET name='$lessonName', content='$fileName'
+                            WHERE course_id=$courseID AND id=$lessonID";
+                    if(mysqli_query($con, $s)){
+                        header('Location: instructor-view-course.php?courseID='.$courseID);
+                    }
+            } else {
+                echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+            }
         }
     }
 
@@ -486,17 +589,24 @@
                       </div>
                       <div id="lesssonType_2" style="display: none;">
                           <div class="row">
-                              <form action="instructor-all-courses.php" method="post" class="row1 g-3">
+                              <form action="" method="post" class="row1 g-3">
                                   <div class="col-md-12 mb-3">
                                       <div class="form-floating">
-                                          <input type="text" class="form-control" id="floatingTutLink" placeholder="Enter Link">
+                                          <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName">
+                                          <label for="floatingName">Lesson Name</label>
+                                      </div>
+                                  </div>
+
+                                  <div class="col-md-12 mb-3">
+                                      <div class="form-floating">
+                                          <input type="text" name="link" class="form-control" id="floatingTutLink" placeholder="Enter Link">
                                           <label for="floatingTutLink">Enter Link</label>
                                       </div>
                                   </div>
 
                                   <div class="col-md-12 d-flex justify-content-center">
                                       <div class="col-md-6">
-                                          <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                          <button type="submit" name="saveLesson_typeLink" class="btn btn-primary w-100 mt-3 rounded-pill">
                                               <i class="bi bi-plus-circle-fill mr-2"></i>
                                               Save Lesson
                                           </button>
@@ -508,30 +618,36 @@
                       </div>
                       <div id="lesssonType_3" style="display: none;">
                           <div class="row">
-                              <form action="instructor-all-courses.php" method="post" class="row1 g-3">
+                              <form action="" method="post" class="row1 g-3" enctype="multipart/form-data">
+
+                                  <div class="col-md-12 mb-3">
+                                      <div class="form-floating">
+                                          <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName">
+                                          <label for="floatingName">Lesson Name</label>
+                                      </div>
+                                  </div>
+
                                   <div class="row mb-3">
                                       <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
                                       <div class="col-sm-10">
-                                          <input class="form-control" type="file" id="formFile">
+                                          <input class="form-control" type="file" id="formFile" name="fileToUpload">
                                       </div>
                                   </div>
 
                                   <div class="col-md-12 d-flex justify-content-center">
                                       <div class="col-md-6">
-                                          <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                          <button name="saveLesson_typeFile" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
                                               <i class="bi bi-plus-circle-fill mr-2"></i>
                                               Save Lesson
                                           </button>
                                       </div>
                                   </div>
-
                               </form>
                           </div>
                       </div>
                       <div id="lesssonType_4" style="display: none;">
                           <div class="row">
                               <form action="" method="post" class="row1 g-3">
-                                  <input type="hidden" class="addLessonUnderChapterInputBox" name="chapterNum">
                                   <div class="col-md-12 mb-3">
                                       <div class="form-floating">
                                           <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName">
@@ -884,7 +1000,7 @@
       $( "#lesssonType_1" ).show();
       getLessons();
       implementColors();
-      loader('none');
+      // loader('none');
       loader1('none');
 
       $("#courseImageChange").click(function() {
@@ -899,38 +1015,10 @@
 
       $(document).ready(function(){
           $('[data-bs-toggle="tooltip"]').tooltip();
-          $('.sortable').sortable({
-              stop:function()
-              {
-                  var ids = '';
-                  $('.sortable li.list-group-item').each(function(){
-                      loader('block');
-                      id = $(this).attr('id');
-                      if(ids=='')
-                      {
-                          ids = id;
-                      }
-                      else
-                      {
-                          ids = ids+','+id;
-                      }
-                  })
-                  $.ajax({
-                      url:'api/instructorReArrangeOrderLessons.php',
-                      data:'ids='+ids,
-                      type:'post',
-                      success:function(data)
-                      {
-                          var output = $.parseJSON(data);
-                          console.log(output.refresh);
-                          loader('none');
-                      }
-                  })
-              }
-          });
       });
 
       $('input[name="options"]').change(function() {
+          console.log(this.value);
           hideAll();
           if (this.value == 'test') {
               $( "#lesssonType_1" ).show();
@@ -1034,12 +1122,45 @@
                   courseID: <?=$courseID?>,
               },
               success: function(response) {
-                  loader('none');
                   $("#ChaptersList").html(response);
                   implementColors();
+                  makeListSortable();
+                  loader('none');
               },
               error: function(xhr) {
                   alert("Error while fetching courses!\n "+xhr);
+              }
+          });
+      }
+
+      function makeListSortable() {
+          $('.sortable').sortable({
+              stop:function()
+              {
+                  var ids = '';
+                  $('.sortable li.list-group-item').each(function(){
+                      loader('block');
+                      id = $(this).attr('id');
+                      if(ids=='')
+                      {
+                          ids = id;
+                      }
+                      else
+                      {
+                          ids = ids+','+id;
+                      }
+                  })
+                  $.ajax({
+                      url:'api/instructorReArrangeOrderLessons.php',
+                      data:'ids='+ids,
+                      type:'post',
+                      success:function(data)
+                      {
+                          var output = $.parseJSON(data);
+                          console.log(output.refresh);
+                          loader('none');
+                      }
+                  })
               }
           });
       }
