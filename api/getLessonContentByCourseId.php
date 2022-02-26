@@ -198,9 +198,9 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                                         <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Save Lesson
+                                                        Update Lesson
                                                     </button>
                                                 </div>
                                             </div>
@@ -220,9 +220,9 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                                         <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Save Lesson
+                                                        Update Lesson
                                                     </button>
                                                 </div>
                                             </div>
@@ -509,9 +509,9 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                                         <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Save Lesson
+                                                        Update Lesson
                                                     </button>
                                                 </div>
                                             </div>
@@ -531,9 +531,9 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
-                                                        <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Save Lesson
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
+                                                        <i class="bi bi-pencil-fill mr-2"></i>
+                                                        Update Lesson
                                                     </button>
                                                 </div>
                                             </div>
@@ -806,9 +806,9 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
-                                                        <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Save Lesson
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
+                                                        <i class="bi bi-pencil-fill mr-2"></i>
+                                                        Update Lesson
                                                     </button>
                                                 </div>
                                             </div>
@@ -839,7 +839,7 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" name="updateLesson_typeFile" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                                    <button type="submit" name="updateLesson_typeFile" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                                         <i class="bi bi-plus-circle-fill mr-2"></i>
                                                         Update Lesson
                                                     </button>
@@ -1138,7 +1138,7 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button name="updateLesson_typeLink" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                                    <button name="updateLesson_typeLink" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                                         <i class="bi bi-pencil-fill mr-2"></i>
                                                         Update Lesson
                                                     </button>
@@ -1171,7 +1171,7 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" name="updateLesson_typeFile" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                                    <button type="submit" name="updateLesson_typeFile" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                                         <i class="bi bi-plus-circle-fill mr-2"></i>
                                                         Update Lesson
                                                     </button>

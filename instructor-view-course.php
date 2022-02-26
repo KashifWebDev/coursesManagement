@@ -63,7 +63,7 @@
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $fileName = $_FILES["fileToUpload"]["name"];
         // Check file size
-        if ($_FILES["fileToUpload"]["size"] > 500000) {
+        if ($_FILES["fileToUpload"]["size"] > 10000000) {
             $uploadErrMsg = "Sorry, your file is too large.";
             $uploadOk = 0;
         }
@@ -606,7 +606,7 @@
 
                                   <div class="col-md-12 d-flex justify-content-center">
                                       <div class="col-md-6">
-                                          <button type="submit" name="saveLesson_typeLink" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                          <button type="submit" name="saveLesson_typeLink" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                               <i class="bi bi-plus-circle-fill mr-2"></i>
                                               Save Lesson
                                           </button>
@@ -636,7 +636,7 @@
 
                                   <div class="col-md-12 d-flex justify-content-center">
                                       <div class="col-md-6">
-                                          <button name="saveLesson_typeFile" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
+                                          <button name="saveLesson_typeFile" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">
                                               <i class="bi bi-plus-circle-fill mr-2"></i>
                                               Save Lesson
                                           </button>
