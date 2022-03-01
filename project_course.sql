@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2022 at 06:09 AM
+-- Generation Time: Mar 01, 2022 at 01:13 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.30
 
@@ -64,6 +64,29 @@ INSERT INTO `courses` (`id`, `instructor_id`, `title`, `thumbnail`, `access`, `d
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `forgetpass`
+--
+
+CREATE TABLE `forgetpass` (
+  `id` int(11) NOT NULL,
+  `user_id` int(3) NOT NULL,
+  `code` int(6) NOT NULL,
+  `date_time` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `forgetpass`
+--
+
+INSERT INTO `forgetpass` (`id`, `user_id`, `code`, `date_time`) VALUES
+(1, 15, 680448, 0),
+(2, 15, 690736, 0),
+(3, 15, 629293, 0),
+(4, 15, 640798, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `lessons`
 --
 
@@ -96,6 +119,34 @@ INSERT INTO `lessons` (`id`, `course_id`, `is_chapter`, `name`, `type`, `content
 (24, 1, 0, 'Intro text', 'text', '<h1 style=\"text-align: center;\"><span style=\"color: #e03e2d;\">Intro to course</span></h1>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welcome !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welcome !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\"><span style=\"color: #fbeeb8;\">Welco456e !</span></p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\"><span style=\"color: #ecf0f1;\">Welc123e !</span></p>', 1),
 (25, 1, 0, 'file', 'file', 'CS304 - Midterm MCQS Solved With References By Moaaz.pdf', 11);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(20) NOT NULL,
+  `lastname` varchar(20) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `contactNum` varchar(100) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `type` enum('Admin','Instructor','Student') NOT NULL,
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `contactNum`, `address`, `username`, `password`, `type`, `verified`, `created_on`) VALUES
+(14, 'Administrator', '', 'admin@admin.com', NULL, NULL, 'admin', 'e6e061838856bf47e1de730719fb2609', 'Admin', 0, '2022-03-01 07:00:01'),
+(15, 'adsfkjl', 'lkj', 'kmalik748@gmail.com', 'asd', 'Main Street', 'adsf', '1a1dc91c907325c69271ddf0c944bc72', 'Instructor', 0, '2022-03-01 10:26:38');
+
 --
 -- Indexes for dumped tables
 --
@@ -107,9 +158,21 @@ ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `forgetpass`
+--
+ALTER TABLE `forgetpass`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `lessons`
 --
 ALTER TABLE `lessons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -123,10 +186,22 @@ ALTER TABLE `courses`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `forgetpass`
+--
+ALTER TABLE `forgetpass`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `lessons`
 --
 ALTER TABLE `lessons`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
