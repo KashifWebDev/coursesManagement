@@ -141,7 +141,7 @@ $courseID = $courseRow["id"];
         </aside>
 
         <main id="main" class="main pb-0 mb-0 mt-0" style="height: 86vh; padding-right: 0px !important; padding-left: 0px; padding-top: 0px;">
-            <div class="card mb-0 bg-transparent" style="height: 86.4vh;">
+            <div class="card mb-0 bg-transparent" style="height: 88.4vh;">
                 <div class="card-body p-2 pt-0 ps-0">
                     <div class="row h-100">
                         <div class="col-md-12 d-flex flex-column align-items-center h-100 customColors">
