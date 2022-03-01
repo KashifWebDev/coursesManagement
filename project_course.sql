@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2022 at 07:51 PM
+-- Generation Time: Mar 01, 2022 at 06:09 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.30
 
@@ -46,17 +46,20 @@ CREATE TABLE `courses` (
   `paypal_email` varchar(50) DEFAULT NULL,
   `instructor_name` varchar(50) NOT NULL,
   `back_clr` varchar(10) NOT NULL DEFAULT '#ffffff',
-  `front_clr` varchar(10) NOT NULL DEFAULT '#000000'
+  `front_clr` varchar(10) NOT NULL DEFAULT '#000000',
+  `page_background_type` enum('image','color') NOT NULL DEFAULT 'color',
+  `page_background_image` varchar(100) DEFAULT NULL,
+  `page_background_color` varchar(100) DEFAULT '#000000'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `instructor_id`, `title`, `thumbnail`, `access`, `description`, `draft`, `courseID`, `timeLimitType`, `timeLimitValue`, `registration_required_email`, `registration_required_phone`, `registration_required_address`, `registration_required_tos`, `price`, `paypal_email`, `instructor_name`, `back_clr`, `front_clr`) VALUES
-(1, 11, 'First Course', '12_DBLW4993.JPG', 'Free', '<p>description</p>', 1, 123, '', 0, 0, 0, 0, 0, 0, '', '', '#000000', '#ffffff'),
-(5, 1, 'asdfadsf', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, 2081827979, 'Without Time Limit', 0, 0, 0, 0, 0, 23, 'kmalik748@gmail.com', 'Kelin Anderson', '#ffffff', '#000000'),
-(6, 1, 'Ron Course', 'default.jpg', 'Free', '<h3><strong><em>Course Description here....123123123123</em></strong></h3>', 0, 190423710, '', 0, 0, 0, 0, 0, 0, '', 'Kelin Anderson', '#ffffff', '#000000');
+INSERT INTO `courses` (`id`, `instructor_id`, `title`, `thumbnail`, `access`, `description`, `draft`, `courseID`, `timeLimitType`, `timeLimitValue`, `registration_required_email`, `registration_required_phone`, `registration_required_address`, `registration_required_tos`, `price`, `paypal_email`, `instructor_name`, `back_clr`, `front_clr`, `page_background_type`, `page_background_image`, `page_background_color`) VALUES
+(1, 11, 'First Course', '12_DBLW4993.JPG', 'Free', '<p>description</p>', 1, 123, '', 0, 0, 0, 0, 0, 0, '', '', '#000000', '#ffffff', 'image', '64BqZs.jpg', '#ff0000'),
+(5, 1, 'asdfadsf', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, 2081827979, 'Without Time Limit', 0, 0, 0, 0, 0, 23, 'kmalik748@gmail.com', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000'),
+(6, 1, 'Ron Course', 'default.jpg', 'Free', '<h3><strong><em>Course Description here....123123123123</em></strong></h3>', 0, 190423710, '', 0, 0, 0, 0, 0, 0, '', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000');
 
 -- --------------------------------------------------------
 
@@ -80,7 +83,7 @@ CREATE TABLE `lessons` (
 
 INSERT INTO `lessons` (`id`, `course_id`, `is_chapter`, `name`, `type`, `content`, `arrange_order`) VALUES
 (3, 1, 0, 'Third Course', 'video', 'https://www.youtube.com/watch?v=2sxEsG64CsY&ab_channel=Wrsh98', 4),
-(6, 1, 0, 'Forth Lesson', 'video', 'https://www.youtube.com/watch?v=n_RDt2LK_tY&ab_channel=Mythpat', 10),
+(6, 1, 0, 'Forth Lesson', 'video', 'https://www.youtube.com/watch?v=n_RDt2LK_tY&ab_channel=Mythpat', 9),
 (8, 1, 1, 'Ron Chapter', 'video', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/dxHTkqSpz-w\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', 2),
 (10, 1, 0, 'new', 'video', 'https://www.youtube.com/watch?v=2-dndZVOPEM&ab_channel=Geoislam', 7),
 (13, 5, 0, 'First Lesson', 'video', 'https://www.youtube.com/watch?v=RrpNF9Mu1mQ', 1),
@@ -89,8 +92,9 @@ INSERT INTO `lessons` (`id`, `course_id`, `is_chapter`, `name`, `type`, `content
 (17, 6, 0, 'Drama', 'video', 'https://www.youtube.com/watch?v=-e91ibFANEs&ab_channel=ARYDigital', 1),
 (19, 1, 0, 'first lesson of third chapter', 'video', 'https://www.youtube.com/watch?v=lHMlLCMkuPE&ab_channel=PrimitiveSurvivalTool', 5),
 (20, 1, 1, 'Test', 'test', '', 8),
-(21, 1, 0, 'Songggg', 'video', 'https://www.youtube.com/watch?v=T3D6lpWxrzM&ab_channel=T-Series', 9),
-(24, 1, 0, 'Intro text', 'text', '<h1>Kashif <span style=\"text-decoration: line-through;\">Al</span>i&nbsp;</h1>\r\n<p><span style=\"font-size: 36pt;\">Rabbani</span></p>', 1);
+(21, 1, 0, 'Songggg', 'video', 'https://www.youtube.com/watch?v=T3D6lpWxrzM&ab_channel=T-Series', 10),
+(24, 1, 0, 'Intro text', 'text', '<h1 style=\"text-align: center;\"><span style=\"color: #e03e2d;\">Intro to course</span></h1>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welcome !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welcome !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\"><span style=\"color: #fbeeb8;\">Welco456e !</span></p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\"><span style=\"color: #ecf0f1;\">Welc123e !</span></p>', 1),
+(25, 1, 0, 'file', 'file', 'CS304 - Midterm MCQS Solved With References By Moaaz.pdf', 11);
 
 --
 -- Indexes for dumped tables
@@ -122,7 +126,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `lessons`
 --
 ALTER TABLE `lessons`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

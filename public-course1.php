@@ -151,8 +151,8 @@ $courseID = $courseRow["id"];
                                 </div>
                                 <span class="ms-2">Fetching Lessons..</span>
                             </div>
-                            <div id="courseContent" class="w-100 h-100">
-                                <div class="row justify-content-center h-100">
+                            <div id="courseContent" class="w-100 h-100 customColors">
+                                <div class="row justify-content-center h-100 customColors">
                                     <?php
                                     if($courseRow["access"]=="Registration"){
                                         echo signUp();

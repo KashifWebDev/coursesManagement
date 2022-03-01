@@ -949,12 +949,9 @@ if(mysqli_num_rows($res)){
             <div class="row">
                 <div class="col-md-12">
                     <?php if(strpos($content,".pdf") !== false){ ?>
-                        <iframe
-                                src="assets/lessonsFiles/<?=$content?>"
-                                width="100%"
-                                height="100%"
-                        >
-                        </iframe>
+
+                        <embed src="assets/lessonsFiles/<?=$content?>" width="100%" height="100%"
+                               type="application/pdf">
                     <?php }else{ ?>
                             <div class="row align-items-center justify-content-center">
                                 <div class="customHeading text-center">
