@@ -2,6 +2,71 @@
 require_once "includes/app.php";
 require_once "includes/functions.php";
 $path = ROOT_DIR;
+if (isset($_POST["signUp"])){
+    $firstName = sanitizeParam($_POST["firstName"]);
+    $lastName = sanitizeParam($_POST["lastName"]);
+    $email = sanitizeParam($_POST["email"]);
+    $contactNum = sanitizeParam($_POST["contactNum"]);
+    $address = sanitizeParam($_POST["address"]);
+    $username = sanitizeParam($_POST["username"]);
+    $password = md5(sanitizeParam($_POST["password"]));
+    $confirmPassword = sanitizeParam($_POST["confirmPassword"]);
+    $userType = sanitizeParam($_POST["options"]);
+
+    $sql= "SELECT * FROM users WHERE username = '$username'";
+    $checkUserName = mysqli_query($con, $sql);
+    if(mysqli_num_rows($checkUserName)>0) {
+        redirect('register.php?username=err');
+    }
+    $sql= "SELECT * FROM users WHERE email = '$email'";
+    $checkEmail = mysqli_query($con, $sql);
+    if(mysqli_num_rows($checkEmail)>0) {
+        redirect('register.php?email=err');
+    }
+
+    $sql = "INSERT INTO users(firstname, lastname, email, contactNum, address, username, password, type) VALUES
+            ('$firstName','$lastName','$email','$contactNum','$address','$username','$password','$userType')";
+    if(mysqli_query($con, $sql)){
+        $newID = mysqli_insert_id($con);
+        $to = $email;
+        $subject = 'Welcome to TeachMeHow';
+        $from = 'no-reply@teachmehow.me';
+
+// To send HTML mail, the Content-type header must be set
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+// Create email headers
+        $headers .= 'From: '.$from."\r\n".
+            'Reply-To: '.$from."\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+// Compose a simple HTML email message
+        $message = '<html><body>';
+        $message .= '<h2>Welcome!</h2>';
+        $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Your account was created successfully! Please click on the following buttton to verify the account.</p>';
+        $message .= '<a href="https://teachmehow.me/verifyAccount/'.$newID.'" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Verify Account Now</a>';
+        $message .= '</body></html>';
+
+        echo mail($to, $subject, $message, $headers); exit(); die();
+
+// Sending email
+        if(mail($to, $subject, $message, $headers)){
+            redirect('index.php?accountCreated=1');
+        } else{
+            echo 'Unable to send email. Please try again.';exit();die();
+        }
+    }
+}
+function redirect($addr){
+    error_reporting(E_ALL | E_WARNING | E_NOTICE);
+    ini_set('display_errors', TRUE);
+    flush();
+
+    echo '<script>window.location.replace("'.$addr.'");</script>';
+    echo '<script>window.location("'.$addr.'");</script>';
+//    header('Location: '.$addr);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +104,7 @@ $path = ROOT_DIR;
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate method="post" action="index.php?accountCreated=1">
+                  <form class="row g-3 needs-validation1" novalidate method="post" action="">
 
                     <div class="col-md-6">
                       <label for="firstName" class="form-label">First Name</label>
@@ -55,8 +120,11 @@ $path = ROOT_DIR;
 
                     <div class="col-md-6">
                       <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
+                      <input type="email" name="email" class="form-control<?php if(isset($_GET["email"])){echo " border-danger";} ?>" id="yourEmail" required>
                       <div class="invalid-feedback">Please enter a valid Email address!</div>
+                        <?php if(isset($_GET["email"])){ ?>
+                            <div class="text-danger w-100">Email already taken!</div>
+                        <?php } ?>
                     </div>
 
                     <div class="col-md-6">
@@ -74,9 +142,12 @@ $path = ROOT_DIR;
                     <div class="col-md-6">
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <span class="input-group-text<?php if(isset($_GET["username"])){echo " border-danger";} ?>" id="inputGroupPrepend">@</span>
+                        <input type="text" name="username" class="form-control<?php if(isset($_GET["username"])){echo " border-danger";} ?>" id="yourUsername" required>
                         <div class="invalid-feedback">Please choose a username.</div>
+                          <?php if(isset($_GET["username"])){ ?>
+                              <div class="text-danger w-100">Username already taken!</div>
+                          <?php } ?>
                       </div>
                     </div>
 
@@ -90,14 +161,15 @@ $path = ROOT_DIR;
                       <label for="confirmPassword" class="form-label">Confirm Password</label>
                       <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" required>
                       <div class="invalid-feedback">Renter the same password!</div>
+                      <div class="pwdNotMatch text-danger">Password do not match!</div>
                     </div>
 
                     <div class="col-md-12 d-flex align-items-center justify-content-center">
                       <p class="form-label" style="margin-right: 10px!important;">I'm a  </p>
-                        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
+                        <input type="radio" class="btn-check" name="options" value="Instructor" id="option1" autocomplete="off" checked>
                         <label class="btn btn-outline-primary" for="option1" style="margin-right: 10px!important;">Instructor</label>
 
-                        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                        <input type="radio" class="btn-check" name="options" value="Student" id="option2" autocomplete="off">
                         <label class="btn btn-outline-primary" for="option2">Student</label>
                     </div>
 
@@ -109,7 +181,7 @@ $path = ROOT_DIR;
                       </div>
                     </div>
                     <div class="col-md-12">
-                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                      <button class="btn btn-primary w-100" type="submit" name="signUp" id="submitBtn">Create Account</button>
                     </div>
                     <div class="col-md-12">
                       <p class="small mb-0">Already have an account? <a href="<?=$path?>">Log in</a></p>
@@ -142,6 +214,42 @@ $path = ROOT_DIR;
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+
+  <script>
+      $(".pwdNotMatch").hide();
+      var needsValidation = document.querySelectorAll('.needs-validation1')
+
+      Array.prototype.slice.call(needsValidation)
+          .forEach(function(form) {
+              form.addEventListener('submit', function(event) {
+                  if (!form.checkValidity()) {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      $('#submitBtn').text("Create Account");
+                  }
+
+                  if($("#yourPassword").val()!=$("#confirmPassword").val() &&
+                      $("#confirmPassword").val()!=""){
+                      $(".pwdNotMatch").show();
+                      event.preventDefault()
+                      event.stopPropagation()
+                      $('#submitBtn').text("Create Account");
+                  }
+
+                  form.classList.add('was-validated')
+              }, false)
+          })
+
+      $('#submitBtn').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
+  </script>
 
 </body>
 
