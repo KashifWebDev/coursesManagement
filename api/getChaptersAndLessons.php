@@ -10,7 +10,7 @@ if(mysqli_num_rows($res1)){
     ?> <ul class="list-group <?php if(!$publicView) echo "sortable"; ?>" id="lessonsListItems"> <?php
     while ($lessonsRow = mysqli_fetch_array($res1, MYSQLI_ASSOC)){
         $isChap = $lessonsRow["is_chapter"];
-        $chap_class = $isChap ? "fw-bold mt-4 border h5" : "";
+        $chap_class = $isChap ? "fw-bold mt-4" : "fw-light";
         ?>
             <li class="list-group-item <?=$chap_class?>" id="<?=$lessonsRow["id"]?>" <?php if(!$isChap){ ?> onclick="getLessonContent(<?=$lessonsRow["id"]?>)" <?php } ?>>
                 <?php if(!$publicView){ ?> <i class="bi bi-grip-vertical me-3"></i> <?php } ?>

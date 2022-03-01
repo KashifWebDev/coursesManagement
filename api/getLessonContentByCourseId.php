@@ -311,7 +311,7 @@ if(mysqli_num_rows($res)){
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: 100%;
+                height: 68vh;
             }
         </style>
                <div class="videoContainer">

@@ -20,174 +20,174 @@ $courseID = $courseRow["id"];
     ?>
 </head>
 
-<body>
+<body style="background-image: url(https://images.unsplash.com/photo-1491466424936-e304919aada7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80);">
 
-<header id="header" class="header fixed-top row customColors">
+<div style="width: 95%; height: 95vh" class="mx-auto pt-4">
+    <div class="mainDiv text-white h-100 position-relative">
+        <header id="header" class="header m-0 row customColors">
 
-    <div class="col-md-8 d-flex justify-content-end align-items-center">
-<!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
-        <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
-    </div>
-    <div class="col-md-4 header-nav d-flex justify-content-end">
-        <ul class="d-flex align-items-center">
-
-            <li class="nav-item dropdown pe-3">
-
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2 customColors" id="lsnHeading">K. Anderson</span>
-                </a><!-- End Profile Iamge Icon -->
-
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li class="dropdown-header">
-                        <h6>Kevin Anderson</h6>
-                        <span>Web Designer</span>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                            <i class="bi bi-person"></i>
-                            <span>My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                            <i class="bi bi-gear"></i>
-                            <span>Account Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                            <i class="bi bi-question-circle"></i>
-                            <span>Need Help?</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Sign Out</span>
-                        </a>
-                    </li>
-
-                </ul><!-- End Profile Dropdown Items -->
-            </li><!-- End Profile Nav -->
-
-        </ul>
-    </div>
-
-
-</header>
-
-<aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0">
-
-    <div class="row p-2">
-
-        <div class="col-md-12">
-            <img style="max-height: 120px"
-                 id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
-                 alt="Profile" class="w-100">
-        </div>
-
-        <div class="col-md-12 justify-content-center pb-3 customColors">
-            <div class="d-flex justify-content-around align-items-center mb-3">
-                <h3 class="customHeading text-center customColors" id="lsnHeading"></h3>
+            <div class="col-md-8 d-flex justify-content-end align-items-center">
+                <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
+                <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
             </div>
-            <div id="lessonsList">
-                <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <span class="ms-2">Fetching Lessons..</span>
+            <div class="col-md-4 header-nav d-flex justify-content-end">
+                <ul class="d-flex align-items-center">
+
+                    <li class="nav-item dropdown pe-3">
+
+                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                            <span class="d-none d-md-block dropdown-toggle ps-2 customColors" id="lsnHeading">K. Anderson</span>
+                        </a><!-- End Profile Iamge Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                            <li class="dropdown-header">
+                                <h6>Kevin Anderson</h6>
+                                <span>Web Designer</span>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                    <i class="bi bi-person"></i>
+                                    <span>My Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                    <i class="bi bi-gear"></i>
+                                    <span>Account Settings</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                                    <i class="bi bi-question-circle"></i>
+                                    <span>Need Help?</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </li>
+
+                        </ul><!-- End Profile Dropdown Items -->
+                    </li><!-- End Profile Nav -->
+
+                </ul>
+            </div>
+
+
+        </header>
+
+        <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden">
+            <div class="row p-2">
+                <div class="col-md-12">
+                    <img style="max-height: 120px"
+                         id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
+                         alt="Profile" class="w-100">
                 </div>
-                <id id="ChaptersList"></id>
-            </div>
-        </div>
-
-        <div class="siteSignature text-center bg-light" style="position: fixed; bottom: 0; left: 0px; width: 300px;">
-            <div class="d-flex align-items-center justify-content-center">
-                <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
-                <div class="d-flex flex-column ps-2 fw-bold">
-                    <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
-                    <p class="m-0 bottomSignature">TeachMeHow.me</p>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-
-</aside>
-
-<main id="main" class="main pb-0 mb-0" style="height: 85vh;">
-        <div class="card mb-0" style="height: 82%;">
-              <div class="card-body p-2">
-                  <div class="row h-100">
-                      <div class="col-md-12 d-flex flex-column align-items-center h-100">
-                          <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
-                              <div class="spinner-border text-primary" role="status">
-                                  <span class="visually-hidden">Loading...</span>
-                              </div>
-                              <span class="ms-2">Fetching Lessons..</span>
-                          </div>
-                          <div id="courseContent" class="w-100 h-100">
-                              <div class="row justify-content-center h-100">
-                                  <?php
-                                  if($courseRow["access"]=="Registration"){
-                                      echo signUp();
-                                  }
-                                  elseif($courseRow["access"]=="Paid"){
-                                      echo paypal();
-                                  }else{
-                                      echo defaultTxt();
-                                  }
-                                  ?>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        <section class="section" style="position: static">
-          <div class="row">
-            <div class="col-lg-12">
-                <div class="card m-0">
-                    <div class="card-body p-2">
-                        <div class="row">
-                            <div class="col-md-2 d-flex flex-column align-items-center" style="text-align: -webkit-center;">
-                                <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
-                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
-                                <h3 style="font-size: 18px;">Instructor</h3>
+                <div class="col-md-12">
+                    <div class="col-md-12 justify-content-center pb-3 customColors">
+                        <div class="d-flex justify-content-around align-items-center mb-3">
+                            <h3 class="customHeading text-center customColors" id="lsnHeading"></h3>
+                        </div>
+                        <div id="lessonsList">
+                            <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span class="ms-2">Fetching Lessons..</span>
                             </div>
-                            <div class="col-md-10">
-                                <h5 class="card-title">About Instructor</h5>
-                                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
-                                    Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
-                                    odit. Fuga sequi sed ea saepe at unde.</p>
+                            <id id="ChaptersList"></id>
+                        </div>
+                    </div>
+                    <div style="position: absolute; bottom: 0; right: 0; left: 0; height: fit-content;">
+                        <div class="siteSignature text-center bg-light">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
+                                <div class="d-flex flex-column ps-2 fw-bold">
+                                    <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
+                                    <p class="m-0 bottomSignature">TeachMeHow.me</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-          </div>
-        </section>
-  </main>
+        </aside>
 
+        <main id="main" class="main pb-0 mb-0 mt-0" style="height: 86vh; padding-right: 0px !important; padding-left: 0px; padding-top: 0px;">
+            <div class="card mb-0 bg-transparent" style="height: 86.4vh;">
+                <div class="card-body p-2 pt-0 ps-0">
+                    <div class="row h-100">
+                        <div class="col-md-12 d-flex flex-column align-items-center h-100">
+                            <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span class="ms-2">Fetching Lessons..</span>
+                            </div>
+                            <div id="courseContent" class="w-100 h-100">
+                                <div class="row justify-content-center h-100">
+                                    <?php
+                                    if($courseRow["access"]=="Registration"){
+                                        echo signUp();
+                                    }
+                                    elseif($courseRow["access"]=="Paid"){
+                                        echo paypal();
+                                    }else{
+                                        echo defaultTxt();
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section class="section col-md-12" style="position: absolute; bottom: 0;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card m-0" style="border-radius: 0px">
+                                        <div class="card-body p-2">
+                                            <div class="row">
+                                                <div class="col-md-2 d-flex flex-column align-items-center" style="text-align: -webkit-center;">
+                                                    <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
+                                                    <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
+                                                    <h3 style="font-size: 18px;">Instructor</h3>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <h5 class="card-title">About Instructor</h5>
+                                                    <p class="small fst-italic text-dark">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
+                                                        Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
+                                                        odit. Fuga sequi sed ea saepe at unde.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
 
 <!-- Vendor JS Files -->
 <script src="<?=$path?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
