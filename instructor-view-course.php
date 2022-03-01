@@ -438,14 +438,14 @@
                                   </button>
                               </div>
                               <div class="col-md-9">
-                                  <div class="col-md-12 justify-content-center">
+                                  <div class="col-md-12 justify-content-center h-100">
                                       <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
                                           <div class="spinner-border text-primary" role="status">
                                               <span class="visually-hidden">Loading...</span>
                                           </div>
                                           <span class="ms-2">Fetching Lessons..</span>
                                       </div>
-                                      <div id="courseContent">
+                                      <div id="courseContent" class="h-100">
                                           <div id="placeholderIcon" class="d-flex align-items-center justify-content-center">
                                               <div class="container-fluid p-5 text-white text-center h-100 d-flex flex-column justify-content-center customColors">
                                                   <h1 class="customColors">Start adding new lessons to the course!</h1>
@@ -1105,7 +1105,7 @@
 
       <?php
         $cls = $courseRow["page_background_type"]=="color" ? "selectBgClr" : "selectBgImg";
-        echo '$( "#selectBgClr" ).show();';
+        echo '$( "#'.$cls.'" ).show();';
       ?>
 
       $('input[name="bgType"]').change(function() {

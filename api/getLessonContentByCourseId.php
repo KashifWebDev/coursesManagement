@@ -946,7 +946,7 @@ if(mysqli_num_rows($res)){
                 </div>
             </div>
             <?php } ?>
-            <div class="row">
+            <div class="row h-100">
                 <div class="col-md-12">
                     <?php if(strpos($content,".pdf") !== false){ ?>
 

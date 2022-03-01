@@ -144,14 +144,14 @@ $courseID = $courseRow["id"];
             <div class="card mb-0 bg-transparent" style="height: 86.4vh;">
                 <div class="card-body p-2 pt-0 ps-0">
                     <div class="row h-100">
-                        <div class="col-md-12 d-flex flex-column align-items-center h-100">
+                        <div class="col-md-12 d-flex flex-column align-items-center h-100 customColors">
                             <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
                                 <div class="spinner-border text-primary" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                                 <span class="ms-2">Fetching Lessons..</span>
                             </div>
-                            <div id="courseContent" class="w-100 h-100 customColors">
+                            <div id="courseContent" class="w-100 customColors" style="height: 70vh;">
                                 <div class="row justify-content-center h-100 customColors">
                                     <?php
                                     if($courseRow["access"]=="Registration"){

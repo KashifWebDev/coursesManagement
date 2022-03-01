@@ -2,7 +2,7 @@
 const ROOT_DIR = "./";
 
 $con = mysqli_connect("localhost","root","","project_course");
-//$con = mysqli_connect("localhost","j18jocnn_18joris","CPvvGapgy)Oy","j18jocnn_18jor");
+//$con = mysqli_connect("localhost","spacezz_courses","spacezz_courses@123","spacezz_courses");
 
 // Check connections
 if (mysqli_connect_errno()) {
