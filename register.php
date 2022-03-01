@@ -48,8 +48,6 @@ if (isset($_POST["signUp"])){
         $message .= '<a href="https://teachmehow.me/verifyAccount/'.$newID.'" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Verify Account Now</a>';
         $message .= '</body></html>';
 
-        echo mail($to, $subject, $message, $headers); exit(); die();
-
 // Sending email
         if(mail($to, $subject, $message, $headers)){
             redirect('index.php?accountCreated=1');

@@ -1,7 +1,26 @@
 <?php
+$loginPage = true;
 require_once "includes/app.php";
 require_once "includes/functions.php";
 $path = ROOT_DIR;
+if(isset($_POST["login"])){
+    $email = sanitizeParam($_POST["username"]);
+    $pass = md5(sanitizeParam($_POST["password"]));
+    $s = "SELECT * FROM users WHERE (email='$email' OR username='$email') AND password='$pass'";
+//    echo $s; exit(); die();
+    $qry = mysqli_query($con, $s);
+    if(mysqli_num_rows($qry)>0){
+        $email = sanitizeParam($_POST["username"]);
+        $row = mysqli_fetch_array($qry);
+        $_SESSION["firstName"] = $row["firstname"];
+        $_SESSION["fullName"] = $row["firstname"].' '.$row["lastname"];
+        $_SESSION["role"] = $row["type"];
+        header('Location: instructorDashboard.php');
+    }else{
+        header('Location: index.php?login=failed');
+    }
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +56,30 @@ $path = ROOT_DIR;
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                 <?php } ?>
+                <?php if(isset($_GET["reset"])){ ?>
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"></use></svg>
+                        <div>
+                            <b>Welcome Back!</b> Your password was reset successfully!
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php if(isset($_GET["sessionOut"])){ ?>
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"></use></svg>
+                        <div>
+                            <b>Session Out!</b> Plese login again to continue..!
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php if(isset($_GET["login"]) && $_GET["login"]=="failed"){ ?>
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"></use></svg>
+                        <div>
+                            <b>Login Failed!</b> Invalid email or password! Please try again.
+                        </div>
+                    </div>
+                <?php } ?>
 
               <div class="d-flex justify-content-center">
                 <a href="<?=$path?>" class="logo d-flex align-items-center w-auto">
@@ -57,10 +100,10 @@ $path = ROOT_DIR;
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate action="instructorDashboard.php" method="post">
+                  <form class="row g-3 needs-validation1" novalidate action="" method="post">
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
+                      <label for="yourUsername" class="form-label">Email/Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
                         <input type="text" name="username" class="form-control" id="yourUsername" required>
@@ -70,7 +113,7 @@ $path = ROOT_DIR;
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="passwword" class="form-control" id="yourPassword" required>
+                      <input type="password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -81,7 +124,7 @@ $path = ROOT_DIR;
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                      <button class="btn btn-primary w-100" type="submit" id="submitBtn1" name="login">Login</button>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Don't have account? <a href="register.php">Create an account</a></p>
@@ -115,6 +158,34 @@ $path = ROOT_DIR;
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+
+
+  <script>
+      var needsValidation = document.querySelectorAll('.needs-validation1')
+
+      Array.prototype.slice.call(needsValidation)
+          .forEach(function(form) {
+              form.addEventListener('submit', function(event) {
+                  if (!form.checkValidity()) {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      $('#submitBtn1').text("Login");
+                  }
+
+                  form.classList.add('was-validated')
+              }, false)
+          })
+
+      $('#submitBtn1').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
+  </script>
 
 </body>
 

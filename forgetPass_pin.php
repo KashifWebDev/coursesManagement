@@ -2,51 +2,20 @@
 require_once "includes/app.php";
 require_once "includes/functions.php";
 $path = ROOT_DIR;
+$id = sanitizeParam($_GET["id"]);
+
+$s = "SELECT * FROM `forgetpass` forgetpass ORDER BY ID DESC LIMIT 1";
+$qry = mysqli_query($con, $s);
+$row = mysqli_fetch_array($qry);
+$pinOnServer = $row["code"];
+$userID = $row["user_id"];
+
 if(isset($_POST["resetPass"])){
-    $email = sanitizeParam($_POST["email"]);
-    $s = "SELECT * FROM users WHERE email='$email'";
-    $qry = mysqli_query($con, $s);
-    if(!mysqli_num_rows($qry)){
-        redirect('forgetPass.php?msg=NotFound');
-    }
-    $userRow = mysqli_fetch_array($qry);
-
-    $code = rand(600000, 699999);
-    $userID = $userRow["id"];
-    $userName = $userRow["firstname"].' '.$userRow["lastname"];
-
-    $s = "INSERT INTO forgetpass (user_id, code) VALUES ($userID, $code)";
-    if(mysqli_query($con, $s)){
-        $newID = mysqli_insert_id($con);
-        $to = $userRow["email"];
-        $subject = 'Password Reset Request - TeachMeHow';
-        $from = 'no-reply@teachmehow.me';
-
-// To send HTML mail, the Content-type header must be set
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-// Create email headers
-        $headers .= 'From: '.$from."\r\n".
-            'Reply-To: '.$from."\r\n" .
-            'X-Mailer: PHP/' . phpversion();
-
-// Compose a simple HTML email message
-        $message = '<html><body>';
-        $message .= '<h2>Dear '.$userName.'!</h2>';
-        $message .= '<p style="font-size:18px;margin-left: 15px;">It is to inform you that, a password reset request was received for your account. Please note the following OTP in order to proceed.</p>';
-        $message .= '<p style="font-size:18px;margin-left: 15px; font-style: italic">If it was not you, please don\t share the OTP with any one and ignore this mail.</p>';
-        $message .= '<p style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;width: fit-content;">'.$code.'</a>';
-        $message .= '</body></html>';
-
-
-// Sending email
-        if(mail($to, $subject, $message, $headers)){
-            redirect('forgetPass_pin.php?id='.$newID);
-        } else{
-            echo 'Unable to send email. Please try again.';exit();die();
-        }
-        header('Location: forgetPass.php?msg=Done');
+    $otp = sanitizeParam($_POST["otp"]);
+    if($pinOnServer==$otp){
+        redirect("forgetPass_resetPass.php?id=$userID");
+    }else{
+        redirect("forgetPass_pin.php?id=$id&msg=NotFound");
     }
 }
 
@@ -59,6 +28,7 @@ function redirect($addr){
     echo '<script>window.location("'.$addr.'");</script>';
 //    header('Location: '.$addr);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,7 +63,7 @@ function redirect($addr){
 
                 <?php if(isset($_GET["msg"]) && $_GET["msg"]=="NotFound"){ ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        No user were found! Please provide a registered email!
+                        OTP was not matched. Please try again!
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <?php } ?>
@@ -104,29 +74,29 @@ function redirect($addr){
 
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Reset Your password</h5>
-                    <p class="text-center small">Please enter your email to reset your password</p>
+                    <p class="text-center small">Please enter OTP we sent you on registered Email</p>
                   </div>
 
                   <form class="row g-3 needs-validation" novalidate action="" method="post">
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Email</label>
+                      <label for="yourUsername" class="form-label">OTP</label>
                       <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="email" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please enter your email.</div>
+                        <span class="input-group-text" id="inputGroupPrepend">#</span>
+                        <input type="number" name="otp" class="form-control" id="yourUsername" required>
+                        <div class="invalid-feedback">Please enter OTP</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit" name="resetPass">
                           <i class="bi bi-unlock-fill me-2"></i>
-                          Reset Password
+                          Continue
                       </button>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Don't have account? <a href="register.php">Create an account</a></p>
-                      <p class="small mb-0">Already have account? <a href="index.php">Login</a></p>
+                      <p class="small mb-0">Forgot Password? <a href="register.php">Reset Your Password Now</a></p>
                     </div>
                   </form>
 
