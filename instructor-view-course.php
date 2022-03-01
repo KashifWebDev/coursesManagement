@@ -974,6 +974,9 @@
                               <input class="form-control" type="file" id="formFile" name="fileToUpload">
                           </div>
                       </div>
+                      <div class="d-flex justify-content-end me-5">
+                          <img src="assets/img/course-bg/<?=$courseRow["page_background_image"]?>" alt="Background Image" height="100px;">
+                      </div>
                       <div class="row mb-3" id="selectBgClr">
                           <label for="inputColor" class="col-sm-6 col-form-label">Page Background Color</label>
                           <div class="col-sm-6">
