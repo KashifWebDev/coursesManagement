@@ -19,8 +19,16 @@ $courseID = $courseRow["id"];
     require "includes/head.inc.php";
     ?>
 </head>
-
-<body style="background-image: url(https://images.unsplash.com/photo-1491466424936-e304919aada7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80);">
+<?php
+ if($courseRow["page_background_type"]=="image"){
+     $bgImg = $courseRow["page_background_image"];
+     $style = "background-image: url('assets/img/course-bg/$bgImg');";
+ }else{
+     $bgClr = $courseRow["page_background_color"];
+     $style = "background-color: $bgClr";
+ }
+?>
+<body style="<?=$style?>">
 
 <div style="width: 95%; height: 95vh" class="mx-auto pt-4">
     <div class="mainDiv text-white h-100 position-relative">
@@ -96,13 +104,13 @@ $courseID = $courseRow["id"];
         </header>
 
         <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden">
-            <div class="row p-2">
-                <div class="col-md-12">
+            <div class="d-flex flex-column h-100 p-2 pe-0 pb-0" style="height: 92.6vh">
+                <div class="w-100">
                     <img style="max-height: 120px"
                          id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
                          alt="Profile" class="w-100">
                 </div>
-                <div class="col-md-12">
+                <div class="w-100">
                     <div class="col-md-12 justify-content-center pb-3 customColors">
                         <div class="d-flex justify-content-around align-items-center mb-3">
                             <h3 class="customHeading text-center customColors" id="lsnHeading"></h3>
@@ -117,14 +125,14 @@ $courseID = $courseRow["id"];
                             <id id="ChaptersList"></id>
                         </div>
                     </div>
-                    <div style="position: absolute; bottom: 0; right: 0; left: 0; height: fit-content;">
-                        <div class="siteSignature text-center bg-light">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
-                                <div class="d-flex flex-column ps-2 fw-bold">
-                                    <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
-                                    <p class="m-0 bottomSignature">TeachMeHow.me</p>
-                                </div>
+                </div>
+                <div class="w-100 mt-auto" style="; height: fit-content;">
+                    <div class="siteSignature text-center bg-light">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
+                            <div class="d-flex flex-column ps-2 fw-bold">
+                                <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
+                                <p class="m-0 bottomSignature">TeachMeHow.me</p>
                             </div>
                         </div>
                     </div>

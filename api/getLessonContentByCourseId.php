@@ -7,6 +7,10 @@ $courseID = sanitizeParam($_POST["courseID"]);
 $lessonID = sanitizeParam($_POST["lessonID"]);
 $publicView = isset($_POST["publicView"]) && $_POST["publicView"] ? 1 : 0;
 
+$s = "SELECT * FROM courses WHERE id=$courseID";
+$res = mysqli_query($con, $s);
+$courseRow = mysqli_fetch_array($res);
+
 $s = "SELECT * FROM lessons WHERE course_id=$courseID AND id=$lessonID";
 $res = mysqli_query($con, $s);
 if(mysqli_num_rows($res)){
@@ -614,10 +618,31 @@ if(mysqli_num_rows($res)){
             </div>
             <?php } ?>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 textBckColor" style="height: 69vh; overflow-y: auto;">
                     <?=$content?>
                 </div>
             </div>
+        <style>
+            ::-webkit-scrollbar {
+                height: 12px;
+                width: 12px;
+                background: <?=$courseRow["back_clr"];?>;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: <?=$courseRow["front_clr"];?>;
+                -webkit-border-radius: 1ex;
+                -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+            }
+
+            ::-webkit-scrollbar-corner {
+                background: #000;
+            }
+            .textBckColor{
+                background-color: <?=$courseRow["back_clr"];?>;
+            }
+
+        </style>
         <?php  echo loadScripts(); ?>
         <script>$( "#lesssonType_15" ).show();</script>
 <?php

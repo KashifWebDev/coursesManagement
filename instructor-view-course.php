@@ -144,12 +144,48 @@
 
         $back = sanitizeParam($_POST["back"]);
         $front = sanitizeParam($_POST["front"]);
+        $bgType = sanitizeParam($_POST["bgType"]);
 
-        $s = "UPDATE courses SET back_clr='$back', front_clr='$front'
-                WHERE id=$courseID ";
-//        echo $s; exit(); die();
-        if(mysqli_query($con, $s)){
-            header('Location: instructor-view-course.php?courseID='.$courseID);
+        if($bgType=="image"){
+            $target_dir = "assets/img/course-bg/";
+            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $fileName = $_FILES["fileToUpload"]["name"];
+            // Check file size
+            if ($_FILES["fileToUpload"]["size"] > 10000000) {
+                $uploadErrMsg = "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+            if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
+                strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
+                || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
+                $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
+                $uploadOk = 0;
+            }
+
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo "<script>alert('".$uploadErrMsg."');</script>";
+            } else {
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                    $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='image',
+                          page_background_image='$fileName' WHERE id=$courseID ";
+                    if(mysqli_query($con, $s)){
+                        header('Location: instructor-view-course.php?courseID='.$courseID);
+                    }
+                } else {
+                    echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+                }
+            }
+        }
+        if($bgType=="color"){
+            $bgColor = sanitizeParam($_POST["bgColor"]);
+            $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='color',
+                          page_background_color='$bgColor' WHERE id=$courseID ";
+            if(mysqli_query($con, $s)){
+                header('Location: instructor-view-course.php?courseID='.$courseID);
+            }
         }
     }
 
@@ -293,6 +329,7 @@
     $s = "SELECT * FROM courses WHERE id=$courseID";
     $res = mysqli_query($con, $s);
     $courseRow = mysqli_fetch_array($res);
+//    print_r($courseRow);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -320,7 +357,7 @@
           <div class="card-body p-2">
               <div class="row">
                   <div class="col-md-3 d-flex flex-column align-items-center">
-                      <form action="" method="post" id="image_upload_form"  enctype="multipart/form-data">
+                      <form action="" method="post" id="image_upload_form" enctype="multipart/form-data">
                           <div class="course-img-container w-100 h-100">
                               <img id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail h-100 w-100">
                               <button type="button" id="courseImageChange" class="btn btn-primary w-75">
@@ -903,27 +940,53 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                  <form action="" method="post">
+                  <form action="" method="post" enctype="multipart/form-data">
                       <div class="row mb-3">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Background Color</label>
+                          <label for="inputColor" class="col-sm-6 col-form-label">Menu Background Color</label>
                           <div class="col-sm-6">
                               <input type="color" name="back" class="form-control form-control-color"
                                      id="bgcolor" value="<?=$courseRow["back_clr"]?>" title="Choose your color">
                           </div>
                       </div>
                       <div class="row mb-3">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Text Color</label>
+                          <label for="inputColor" class="col-sm-6 col-form-label">Menu Text Color</label>
                           <div class="col-sm-6">
                               <input type="color" name="front"
                                      class="form-control form-control-color" id="frontColor" value="<?=$courseRow["front_clr"]?>" title="Choose your color">
                           </div>
                       </div>
+                      <div class="row mb-3">
+                          <label for="inputColor" class="col-sm-6 col-form-label">Background Type</label>
+                          <div class="col-sm-6">
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="bgType" id="inlineRadio2" value="color" <?php if($courseRow["page_background_type"]=="color") echo "checked"; ?>>
+                                  <label class="form-check-label" for="inlineRadio2">Color</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="bgType" id="inlineRadio1" value="image" <?php if($courseRow["page_background_type"]=="image") echo "checked"; ?>>
+                                  <label class="form-check-label" for="inlineRadio1">Image</label>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row mb-3" id="selectBgImg">
+                          <label for="inputNumber" class="col-sm-6 col-form-label">Select Image</label>
+                          <div class="col-sm-6">
+                              <input class="form-control" type="file" id="formFile" name="fileToUpload">
+                          </div>
+                      </div>
+                      <div class="row mb-3" id="selectBgClr">
+                          <label for="inputColor" class="col-sm-6 col-form-label">Page Background Color</label>
+                          <div class="col-sm-6">
+                              <input type="color" name="bgColor"
+                                     class="form-control form-control-color" id="frontColor" value="<?=$courseRow["page_background_color"]?>" title="Choose your color">
+                          </div>
+                      </div>
                       <hr>
                       <div class="row justify-content-center">
                           <div class="col-md-6">
-                              <button class="btn btn-primary w-100" id="submitBtn" name="saveColors">
+                              <button class="btn btn-primary w-100 submitBtn" id="submitBtn" name="saveColors">
                                   <i class="ri-save-fill me-2"></i>
-                                  Save Colors
+                                  Save Configurations
                               </button>
                           </div>
                       </div>
@@ -1034,6 +1097,26 @@
           }
           else if (this.value == 'text') {
               $( "#lesssonType_5" ).show();
+          }
+      });
+
+      $( "#selectBgImg" ).hide();
+      $( "#selectBgClr" ).hide();
+
+      <?php
+        $cls = $courseRow["page_background_type"]=="color" ? "selectBgClr" : "selectBgImg";
+        echo '$( "#selectBgClr" ).show();';
+      ?>
+
+      $('input[name="bgType"]').change(function() {
+          console.log(this.value);
+          if (this.value == 'image') {
+              $( "#selectBgImg" ).show();
+              $( "#selectBgClr" ).hide();
+          }
+          else{
+              $( "#selectBgImg" ).hide();
+              $( "#selectBgClr" ).show();
           }
       });
 
