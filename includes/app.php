@@ -13,7 +13,6 @@ if (mysqli_connect_errno()) {
 
 $GLOBALS["con"] = $con;
 
-
 function sanitizeParam($param){
     $con = $GLOBALS["con"];
     $param = $con->real_escape_string($param);
