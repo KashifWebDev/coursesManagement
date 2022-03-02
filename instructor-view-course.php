@@ -141,49 +141,64 @@ validateSession();
         }
     }
 
-    if(isset($_POST["saveColors"])){;
+    if(isset($_POST["saveColors"])){
 
         $back = sanitizeParam($_POST["back"]);
         $front = sanitizeParam($_POST["front"]);
         $bgType = sanitizeParam($_POST["bgType"]);
+        $txtLessonBackground = sanitizeParam($_POST["txtLessonBackground"]);
+        $courseTitleBg = sanitizeParam($_POST["courseTitleBg"]);
+        $courseTitleFg = sanitizeParam($_POST["courseTitleFg"]);
 
         if($bgType=="image"){
-            $target_dir = "assets/img/course-bg/";
-            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $fileName = $_FILES["fileToUpload"]["name"];
-            // Check file size
-            if ($_FILES["fileToUpload"]["size"] > 10000000) {
-                $uploadErrMsg = "Sorry, your file is too large.";
-                $uploadOk = 0;
-            }
-            if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
-                strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
-                || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
-                $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
-                $uploadOk = 0;
-            }
+            if (empty($_FILES['fileToUpload']['name'])) {
+                $fileName = sanitizeParam($_POST["selectedImg"]);
+                $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='image',
+                          page_background_image='$fileName', txtLessonBackground='$txtLessonBackground', courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg'
+                            WHERE id=$courseID ";
+                if(mysqli_query($con, $s)){
+                    header('Location: instructor-view-course.php?courseID='.$courseID);
+                }
+            }else{
+                $target_dir = "assets/img/course-bg/";
+                $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $uploadOk = 1;
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                $fileName = $_FILES["fileToUpload"]["name"];
+                // Check file size
+                if ($_FILES["fileToUpload"]["size"] > 10000000) {
+                    $uploadErrMsg = "Sorry, your file is too large.";
+                    $uploadOk = 0;
+                }
+                if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
+                    strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
+                    || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
+                    $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
+                    $uploadOk = 0;
+                }
 
-            // Check if $uploadOk is set to 0 by an error
-            if ($uploadOk == 0) {
-                echo "<script>alert('".$uploadErrMsg."');</script>";
-            } else {
-                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                    $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='image',
-                          page_background_image='$fileName' WHERE id=$courseID ";
-                    if(mysqli_query($con, $s)){
-                        header('Location: instructor-view-course.php?courseID='.$courseID);
-                    }
+                // Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                    echo "<script>alert('".$uploadErrMsg."');</script>";
                 } else {
-                    echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='image',
+                          page_background_image='$fileName', txtLessonBackground='$txtLessonBackground',
+                        courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg' WHERE id=$courseID ";
+                        if(mysqli_query($con, $s)){
+                            header('Location: instructor-view-course.php?courseID='.$courseID);
+                        }
+                    } else {
+                        echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+                    }
                 }
             }
         }
         if($bgType=="color"){
             $bgColor = sanitizeParam($_POST["bgColor"]);
             $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='color',
-                          page_background_color='$bgColor' WHERE id=$courseID ";
+                          page_background_color='$bgColor', txtLessonBackground='$txtLessonBackground',
+                            courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg' WHERE id=$courseID ";
             if(mysqli_query($con, $s)){
                 header('Location: instructor-view-course.php?courseID='.$courseID);
             }
@@ -957,6 +972,27 @@ validateSession();
                           </div>
                       </div>
                       <div class="row mb-3">
+                          <label for="inputColor" class="col-sm-6 col-form-label">Course Title Background</label>
+                          <div class="col-sm-6">
+                              <input type="color" name="courseTitleBg"
+                                     class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["courseTitleBg"]?>" title="Choose your color">
+                          </div>
+                      </div>
+                      <div class="row mb-3">
+                          <label for="inputColor" class="col-sm-6 col-form-label">Course Title Foreground</label>
+                          <div class="col-sm-6">
+                              <input type="color" name="courseTitleFg"
+                                     class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["courseTitleFg"]?>" title="Choose your color">
+                          </div>
+                      </div>
+                      <div class="row mb-3">
+                          <label for="inputColor" class="col-sm-6 col-form-label">Text Lesson Background</label>
+                          <div class="col-sm-6">
+                              <input type="color" name="txtLessonBackground"
+                                     class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["txtLessonBackground"]?>" title="Choose your color">
+                          </div>
+                      </div>
+                      <div class="row mb-3">
                           <label for="inputColor" class="col-sm-6 col-form-label">Background Type</label>
                           <div class="col-sm-6">
                               <div class="form-check form-check-inline">
@@ -976,6 +1012,7 @@ validateSession();
                           </div>
                       </div>
                       <div class="d-flex justify-content-end me-5">
+                          <input type="hidden" value="<?=$courseRow["page_background_image"]?>" name="selectedImg">
                           <img src="assets/img/course-bg/<?=$courseRow["page_background_image"]?>" alt="Background Image" height="100px;">
                       </div>
                       <div class="row mb-3" id="selectBgClr">

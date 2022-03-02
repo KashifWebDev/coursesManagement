@@ -33,7 +33,7 @@ $courseID = $courseRow["id"];
 
 <div style="width: 95%; height: 95vh" class="mx-auto pt-4">
     <div class="mainDiv text-white h-100 position-relative">
-        <header id="header" class="header m-0 row customColors">
+        <header id="header" class="header m-0 row titleColors">
 
             <div class="col-md-8 d-flex justify-content-end align-items-center">
                 <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
@@ -46,7 +46,7 @@ $courseID = $courseRow["id"];
 
                         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                            <span class="d-none d-md-block dropdown-toggle ps-2 customColors" id="lsnHeading">K. Anderson</span>
+                            <span class="d-none d-md-block dropdown-toggle ps-2 titleColors">K. Anderson</span>
                         </a><!-- End Profile Iamge Icon -->
 
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -152,7 +152,7 @@ $courseID = $courseRow["id"];
                         <span class="ms-2">Fetching Lessons..</span>
                     </div>
                     <div id="courseContent" class="w-100 customColors" style="height: 100%">
-                        <div class="row justify-content-center h-100 customColors">
+                        <div class="row justify-content-center h-100 customColors w-100">
                             <?php
                             if($courseRow["access"]=="Registration"){
                                 echo signUp();
@@ -295,7 +295,9 @@ $courseID = $courseRow["id"];
     function implementColors() {
         $('.customColors').css('background-color', '<?=$courseRow["back_clr"]?>');
         $('.list-group-item').css('background-color', '<?=$courseRow["back_clr"]?>');
+        $('.titleColors').css('background-color', '<?=$courseRow["courseTitleBg"]?>');
 
+        $('.titleColors').css('color', '<?=$courseRow["courseTitleFg"]?>');
         $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
         $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
         $('.bottomSignature').css('color', '<?=$courseRow["back_clr"]?>');

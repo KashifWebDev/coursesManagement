@@ -637,9 +637,11 @@ if(mysqli_num_rows($res)){
             ::-webkit-scrollbar-corner {
                 background: #000;
             }
+            <?php if(!is_null($courseRow["txtLessonBackground"])){ ?>
             .textBckColor{
-                background-color: <?=$courseRow["back_clr"];?>;
+                background-color: <?=$courseRow["txtLessonBackground"];?>;
             }
+            <?php } ?>
 
         </style>
         <?php  echo loadScripts(); ?>

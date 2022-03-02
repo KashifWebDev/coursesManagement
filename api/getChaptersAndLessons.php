@@ -12,7 +12,7 @@ if(mysqli_num_rows($res1)){
         $isChap = $lessonsRow["is_chapter"];
         $chap_class = $isChap ? "fw-bold mt-4" : "fw-light ms-2";
         ?>
-            <li class="list-group-item <?=$chap_class?>" id="<?=$lessonsRow["id"]?>" <?php if(!$isChap){ ?> onclick="getLessonContent(<?=$lessonsRow["id"]?>)" <?php } ?>>
+            <li class="list-group-item border-0 <?=$chap_class?>" id="<?=$lessonsRow["id"]?>" <?php if(!$isChap){ ?> onclick="getLessonContent(<?=$lessonsRow["id"]?>)" <?php } ?>>
                 <?php if(!$publicView){ ?> <i class="bi bi-grip-vertical me-3" style=""></i> <?php } ?>
                 <?php if($publicView && !$isChap){ ?> <i class="bi bi-circle me-3" style="font-size: 6px; margin-right: 8px; line-height: 0; border-radius: 50%;"></i> <?php } ?>
                 <?=$lessonsRow["name"]?>
