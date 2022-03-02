@@ -307,15 +307,14 @@ if(mysqli_num_rows($res)){
             .videoContainer {
                 position: relative;
                 width: 100%;
-                height: 0;
-                padding-bottom: 56.25%;
+                height: 100%;
             }
             .video {
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: 68vh;
+                height: 100%;
             }
         </style>
                <div class="videoContainer">
@@ -617,8 +616,8 @@ if(mysqli_num_rows($res)){
                 </div>
             </div>
             <?php } ?>
-            <div class="row">
-                <div class="col-md-12 textBckColor" style="height: 69vh; overflow-y: auto;">
+            <div class="row h-100">
+                <div class="col-md-12 textBckColor h-100" style="overflow-y: auto;">
                     <?=$content?>
                 </div>
             </div>

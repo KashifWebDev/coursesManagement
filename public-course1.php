@@ -105,8 +105,8 @@ $courseID = $courseRow["id"];
         </header>
 
         <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden">
-            <div class="d-flex flex-column h-100 p-2 pe-0 pb-0" style="height: 92.6vh">
-                <div class="w-100">
+            <div class="d-flex flex-column h-100 pe-0 pb-0">
+                <div class="w-100 sticky-top">
                     <img style="max-height: 120px"
                          id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
                          alt="Profile" class="w-100">
@@ -127,7 +127,7 @@ $courseID = $courseRow["id"];
                         </div>
                     </div>
                 </div>
-                <div class="w-100 mt-auto" style="; height: fit-content;">
+                <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
                     <div class="siteSignature text-center bg-light">
                         <div class="d-flex align-items-center justify-content-center">
                             <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
@@ -141,58 +141,54 @@ $courseID = $courseRow["id"];
             </div>
         </aside>
 
-        <main id="main" class="main pb-0 mb-0 mt-0" style="height: 86vh; padding-right: 0px !important; padding-left: 0px; padding-top: 0px;">
-            <div class="card mb-0 bg-transparent" style="height: 88.4vh;">
-                <div class="card-body p-2 pt-0 ps-0">
-                    <div class="row h-100">
-                        <div class="col-md-12 d-flex flex-column align-items-center h-100 customColors">
-                            <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <span class="ms-2">Fetching Lessons..</span>
-                            </div>
-                            <div id="courseContent" class="w-100 customColors" style="height: 70vh;">
-                                <div class="row justify-content-center h-100 customColors">
-                                    <?php
-                                    if($courseRow["access"]=="Registration"){
-                                        echo signUp();
-                                    }
-                                    elseif($courseRow["access"]=="Paid"){
-                                        echo paypal();
-                                    }else{
-                                        echo defaultTxt();
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
+        <main id="main" class="main pb-0 mb-0 mt-0" style="padding-right: 0px !important; padding-left: 0px; padding-top: 0px; position: absolute; left: 0; right: 0; top: 60px; bottom: 0;">
 
-                        <section class="section col-md-12" style="position: absolute; bottom: 0;">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="card m-0" style="border-radius: 0px">
-                                        <div class="card-body p-2">
-                                            <div class="row">
-                                                <div class="col-md-2 d-flex flex-column align-items-center" style="text-align: -webkit-center;">
-                                                    <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
-                                                    <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
-                                                    <h3 style="font-size: 18px;">Instructor</h3>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <h5 class="card-title">About Instructor</h5>
-                                                    <p class="small fst-italic text-dark">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
-                                                        Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
-                                                        odit. Fuga sequi sed ea saepe at unde.</p>
-                                                </div>
-                                            </div>
+            <div class="d-flex flex-column h-100">
+                <div class="customColors" style="height: 80%;">
+                    <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span class="ms-2">Fetching Lessons..</span>
+                    </div>
+                    <div id="courseContent" class="w-100 customColors" style="height: 100%">
+                        <div class="row justify-content-center h-100 customColors">
+                            <?php
+                            if($courseRow["access"]=="Registration"){
+                                echo signUp();
+                            }
+                            elseif($courseRow["access"]=="Paid"){
+                                echo paypal();
+                            }else{
+                                echo defaultTxt();
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <section class="section col-md-12" style="height: 20%;">
+                    <div class="row h-100">
+                        <div class="col-lg-12 h-100">
+                            <div class="card m-0  h-100" style="border-radius: 0px">
+                                <div class="card-body p-2">
+                                    <div class="align-items-center h-100 row">
+                                        <div class="col-md-2 d-flex flex-column align-items-center" style="text-align: -webkit-center;">
+                                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
+                                            <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
+                                            <h3 style="font-size: 18px;">Instructor</h3>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <h5 class="card-title">About Instructor</h5>
+                                            <p class="small fst-italic text-dark">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
+                                                Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
+                                                odit. Fuga sequi sed ea saepe at unde.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
                     </div>
-                </div>
+                </section>
             </div>
         </main>
     </div>

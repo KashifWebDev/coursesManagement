@@ -1127,3 +1127,9 @@ button#courseImageChange{
 ul#lessonsListItems li:hover{
   cursor: pointer;
 }
+.sticky-bottom {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  z-index: 1020;
+}
