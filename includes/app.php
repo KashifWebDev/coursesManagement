@@ -2,12 +2,6 @@
 session_start();
 const ROOT_DIR = "./";
 
-if(!isset($loginPage)){
-    if(!isset($_SESSION["fullName"])){
-        header('Location: index.php?sessionOut=true');
-    }
-}
-
 $con = mysqli_connect("localhost","root","","project_course");
 //$con = mysqli_connect("localhost","spacezz_courses","spacezz_courses@123","spacezz_courses");
 
@@ -24,4 +18,10 @@ function sanitizeParam($param){
     $con = $GLOBALS["con"];
     $param = $con->real_escape_string($param);
     return $param;
+}
+
+function validateSession(){
+    if(!isset($_SESSION["fullName"])){
+        header('Location: index.php?sessionOut=true');
+    }
 }

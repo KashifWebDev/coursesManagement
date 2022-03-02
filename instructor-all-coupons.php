@@ -1,5 +1,6 @@
 <?php
     require_once "includes/app.php";
+validateSession();
     require_once "includes/functions.php";
     $path = ROOT_DIR;
 ?>
