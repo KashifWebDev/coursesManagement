@@ -433,13 +433,16 @@ if($courseRow["page_background_type"]=="image"){
             <div class="col-md-4 header-nav d-flex justify-content-end">
                 <ul class="d-flex align-items-center">
 
-                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#draftCourseModel">
+                    <button class="btn btn-primary btn-outline-dark customColors" data-bs-toggle="modal" data-bs-target="#colorPickerModal">
+                        <i class="bi bi-palette"></i>
+                    </button>
+                    <button class="btn btn-secondary ms-2" data-bs-toggle="modal" data-bs-target="#draftCourseModel">
                         <i class="ri-save-3-line me-1"></i>
                     </button>
                     <button class="btn btn-primary ms-2"  data-bs-toggle="modal" data-bs-target="#editCourse">
                         <i class="bi bi-pencil-fill me-1"></i>
                     </button>
-                    <a target="_blank" class="btn btn-info text-white ms-1" href="course-<?=$courseRow["courseID"]?>">
+                    <a target="_blank" class="btn btn-info text-white ms-2" href="course-<?=$courseRow["courseID"]?>">
                         <i class="bi bi-eye-fill"></i>
                     </a>
 
