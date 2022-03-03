@@ -18,19 +18,66 @@ if(mysqli_num_rows($res)){
     $content = $url = isset($row["content"]) ? $row["content"] : "";
     $name = isset($row["name"]) ? $row["name"] : "";
 
+    if($row["is_chapter"]){
+        ?>
+        <div class="modal fade" id="EditLesson" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">Edit chapter title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-dark">
+                        <form action="" method="post">
+                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                            <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-4 col-form-label">
+                                    Chapter Title:
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="chapterName" value="<?=$row["name"]?>" required>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary w-100" id="submitBtn" name="updateChapterTitle">
+                                        <i class="ri-pencil-fill me-2"></i>
+                                        Update Chapter
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="delModel" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Delete Chapter</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-dark">
+                        Are you sure you want to delete this Chapter?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='instructor-view-course.php?delChapter=1&courseID=<?=$courseID?>&&lessonID=<?=$lessonID?>'";">
+                        <i class="bi bi-trash3-fill me-2"></i>
+                        Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
     if($row["type"]=="video"){
         if(!$publicView){
         ?>
-            <div class="d-flex mb-3">
-                  <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#EditLesson">
-                      <i class="bi bi-pencil me-2"></i>
-                      Edit
-                  </button>
-                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModel">
-                      <i class="bi bi-trash-fill me-2"></i>
-                      Delete
-                  </button>
-                </div>
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -38,7 +85,7 @@ if(mysqli_num_rows($res)){
                             <h5 class="modal-title">Delete Lesson</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body text-dark">
                             Are you sure you want to delete this lesson?
                         </div>
                         <div class="modal-footer">
@@ -58,7 +105,7 @@ if(mysqli_num_rows($res)){
                             <h5 class="modal-title">Edit Lesson</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body text-dark">
                             <div class="row g-3">
 
                                 <div class="col-md-12 d-flex align-items-center">
@@ -331,16 +378,6 @@ if(mysqli_num_rows($res)){
     if($row["type"]=="text"){
         if(!$publicView){
         ?>
-            <div class="d-flex mb-3">
-                  <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#EditLesson">
-                      <i class="bi bi-pencil me-2"></i>
-                      Edit
-                  </button>
-                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModel">
-                      <i class="bi bi-trash-fill me-2"></i>
-                      Delete
-                  </button>
-                </div>
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -348,7 +385,7 @@ if(mysqli_num_rows($res)){
                             <h5 class="modal-title">Delete Lesson</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body text-dark">
                             Are you sure you want to delete this lesson?
                         </div>
                         <div class="modal-footer">
@@ -368,7 +405,7 @@ if(mysqli_num_rows($res)){
                             <h5 class="modal-title">Edit Lesson</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body text-dark">
                             <div class="row g-3">
 
                                 <div class="col-md-12 d-flex align-items-center">
@@ -651,16 +688,6 @@ if(mysqli_num_rows($res)){
     if($row["type"]=="file"){
         if(!$publicView){
         ?>
-            <div class="d-flex mb-3">
-                  <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#EditLesson">
-                      <i class="bi bi-pencil me-2"></i>
-                      Edit
-                  </button>
-                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModel">
-                      <i class="bi bi-trash-fill me-2"></i>
-                      Delete
-                  </button>
-                </div>
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -668,7 +695,7 @@ if(mysqli_num_rows($res)){
                             <h5 class="modal-title">Delete Lesson</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body text-dark">
                             Are you sure you want to delete this lesson?
                         </div>
                         <div class="modal-footer">
@@ -688,7 +715,7 @@ if(mysqli_num_rows($res)){
                             <h5 class="modal-title">Edit Lesson</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body text-dark">
                             <div class="row g-3">
 
                                 <div class="col-md-12 d-flex align-items-center">
@@ -969,16 +996,6 @@ if(mysqli_num_rows($res)){
     if($row["type"]=="link"){
         if(!$publicView){
         ?>
-            <div class="d-flex mb-3">
-                  <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#EditLesson">
-                      <i class="bi bi-pencil me-2"></i>
-                      Edit
-                  </button>
-                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delModel">
-                      <i class="bi bi-trash-fill me-2"></i>
-                      Delete
-                  </button>
-                </div>
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -986,7 +1003,7 @@ if(mysqli_num_rows($res)){
                             <h5 class="modal-title">Delete Lesson</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body text-dark">
                             Are you sure you want to delete this lesson?
                         </div>
                         <div class="modal-footer">
@@ -1006,7 +1023,7 @@ if(mysqli_num_rows($res)){
                             <h5 class="modal-title">Edit Lesson</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body text-dark">
                             <div class="row g-3">
 
                                 <div class="col-md-12 d-flex align-items-center">
@@ -1289,6 +1306,7 @@ if(mysqli_num_rows($res)){
         <script>$( "#lesssonType_12" ).show();</script>
 <?php
     }
+
 }
 
 function loadScripts(){

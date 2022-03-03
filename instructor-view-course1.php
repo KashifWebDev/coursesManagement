@@ -5,29 +5,6 @@ validateSession();
     $path = ROOT_DIR;
     $courseID = sanitizeParam($_GET["courseID"]);
 
-    if(isset($_POST["updateChapterTitle"])){
-        $lessonName = sanitizeParam($_POST["chapterName"]);
-        $link = sanitizeParam($_POST["link"]);
-
-        $courseID = sanitizeParam($_POST["courseID"]);
-        $lessonID = sanitizeParam($_POST["lessonID"]);
-
-        $s = "UPDATE lessons SET name='$lessonName' WHERE course_id=$courseID AND id=$lessonID";
-        if(mysqli_query($con, $s)){
-            header('Location: instructor-view-course.php?courseID='.$courseID);
-        }
-    }
-
-    if(isset($_GET["delChapter"])){
-        $courseID = sanitizeParam($_GET["courseID"]);
-        $lessonID = sanitizeParam($_GET["lessonID"]);
-
-        $s = "DELETE FROM lessons WHERE course_id=$courseID AND id=$lessonID";
-        if(mysqli_query($con, $s)){
-            header('Location: instructor-view-course.php?courseID='.$courseID);
-        }
-    }
-
     if(isset($_POST["saveLesson_typeVideo"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $video = sanitizeParam($_POST["video"]);
@@ -57,6 +34,8 @@ validateSession();
         $courseID = sanitizeParam($_POST["courseID"]);
         $lessonID = sanitizeParam($_POST["lessonID"]);
 
+        $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
+                ($courseID, '$lessonName', 'link', '$link')";
         $s = "UPDATE lessons SET name='$lessonName',content='$link'
               WHERE course_id=$courseID AND id=$lessonID";
         if(mysqli_query($con, $s)){
@@ -322,7 +301,6 @@ validateSession();
 }
 
     if(isset($_POST['uploadImg'])) {
-//        print_r($_POST); exit(); die();
         $target_dir = "assets/img/courses-thumnail/";
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         $uploadOk = 1;
@@ -351,7 +329,7 @@ validateSession();
         if ($uploadOk == 0) {
             echo "Sorry, your file was not uploaded.";
             // if everything is ok, try to upload file
-        } elseif ($uploadOk==1) {
+        } else {
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 //                echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
                     $s = "UPDATE courses SET thumbnail='$fileName' WHERE id=$courseID";
@@ -374,191 +352,154 @@ validateSession();
 
 <head>
     <?php
-    $title = $courseRow["title"]." | TeachMe How";
+    $title = "Lesson Name"." | TeachMe How";
         require "includes/head.inc.php";
     ?>
-    <style>
-        /* Let's get this party started */
-        .sidebar::-webkit-scrollbar {
-            width: 12px;
-        }
-
-        /* Track */
-        .sidebar::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-            -webkit-border-radius: 10px;
-            border-radius: 10px;
-        }
-
-        /* Handle */
-        .sidebar::-webkit-scrollbar-thumb {
-            -webkit-border-radius: 10px;
-            border-radius: 10px;
-            background: <?=$courseRow["back_clr"]?>;
-            -webkit-box-shadow: inset 0 0 0 <?=$courseRow["courseTitleBg"]?>;
-        }
-        .sidebar::-webkit-scrollbar-thumb:window-inactive {
-            background: <?=$courseRow["back_clr"]?>;
-        }
-        .sidebar::-webkit-scrollbar-track-piece:end {
-            background: transparent;
-            margin-bottom: 80px;
-        }
-
-        .sidebar::-webkit-scrollbar-track-piece:start {
-            background: transparent;
-            margin-top: 120px;
-        }
-    </style>
 </head>
-<?php
-if($courseRow["page_background_type"]=="image"){
-    $bgImg = $courseRow["page_background_image"];
-    $style = "background-image: url('assets/img/course-bg/$bgImg');";
-}else{
-    $bgClr = $courseRow["page_background_color"];
-    $style = "background-color: $bgClr";
-}
-?>
-<body style="<?=$style?>">
 
-   <div style="width: 95%; height: 95vh" class="mx-auto pt-4">
-    <div class="mainDiv text-white h-100 position-relative">
-        <header id="header" class="header m-0 row titleColors" style="border-top-right-radius: 40px;border-top-left-radius: 40px;">
+<body>
 
-            <div class="col-md-8 d-flex justify-content-end align-items-center">
-                <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
-                <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
-            </div>
-            <div class="col-md-4 header-nav d-flex justify-content-end">
-                <ul class="d-flex align-items-center">
+  <!-- ======= Header ======= -->
+    <?=require_once "includes/header.inc.php";?>
+  <!-- End Header -->
 
-                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#draftCourseModel">
-                        <i class="ri-save-3-line me-1"></i>
-                    </button>
-                    <button class="btn btn-primary ms-2"  data-bs-toggle="modal" data-bs-target="#editCourse">
-                        <i class="bi bi-pencil-fill me-1"></i>
-                    </button>
-                    <a target="_blank" class="btn btn-info text-white ms-1" href="course-<?=$courseRow["courseID"]?>">
-                        <i class="bi bi-eye-fill"></i>
-                    </a>
+  <!-- ======= Sidebar ======= -->
+  <?=require_once "includes/instructorSideBar.inc.php";?>
+  <!-- End Sidebar-->
 
-                </ul>
-            </div>
+  <main id="main" class="main">
 
+      <div class="card">
+          <div class="card-body p-2">
+              <div class="row">
+                  <div class="col-md-3 d-flex flex-column align-items-center">
+                      <form action="" method="post" id="image_upload_form" enctype="multipart/form-data">
+                          <div class="course-img-container w-100 h-100">
+                              <img id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>" alt="Profile" class="img-thumbnail h-100 w-100">
+                              <button type="button" id="courseImageChange" class="btn btn-primary w-75">
+                                  <i class="bi bi-image-fill me-2"></i>
+                                  Upload
+                              </button>
+                          </div>
+                          <input id='fileid' type='file' name="fileToUpload" hidden/>
+                          <input id="proceedUploadImage" name="uploadImg" type="submit"  hidden/>
+                      </form>
+                  </div>
+                  <div class="col-md-9">
+                      <div class="d-flex justify-content-between">
+                          <div><div class="d-flex align-items-center">
+                                  <h2 class="mb-2 customHeading">
+                                      <?=$courseRow["title"];?>
+                                  </h2>
+                                  <span class="badge bg-info ms-3" style="height: fit-content"><?=$courseRow["access"];?></span>
+                                  <span class="badge bg-primary ms-1" style="height: fit-content"><?php echo $courseRow["draft"]==1 ? "Draft":"Active"; ?></span>
+                              </div>
+                              <p class="small fst-italic">
+                                  <?=$courseRow["description"];?>
+                              </p>
+                          </div>
+                          <div class="d-flex flex-column">
+                              <button class="btn btn-outline-danger mb-2" data-bs-toggle="modal" data-bs-target="#delCourseModel">
+                                  <i class="bi bi-trash-fill me-2"></i> Delete Course
+                              </button>
+                              <div class="d-flex justify-content-end me-2">
+                                  <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#draftCourseModel">
+                                      <i class="ri-save-3-line me-1"></i>
+                                  </button>
+                                  <button class="btn btn-primary ms-2"  data-bs-toggle="modal" data-bs-target="#editCourse">
+                                      <i class="bi bi-pencil-fill me-1"></i>
+                                  </button>
+                                  <a target="_blank" class="btn btn-info text-white ms-1" href="course-<?=$courseRow["courseID"]?>">
+                                      <i class="bi bi-eye-fill"></i>
+                                  </a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-        </header>
+      <section class="section">
+          <div class="row">
+              <div class="col-lg-12">
 
-        <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden;border-top-left-radius: 40px;border-bottom-left-radius: 40px;">
-            <div class="d-flex flex-column h-100 pe-0 pb-0">
-                <div class="w-100 sticky-top">
-                    <form action="" method="post" id="image_upload_form" enctype="multipart/form-data">
-                        <div class="position-relative viewCourseThumbnail">
-                            <img style="max-height: 120px;transition: .4s ease-in-out;"
-                                 id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
-                                 alt="Profile" class="w-100">
-                            <button type="button" id="courseImageChange" class="btn btn-primary w-75">
-                                <i class="bi bi-image-fill me-2"></i>
-                                Upload
-                            </button>
-                        </div>
-                        <input id='fileid' type='file' name="fileToUpload" hidden/>
-                        <input id="proceedUploadImage" name="uploadImg" type="submit"  hidden/>
-                    </form>
-                </div>
-                <div class="w-100">
-                    <div class="col-md-12 justify-content-center pb-3 customColors">
-                        <div class="d-flex justify-content-around align-items-center mb-3">
-                            <h3 class="customHeading text-center customColors" id="lsnHeading"></h3>
-                        </div>
-                        <div id="lessonsList">
-                            <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <span class="ms-2">Fetching Lessons..</span>
-                            </div>
-                            <id id="ChaptersList"></id>
-                        </div>
+                  <div class="card">
+                      <div class="card-body p-2">
+                          <div class="row">
+                              <div class="col-md-3 justify-content-center shadow-lg pb-3 customColors">
+                                  <div class="d-flex justify-content-around align-items-center mb-3">
+                                      <h3 class="customHeading text-center" id="lsnHeading">Chapters</h3>
+                                      <button class="btn btn-outline-dark customColors" data-bs-toggle="modal" data-bs-target="#colorPickerModal">
+                                          <i class="bi bi-palette"></i>
+                                      </button>
+                                  </div>
+                                  <div id="lessonsList">
+                                      <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
+                                          <div class="spinner-border text-primary" role="status">
+                                              <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                          <span class="ms-2">Fetching Lessons..</span>
+                                      </div>
+                                      <id id="ChaptersList"></id>
+                                  </div>
+                                  <hr>
+                                  <button class="btn w-100 customColors" data-bs-toggle="modal" data-bs-target="#addNewLesson">
+                                      <i class="bi bi-plus-square-dotted"></i>
+                                      <span>Add a Lesson</span>
+                                  </button>
+                                  <button class="btn w-100 customColors mt-2" data-bs-toggle="modal" data-bs-target="#addChapter">
+                                      <i class="bi bi-plus-square-dotted"></i>
+                                      <span>Add a Chapter</span>
+                                  </button>
+                              </div>
+                              <div class="col-md-9">
+                                  <div class="col-md-12 justify-content-center h-100">
+                                      <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
+                                          <div class="spinner-border text-primary" role="status">
+                                              <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                          <span class="ms-2">Fetching Lessons..</span>
+                                      </div>
+                                      <div id="courseContent" class="h-100">
+                                          <div id="placeholderIcon" class="d-flex align-items-center justify-content-center">
+                                              <div class="container-fluid p-5 text-white text-center h-100 d-flex flex-column justify-content-center customColors">
+                                                  <h1 class="customColors">Start adding new lessons to the course!</h1>
+                                                  <p style="font-size: larger" class="customColors">Please use the left menu to add/edit lessosn and chapters!</p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
 
-                        <hr>
-                        <button class="btn w-100 customColors" data-bs-toggle="modal" data-bs-target="#addNewLesson">
-                            <i class="bi bi-plus-square-dotted"></i>
-                            <span>Add a Lesson</span>
-                        </button>
-                        <button class="btn w-100 customColors mt-2" data-bs-toggle="modal" data-bs-target="#addChapter">
-                            <i class="bi bi-plus-square-dotted"></i>
-                            <span>Add a Chapter</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
-                    <div class="siteSignature text-center bg-light">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
-                            <div class="d-flex flex-column ps-2 fw-bold">
-                                <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
-                                <p class="m-0 bottomSignature">TeachMeHow.me</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </aside>
+                  <hr>
 
-        <main id="main" class="main pb-0 mb-0 mt-0" style="padding-right: 0px !important; padding-left: 0px; padding-top: 0px; position: absolute; left: 0; right: 0; top: 60px; bottom: 0;">
+                  <div class="card">
+                      <div class="card-body p-2">
+                          <div class="row">
+                              <div class="col-md-2 d-flex flex-column align-items-center">
+                                  <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
+                                  <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
+                                  <h3 style="font-size: 18px;">Instructor</h3>
+                              </div>
+                              <div class="col-md-10">
+                                  <h5 class="card-title">About Instructor</h5>
+                                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
+                                      Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
+                                      odit. Fuga sequi sed ea saepe at unde.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
 
-            <div class="d-flex flex-column h-100">
-                <div class="customColors" style="height: 80%;">
-                    <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <span class="ms-2">Fetching Lessons..</span>
-                    </div>
-                    <div id="courseContent" class="w-100 customColors" style="height: 100%">
-                        <div class="row justify-content-center h-100 customColors w-100">
-                            <div class="col-md-12 justify-content-center h-100">
-                                <div id="loader1" class="my-3 loader1 justify-content-center align-items-center">
-                                    <div class="spinner-border text-primary" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                    <span class="ms-2">Fetching Lessons..</span>
-                                </div>
-                                <div id="courseContent" class="h-100">
-                                    <div id="placeholderIcon" class="d-flex align-items-center justify-content-center">
-                                        <div class="container-fluid p-5 text-white text-center h-100 d-flex flex-column justify-content-center customColors">
-                                            <h1 class="customColors">Start adding new lessons to the course!</h1>
-                                            <p style="font-size: larger" class="customColors">Please use the left menu to add/edit lessosn and chapters!</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <section class="section col-md-12 bg-white" style="height: 20%;border-bottom-right-radius: 40px;">
-                    <div class="align-items-center d-flex flex-row h-100 justify-content-evenly">
-                        <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
-                            <div class="d-flex flex-column ms-2">
-                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
-                                <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column h-100 justify-content-center w-50">
-                            <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
-                            <p class="small fst-italic text-dark">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
-                                Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
-                                odit. Fuga sequi sed ea saepe at unde.</p>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-</div>
+              </div>
+          </div>
+      </section>
 
+  </main>
 
   <div class="modal fade" id="addNewLesson" tabindex="-1">
       <div class="modal-dialog modal-lg">
@@ -1113,7 +1054,7 @@ if($courseRow["page_background_type"]=="image"){
                               Chapter Title:
                           </label>
                           <div class="col-sm-8">
-                              <input type="text" class="form-control" name="chapterName" required>
+                              <input type="text" class="form-control" name="chapterName">
                           </div>
                       </div>
                       <hr>
@@ -1131,330 +1072,305 @@ if($courseRow["page_background_type"]=="image"){
       </div>
   </div>
 
+  
 
+  <?=require_once "includes/footer.inc.php";?>
 
-   <!-- Vendor JS Files -->
-   <script src="<?=$path?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-   <script src="<?=$path?>assets/vendor/php-email-form/validate.js"></script>
-   <script src="<?=$path?>assets/vendor/quill/quill.min.js"></script>
-   <script src="<?=$path?>assets/vendor/tinymce/tinymce.min.js"></script>
-   <script src="<?=$path?>assets/vendor/simple-datatables/simple-datatables.js"></script>
-   <script src="<?=$path?>assets/vendor/chart.js/chart.min.js"></script>
-   <script src="<?=$path?>assets/vendor/apexcharts/apexcharts.min.js"></script>
-   <script src="<?=$path?>assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
 
-   <!-- Template Main JS File -->
-   <script src="<?=$path?>assets/js/main.js?v=<?=rand()?>"></script>
+  <script src="assets/vendor/jquery/jquery-ui.js"></script>
+  <link rel="stylesheet" href="assets/vendor/jquery/jquery-ui.css">
 
-   <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script>
+      var chaptersArray = [];
 
-   <script src="assets/vendor/jquery/jquery-ui.js"></script>
-   <link rel="stylesheet" href="assets/vendor/jquery/jquery-ui.css">
+      $("#registration").hide();
+      $("#paid").hide();
+      $("input#timeLimitValueId").hide();
+      $('input[type=radio][name=access_type]').change(function() {
+          if (this.value == 'Free') {
+              $("#registration").hide();
+              $("#paid").hide();
+          }
+          else if (this.value == 'Registration') {
+              $("#registration").show();
+              $("#paid").hide();
+          }
+          else if (this.value == 'Paid') {
+              $("#registration").hide();
+              $("#paid").show();
+          }
+      });
 
-   <script>
-       var chaptersArray = [];
+      hideAll();
+      $( "#lesssonType_1" ).show();
+      getLessons();
+      implementColors();
+      // loader('none');
+      loader1('none');
 
-       $("#registration").hide();
-       $("#paid").hide();
-       $("input#timeLimitValueId").hide();
-       $('input[type=radio][name=access_type]').change(function() {
-           if (this.value == 'Free') {
-               $("#registration").hide();
-               $("#paid").hide();
-           }
-           else if (this.value == 'Registration') {
-               $("#registration").show();
-               $("#paid").hide();
-           }
-           else if (this.value == 'Paid') {
-               $("#registration").hide();
-               $("#paid").show();
-           }
-       });
+      $("#courseImageChange").click(function() {
+          // document.getElementById('fileid').click();
+          $("#fileid").click();
+          // document.getElementById('fileid').click();
+      });
 
-       hideAll();
-       $( "#lesssonType_1" ).show();
-       getLessons();
-       implementColors();
-       // loader('none');
-       loader1('none');
+      $("#fileid").change(function() {
+          $("#proceedUploadImage").click();
+      });
 
-       $("#courseImageChange").click(function() {
-           // document.getElementById('fileid').click();
-           $("#fileid").click();
-           // document.getElementById('fileid').click();
-       });
+      $(document).ready(function(){
+          $('[data-bs-toggle="tooltip"]').tooltip();
+      });
 
-       $("#fileid").change(function() {
-           $("#proceedUploadImage").click();
-       });
+      $('input[name="options"]').change(function() {
+          console.log(this.value);
+          hideAll();
+          if (this.value == 'test') {
+              $( "#lesssonType_1" ).show();
+          }
+          else if (this.value == 'link') {
+              $( "#lesssonType_2" ).show();
+          }
+          else if (this.value == 'file') {
+              $( "#lesssonType_3" ).show();
+          }
+          else if (this.value == 'video') {
+              $( "#lesssonType_4" ).show();
+          }
+          else if (this.value == 'text') {
+              $( "#lesssonType_5" ).show();
+          }
+      });
 
-       $(document).ready(function(){
-           $('[data-bs-toggle="tooltip"]').tooltip();
-       });
+      $( "#selectBgImg" ).hide();
+      $( "#selectBgClr" ).hide();
 
-       $('input[name="options"]').change(function() {
-           console.log(this.value);
-           hideAll();
-           if (this.value == 'test') {
-               $( "#lesssonType_1" ).show();
-           }
-           else if (this.value == 'link') {
-               $( "#lesssonType_2" ).show();
-           }
-           else if (this.value == 'file') {
-               $( "#lesssonType_3" ).show();
-           }
-           else if (this.value == 'video') {
-               $( "#lesssonType_4" ).show();
-           }
-           else if (this.value == 'text') {
-               $( "#lesssonType_5" ).show();
-           }
-       });
+      <?php
+        $cls = $courseRow["page_background_type"]=="color" ? "selectBgClr" : "selectBgImg";
+        echo '$( "#'.$cls.'" ).show();';
+      ?>
 
-       $( "#selectBgImg" ).hide();
-       $( "#selectBgClr" ).hide();
+      $('input[name="bgType"]').change(function() {
+          console.log(this.value);
+          if (this.value == 'image') {
+              $( "#selectBgImg" ).show();
+              $( "#selectBgClr" ).hide();
+          }
+          else{
+              $( "#selectBgImg" ).hide();
+              $( "#selectBgClr" ).show();
+          }
+      });
 
-       <?php
-       $cls = $courseRow["page_background_type"]=="color" ? "selectBgClr" : "selectBgImg";
-       echo '$( "#'.$cls.'" ).show();';
-       ?>
+      $('#submitBtn').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
 
-       $('input[name="bgType"]').change(function() {
-           console.log(this.value);
-           if (this.value == 'image') {
-               $( "#selectBgImg" ).show();
-               $( "#selectBgClr" ).hide();
-           }
-           else{
-               $( "#selectBgImg" ).hide();
-               $( "#selectBgClr" ).show();
-           }
-       });
+      $('#selectTimeLimitFactor').change(function() {
+          if($(this).val()==="Days" || $(this).val()==="Months" || $(this).val()==="Years"){
+              $("input#timeLimitValueId").show();
+          }else{
+              $("input#timeLimitValueId").hide();
+          }
+      });
 
-       $('#submitBtn').on('click', function() {
-           var $this = $(this);
-           var loadingText = '<div class="spinner-border text-light" role="status"></div>';
-           if ($(this).html() !== loadingText) {
-               $this.data('original-text', $(this).html());
-               $this.html(loadingText);
-           }
-       });
+      $('.submitBtn').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
 
-       $('#selectTimeLimitFactor').change(function() {
-           if($(this).val()==="Days" || $(this).val()==="Months" || $(this).val()==="Years"){
-               $("input#timeLimitValueId").show();
-           }else{
-               $("input#timeLimitValueId").hide();
-           }
-       });
+      $('#submitBtn').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
+      $('#submitBtn1').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
+      $('#submitBtn2').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
 
-       $('.submitBtn').on('click', function() {
-           var $this = $(this);
-           var loadingText = '<div class="spinner-border text-light" role="status"></div>';
-           if ($(this).html() !== loadingText) {
-               $this.data('original-text', $(this).html());
-               $this.html(loadingText);
-           }
-       });
+      $('#bgcolor').on('input',
+          function() {
+              $('.customColors').css('background-color', $(this).val());
+              $('#lessonsListItems li').css('background-color', $(this).val());
+          }
+      );
 
-       $('#submitBtn').on('click', function() {
-           var $this = $(this);
-           var loadingText = '<div class="spinner-border text-light" role="status"></div>';
-           if ($(this).html() !== loadingText) {
-               $this.data('original-text', $(this).html());
-               $this.html(loadingText);
-           }
-       });
-       $('#submitBtn1').on('click', function() {
-           var $this = $(this);
-           var loadingText = '<div class="spinner-border text-light" role="status"></div>';
-           if ($(this).html() !== loadingText) {
-               $this.data('original-text', $(this).html());
-               $this.html(loadingText);
-           }
-       });
-       $('#submitBtn2').on('click', function() {
-           var $this = $(this);
-           var loadingText = '<div class="spinner-border text-light" role="status"></div>';
-           if ($(this).html() !== loadingText) {
-               $this.data('original-text', $(this).html());
-               $this.html(loadingText);
-           }
-       });
+      $('#frontColor').on('input',
+          function() {
+              $('li.list-group-item').css('color', $(this).val());
+              $('.customColors').css('color', $(this).val());
+              $('#lsnHeading').css('color', $(this).val());
+          }
+      );
 
-       $('#bgcolor').on('input',
-           function() {
-               $('.customColors').css('background-color', $(this).val());
-               $('#lessonsListItems li').css('background-color', $(this).val());
-           }
-       );
+      function hideAll() {
+          $( "#lesssonType_1" ).hide();
+          $( "#lesssonType_2" ).hide();
+          $( "#lesssonType_3" ).hide();
+          $( "#lesssonType_4" ).hide();
+          $( "#lesssonType_5" ).hide();
+      }
 
-       $('#frontColor').on('input',
-           function() {
-               $('li.list-group-item').css('color', $(this).val());
-               $('.customColors').css('color', $(this).val());
-               $('#lsnHeading').css('color', $(this).val());
-           }
-       );
+      function makeListSortable() {
+          $('.sortable').sortable({
+              stop:function()
+              {
+                  var ids = '';
+                  $('.sortable li.list-group-item').each(function(){
+                      loader('block');
+                      id = $(this).attr('id');
+                      if(ids=='')
+                      {
+                          ids = id;
+                      }
+                      else
+                      {
+                          ids = ids+','+id;
+                      }
+                  })
+                  $.ajax({
+                      url:'api/instructorReArrangeOrderLessons.php',
+                      data:'ids='+ids,
+                      type:'post',
+                      success:function(data)
+                      {
+                          var output = $.parseJSON(data);
+                          console.log(output.refresh);
+                          loader('none');
+                      }
+                  })
+              }
+          });
+      }
 
-       function hideAll() {
-           $( "#lesssonType_1" ).hide();
-           $( "#lesssonType_2" ).hide();
-           $( "#lesssonType_3" ).hide();
-           $( "#lesssonType_4" ).hide();
-           $( "#lesssonType_5" ).hide();
-       }
+      function getLessonsOfChapters() {
+          $.ajax({
+              url: "api/getLessonsByCourseId.php",
+              type: "post",
+              data: {
+                  courseID: <?=$courseID?>,
+                  chapterIDs: chaptersArray,
+              },
+              success: function(response) {
+                  loader('none');
+                  var lessons = $.parseJSON(response);
+                  var length = Object.keys(lessons).length;
+                  if(length){
+                      $("#chapter_id_"+chapterID).append('<ul class="list-group sortable" id="lessonsListItems"></ul>');
+                      for (lesson of lessons) {
+                          $("#chapter_id_"+chapterID+" #lessonsListItems").append('<li class="list-group-item" id="'+lesson.id+'" onclick="getLessonContent('+lesson.id+')"><i class="bi bi-grip-vertical me-3"></i>'+lesson.name+'</li>');
+                      }
+                  }else{
+                      $("#chapter_id_"+chapterID).append('<hr><h5 class="text-center">No Lessons Found</h5>');
+                  }
+                  implementColors();
+              },
+              error: function(xhr) {
+                  alert("Error while fetching courses!\n "+xhr);
+              }
+          });
+      }
 
-       function makeListSortable() {
-           $('.sortable').sortable({
-               stop:function()
-               {
-                   var ids = '';
-                   $('.sortable li.list-group-item').each(function(){
-                       loader('block');
-                       id = $(this).attr('id');
-                       if(ids=='')
-                       {
-                           ids = id;
-                       }
-                       else
-                       {
-                           ids = ids+','+id;
-                       }
-                   })
-                   $.ajax({
-                       url:'api/instructorReArrangeOrderLessons.php',
-                       data:'ids='+ids,
-                       type:'post',
-                       success:function(data)
-                       {
-                           var output = $.parseJSON(data);
-                           console.log(output.refresh);
-                           loader('none');
-                       }
-                   })
-               }
-           });
-       }
+      function getLessonContent(lessonID) {
+          placeHolderIcon("block");
+          $('#courseContent').empty();
+          loader1('block');
+          $.ajax({
+              url: "api/getLessonContentByCourseId.php",
+              type: "post",
+              data: {
+                  courseID: <?=$courseID?>,
+                  lessonID: lessonID,
+              },
+              success: function(response) {
+                  loader1('none');
+                  if(response==""){
+                      $('#courseContent').empty();
+                  }else{
+                      $('#courseContent').append(response);
+                  }
+                  implementColors();
+              },
+              error: function(xhr) {
+                  alert("Error while fetching courses!\n "+xhr);
+              }
+          });
+      }
 
-       function getLessonsOfChapters() {
-           $.ajax({
-               url: "api/getLessonsByCourseId.php",
-               type: "post",
-               data: {
-                   courseID: <?=$courseID?>,
-                   chapterIDs: chaptersArray,
-               },
-               success: function(response) {
-                   loader('none');
-                   var lessons = $.parseJSON(response);
-                   var length = Object.keys(lessons).length;
-                   if(length){
-                       $("#chapter_id_"+chapterID).append('<ul class="list-group sortable" id="lessonsListItems"></ul>');
-                       for (lesson of lessons) {
-                           $("#chapter_id_"+chapterID+" #lessonsListItems").append('<li class="list-group-item" id="'+lesson.id+'" onclick="getLessonContent('+lesson.id+')"><i class="bi bi-grip-vertical me-3"></i>'+lesson.name+'</li>');
-                       }
-                   }else{
-                       $("#chapter_id_"+chapterID).append('<hr><h5 class="text-center">No Lessons Found</h5>');
-                   }
-                   implementColors();
-               },
-               error: function(xhr) {
-                   alert("Error while fetching courses!\n "+xhr);
-               }
-           });
-       }
+      function loader(visible) {
+          $('#loader').attr('style','display:'+visible+' !important');
+      }
 
-       function getLessonContent(lessonID) {
+      function loader1(visible) {
+          $('#loader1').attr('style','display:'+visible+' !important');
+      }
 
-           console.log('li#'+lessonID);
-           $(".editDelBtns").hide();
-           $('li#'+lessonID).append("" +
-               "<span class='editDelBtns float-end ms-auto'>" +
-                   "<button data-bs-toggle='modal' data-bs-target='#EditLesson' class='btn customColors me-2'><i class='bi bi-pencil-fill'></i></button>" +
-                   "<button data-bs-toggle='modal' data-bs-target='#delModel' class='btn customColors'><i class='bi bi-trash2-fill'></i></button>" +
-               "</span>");
-           placeHolderIcon("block");
-           $('#courseContent').empty();
-           loader1('block');
-           $.ajax({
-               url: "api/getLessonContentByCourseId.php",
-               type: "post",
-               data: {
-                   courseID: <?=$courseID?>,
-                   lessonID: lessonID,
-               },
-               success: function(response) {
-                   loader1('none');
-                   if(response==""){
-                       $('#courseContent').empty();
-                   }else{
-                       $('#courseContent').append(response);
-                   }
-                   implementColors();
-               },
-               error: function(xhr) {
-                   alert("Error while fetching courses!\n "+xhr);
-               }
-           });
-       }
+      function placeHolderIcon(visible) {
+          $('#placeholderIcon').attr('style','display:'+visible+' !important');
+      }
 
-       function loader(visible) {
-           $('#loader').attr('style','display:'+visible+' !important');
-       }
+      function addNewLesson(chapID) {
+          console.log(chapID);
+          $("#addNewLesson").modal('show');
+          $(".addLessonUnderChapterInputBox").val(chapID);
+      }
 
-       function loader1(visible) {
-           $('#loader1').attr('style','display:'+visible+' !important');
-           $('.loader1').attr('style','display:'+visible+' !important');
-       }
+      function implementColors() {
+          $('.customColors').css('background-color', '<?=$courseRow["back_clr"]?>');
+          $('.list-group-item').css('background-color', '<?=$courseRow["back_clr"]?>');
 
-       function placeHolderIcon(visible) {
-           $('#placeholderIcon').attr('style','display:'+visible+' !important');
-       }
+          $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
+          $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
+          $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
+          $("button.customColors").css('border', '1px solid <?=$courseRow["front_clr"]?>');
+      }
 
-       function addNewLesson(chapID) {
-           console.log(chapID);
-           $("#addNewLesson").modal('show');
-           $(".addLessonUnderChapterInputBox").val(chapID);
-       }
-
-
-       function getLessons() {
-           loader('block');
-           $.ajax({
-               url: "api/getChaptersAndLessons.php",
-               type: "post",
-               data: {
-                   courseID: <?=$courseID?>
-               },
-               success: function(response) {
-                   $("#ChaptersList").html(response);
-                   implementColors();
-                   makeListSortable();
-                   loader('none');
-               },
-               error: function(xhr) {
-                   alert("Error while fetching courses!\n "+xhr);
-               }
-           });
-       }
-
-       function implementColors() {
-           $('.customColors').css('background-color', '<?=$courseRow["back_clr"]?>');
-           $('.list-group-item').css('background-color', '<?=$courseRow["back_clr"]?>');
-           $('.titleColors').css('background-color', '<?=$courseRow["courseTitleBg"]?>');
-
-           $('.titleColors').css('color', '<?=$courseRow["courseTitleFg"]?>');
-           $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
-           $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
-           $('.bottomSignature').css('color', '<?=$courseRow["back_clr"]?>');
-           $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
-           $("button.customColors").css('border', '1px solid <?=$courseRow["front_clr"]?>');
-       }
-   </script>
-
+      function getLessons() {
+          loader('block');
+          $.ajax({
+              url: "api/getChaptersAndLessons.php",
+              type: "post",
+              data: {
+                  courseID: <?=$courseID?>,
+              },
+              success: function(response) {
+                  $("#ChaptersList").html(response);
+                  implementColors();
+                  makeListSortable();
+                  loader('none');
+              },
+              error: function(xhr) {
+                  alert("Error while fetching courses!\n "+xhr);
+              }
+          });
+      }
+  </script>
 </body>
 
 </html>

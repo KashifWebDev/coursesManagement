@@ -1113,8 +1113,8 @@ button#courseImageChange{
 .course-img-container img{
   transition: .4s ease-in-out;
 }
-.course-img-container:hover  button#courseImageChange{
-  opacity: 1.0;
+.viewCourseThumbnail:hover  button#courseImageChange{
+  opacity: 999;
 }
 .course-img-container:hover img#courseImgThumbnail{
   -webkit-filter: grayscale(100%) blur(2px);

@@ -1,4 +1,5 @@
 <?php
+
 require_once "includes/app.php";
 require_once "includes/functions.php";
 $path = ROOT_DIR;
@@ -18,176 +19,207 @@ $courseID = $courseRow["id"];
     $title = $courseRow["title"]." | TeachMe How";
     require "includes/head.inc.php";
     ?>
+    <style>
+        /* Let's get this party started */
+        .sidebar::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        /* Track */
+        .sidebar::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        .sidebar::-webkit-scrollbar-thumb {
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            background: <?=$courseRow["back_clr"]?>;
+            -webkit-box-shadow: inset 0 0 0 <?=$courseRow["courseTitleBg"]?>;
+        }
+        .sidebar::-webkit-scrollbar-thumb:window-inactive {
+            background: <?=$courseRow["back_clr"]?>;
+        }
+        .sidebar::-webkit-scrollbar-track-piece:end {
+            background: transparent;
+            margin-bottom: 80px;
+        }
+
+        .sidebar::-webkit-scrollbar-track-piece:start {
+            background: transparent;
+            margin-top: 120px;
+        }
+    </style>
 </head>
+<?php
+ if($courseRow["page_background_type"]=="image"){
+     $bgImg = $courseRow["page_background_image"];
+     $style = "background-image: url('assets/img/course-bg/$bgImg');";
+ }else{
+     $bgClr = $courseRow["page_background_color"];
+     $style = "background-color: $bgClr";
+ }
+?>
+<body style="<?=$style?>">
 
-<body>
+<div style="width: 95%; height: 95vh" class="mx-auto pt-4">
+    <div class="mainDiv text-white h-100 position-relative">
+        <header id="header" class="header m-0 row titleColors" style="border-top-right-radius: 40px;border-top-left-radius: 40px;">
 
-<header id="header" class="header fixed-top row customColors">
-
-    <div class="col-md-8 d-flex justify-content-end align-items-center">
-<!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
-        <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
-    </div>
-    <div class="col-md-4 header-nav d-flex justify-content-end">
-        <ul class="d-flex align-items-center">
-
-            <li class="nav-item dropdown pe-3">
-
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2 customColors" id="lsnHeading">K. Anderson</span>
-                </a><!-- End Profile Iamge Icon -->
-
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li class="dropdown-header">
-                        <h6>Kevin Anderson</h6>
-                        <span>Web Designer</span>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                            <i class="bi bi-person"></i>
-                            <span>My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                            <i class="bi bi-gear"></i>
-                            <span>Account Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                            <i class="bi bi-question-circle"></i>
-                            <span>Need Help?</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Sign Out</span>
-                        </a>
-                    </li>
-
-                </ul><!-- End Profile Dropdown Items -->
-            </li><!-- End Profile Nav -->
-
-        </ul>
-    </div>
-
-
-</header>
-
-<aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0">
-
-    <div class="row p-2">
-
-        <div class="col-md-12">
-            <img style="max-height: 120px"
-                 id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
-                 alt="Profile" class="w-100">
-        </div>
-
-        <div class="col-md-12 justify-content-center pb-3 customColors">
-            <div class="d-flex justify-content-around align-items-center mb-3">
-                <h3 class="customHeading text-center customColors" id="lsnHeading"></h3>
+            <div class="col-md-8 d-flex justify-content-end align-items-center">
+                <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
+                <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
             </div>
-            <div id="lessonsList">
-                <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <span class="ms-2">Fetching Lessons..</span>
+            <div class="col-md-4 header-nav d-flex justify-content-end">
+                <ul class="d-flex align-items-center">
+
+                    <li class="nav-item dropdown pe-3">
+
+                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                            <span class="d-none d-md-block dropdown-toggle ps-2 titleColors">K. Anderson</span>
+                        </a><!-- End Profile Iamge Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                            <li class="dropdown-header">
+                                <h6>Kevin Anderson</h6>
+                                <span>Web Designer</span>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                    <i class="bi bi-person"></i>
+                                    <span>My Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                    <i class="bi bi-gear"></i>
+                                    <span>Account Settings</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                                    <i class="bi bi-question-circle"></i>
+                                    <span>Need Help?</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </li>
+
+                        </ul><!-- End Profile Dropdown Items -->
+                    </li><!-- End Profile Nav -->
+
+                </ul>
+            </div>
+
+
+        </header>
+
+        <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden;border-top-left-radius: 40px;border-bottom-left-radius: 40px;">
+            <div class="d-flex flex-column h-100 pe-0 pb-0">
+                <div class="w-100 sticky-top">
+                    <img style="max-height: 120px"
+                         id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
+                         alt="Profile" class="w-100">
                 </div>
-                <id id="ChaptersList"></id>
-            </div>
-        </div>
-
-        <div class="siteSignature text-center bg-light" style="position: fixed; bottom: 0; left: 0px; width: 300px;">
-            <div class="d-flex align-items-center justify-content-center">
-                <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
-                <div class="d-flex flex-column ps-2 fw-bold">
-                    <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
-                    <p class="m-0 bottomSignature">TeachMeHow.me</p>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-
-</aside>
-
-<main id="main" class="main pb-0 mb-0" style="height: 85vh;">
-        <div class="card mb-0" style="height: 82%;">
-              <div class="card-body p-2">
-                  <div class="row h-100">
-                      <div class="col-md-12 d-flex flex-column align-items-center h-100">
-                          <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
-                              <div class="spinner-border text-primary" role="status">
-                                  <span class="visually-hidden">Loading...</span>
-                              </div>
-                              <span class="ms-2">Fetching Lessons..</span>
-                          </div>
-                          <div id="courseContent" class="w-100 h-100">
-                              <div class="row justify-content-center h-100">
-                                  <?php
-                                  if($courseRow["access"]=="Registration"){
-                                      echo signUp();
-                                  }
-                                  elseif($courseRow["access"]=="Paid"){
-                                      echo paypal();
-                                  }else{
-                                      echo defaultTxt();
-                                  }
-                                  ?>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        <section class="section" style="position: static">
-          <div class="row">
-            <div class="col-lg-12">
-                <div class="card m-0">
-                    <div class="card-body p-2">
-                        <div class="row">
-                            <div class="col-md-2 d-flex flex-column align-items-center" style="text-align: -webkit-center;">
-                                <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
-                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
-                                <h3 style="font-size: 18px;">Instructor</h3>
+                <div class="w-100">
+                    <div class="col-md-12 justify-content-center pb-3 customColors">
+                        <div class="d-flex justify-content-around align-items-center mb-3">
+                            <h3 class="customHeading text-center customColors" id="lsnHeading"></h3>
+                        </div>
+                        <div id="lessonsList">
+                            <div id="loader" class="my-3 d-flex justify-content-center align-items-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span class="ms-2">Fetching Lessons..</span>
                             </div>
-                            <div class="col-md-10">
-                                <h5 class="card-title">About Instructor</h5>
-                                <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
-                                    Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
-                                    odit. Fuga sequi sed ea saepe at unde.</p>
+                            <id id="ChaptersList"></id>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
+                    <div class="siteSignature text-center bg-light">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
+                            <div class="d-flex flex-column ps-2 fw-bold">
+                                <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
+                                <p class="m-0 bottomSignature">TeachMeHow.me</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-          </div>
-        </section>
-  </main>
+        </aside>
 
+        <main id="main" class="main pb-0 mb-0 mt-0" style="padding-right: 0px !important; padding-left: 0px; padding-top: 0px; position: absolute; left: 0; right: 0; top: 60px; bottom: 0;">
+
+            <div class="d-flex flex-column h-100">
+                <div class="customColors" style="height: 80%;">
+                    <div id="loader1" class="my-3 d-flex justify-content-center align-items-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span class="ms-2">Fetching Lessons..</span>
+                    </div>
+                    <div id="courseContent" class="w-100 customColors" style="height: 100%">
+                        <div class="row justify-content-center h-100 customColors w-100">
+                            <?php
+                            if($courseRow["access"]=="Registration"){
+                                echo signUp();
+                            }
+                            elseif($courseRow["access"]=="Paid"){
+                                echo paypal();
+                            }else{
+                                echo defaultTxt();
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <section class="section col-md-12 bg-white" style="height: 20%;border-bottom-right-radius: 40px;">
+                    <div class="align-items-center d-flex flex-row h-100 justify-content-evenly">
+                        <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
+                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
+                            <div class="d-flex flex-column ms-2">
+                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
+                                <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column h-100 justify-content-center w-50">
+                            <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
+                            <p class="small fst-italic text-dark">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
+                                Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
+                                odit. Fuga sequi sed ea saepe at unde.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</div>
 
 <!-- Vendor JS Files -->
 <script src="<?=$path?>assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
@@ -290,7 +322,9 @@ $courseID = $courseRow["id"];
     function implementColors() {
         $('.customColors').css('background-color', '<?=$courseRow["back_clr"]?>');
         $('.list-group-item').css('background-color', '<?=$courseRow["back_clr"]?>');
+        $('.titleColors').css('background-color', '<?=$courseRow["courseTitleBg"]?>');
 
+        $('.titleColors').css('color', '<?=$courseRow["courseTitleFg"]?>');
         $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
         $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
         $('.bottomSignature').css('color', '<?=$courseRow["back_clr"]?>');
@@ -312,14 +346,14 @@ function signUp(){
 
         <div class="card mb-3">
 
-            <div class="card-body">
+            <div class="card-body text-dark">
 
                 <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                     <p class="text-center small">Please sign up to get the course subscription...</p>
                 </div>
 
-                <form class="row g-3 needs-validation" novalidate="" method="post" action="index.php?accountCreated=1">
+                <form class="row g-3 needs-validation" novalidate="" method="post" action="">
 
                     <div class="col-md-6">
                         <label for="firstName" class="form-label">First Name</label>
