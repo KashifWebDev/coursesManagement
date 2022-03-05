@@ -126,17 +126,17 @@ function redirect($addr){
                         <?php } ?>
                     </div>
 
-                    <div class="col-md-6">
-                      <label for="yourContactNum" class="form-label">Contact #</label>
-                      <input type="text" name="contactNum" class="form-control" id="yourContactNum" required>
-                      <div class="invalid-feedback">Please enter a valid contact number!</div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <label for="yourAddress" class="form-label">Your Address</label>
-                      <input type="text" name="address" class="form-control" id="yourAddress" required>
-                      <div class="invalid-feedback">Please enter a valid Address!</div>
-                    </div>
+<!--                    <div class="col-md-6">-->
+<!--                      <label for="yourContactNum" class="form-label">Contact #</label>-->
+<!--                      <input type="text" name="contactNum" class="form-control" id="yourContactNum" required>-->
+<!--                      <div class="invalid-feedback">Please enter a valid contact number!</div>-->
+<!--                    </div>-->
+<!---->
+<!--                    <div class="col-md-6">-->
+<!--                      <label for="yourAddress" class="form-label">Your Address</label>-->
+<!--                      <input type="text" name="address" class="form-control" id="yourAddress" required>-->
+<!--                      <div class="invalid-feedback">Please enter a valid Address!</div>-->
+<!--                    </div>-->
 
                     <div class="col-md-6">
                       <label for="yourUsername" class="form-label">Username</label>

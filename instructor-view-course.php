@@ -170,12 +170,15 @@ validateSession();
         $txtLessonBackground = sanitizeParam($_POST["txtLessonBackground"]);
         $courseTitleBg = sanitizeParam($_POST["courseTitleBg"]);
         $courseTitleFg = sanitizeParam($_POST["courseTitleFg"]);
+        $signBgColor = sanitizeParam($_POST["signBgColor"]);
+        $signFgColor = sanitizeParam($_POST["signFgColor"]);
 
         if($bgType=="image"){
             if (empty($_FILES['fileToUpload']['name'])) {
                 $fileName = sanitizeParam($_POST["selectedImg"]);
                 $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='image',
-                          page_background_image='$fileName', txtLessonBackground='$txtLessonBackground', courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg'
+                          page_background_image='$fileName', txtLessonBackground='$txtLessonBackground', courseTitleBg='$courseTitleBg',
+                        courseTitleFg='$courseTitleFg', signFgColor='$signFgColor', signBgColor='$signBgColor'
                             WHERE id=$courseID ";
                 if(mysqli_query($con, $s)){
                     header('Location: instructor-view-course.php?courseID='.$courseID);
@@ -205,7 +208,8 @@ validateSession();
                     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                         $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='image',
                           page_background_image='$fileName', txtLessonBackground='$txtLessonBackground',
-                        courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg' WHERE id=$courseID ";
+                        courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg',
+                         signFgColor='$signFgColor', signBgColor='$signBgColor'WHERE id=$courseID ";
                         if(mysqli_query($con, $s)){
                             header('Location: instructor-view-course.php?courseID='.$courseID);
                         }
@@ -219,7 +223,8 @@ validateSession();
             $bgColor = sanitizeParam($_POST["bgColor"]);
             $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='color',
                           page_background_color='$bgColor', txtLessonBackground='$txtLessonBackground',
-                            courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg' WHERE id=$courseID ";
+                            courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg', signFgColor='$signFgColor', signBgColor='$signBgColor'
+                    WHERE id=$courseID ";
             if(mysqli_query($con, $s)){
                 header('Location: instructor-view-course.php?courseID='.$courseID);
             }
@@ -379,35 +384,22 @@ validateSession();
     ?>
     <style>
         /* Let's get this party started */
-        .sidebar::-webkit-scrollbar {
+        .sidebar1::-webkit-scrollbar {
             width: 12px;
         }
 
         /* Track */
-        .sidebar::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        .sidebar1::-webkit-scrollbar-track {
             -webkit-border-radius: 10px;
             border-radius: 10px;
         }
 
         /* Handle */
-        .sidebar::-webkit-scrollbar-thumb {
+        .sidebar1::-webkit-scrollbar-thumb {
             -webkit-border-radius: 10px;
             border-radius: 10px;
-            background: <?=$courseRow["back_clr"]?>;
-            -webkit-box-shadow: inset 0 0 0 <?=$courseRow["courseTitleBg"]?>;
-        }
-        .sidebar::-webkit-scrollbar-thumb:window-inactive {
-            background: <?=$courseRow["back_clr"]?>;
-        }
-        .sidebar::-webkit-scrollbar-track-piece:end {
-            background: transparent;
-            margin-bottom: 80px;
-        }
-
-        .sidebar::-webkit-scrollbar-track-piece:start {
-            background: transparent;
-            margin-top: 120px;
+            background: <?=$courseRow["front_clr"]?>;
+            -webkit-box-shadow: inset 0 0 0 <?=$courseRow["back_clr"]?>;
         }
     </style>
 </head>
@@ -452,8 +444,8 @@ if($courseRow["page_background_type"]=="image"){
 
         </header>
 
-        <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden;border-top-left-radius: 40px;border-bottom-left-radius: 40px;">
-            <div class="d-flex flex-column h-100 pe-0 pb-0">
+        <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden;border-top-left-radius: 40px;border-bottom-left-radius: 40px;overflow: hidden;">
+            <div class="d-flex flex-column h-100 pe-0 pb-0" style="overflow: hidden">
                 <div class="w-100 sticky-top">
                     <form action="" method="post" id="image_upload_form" enctype="multipart/form-data">
                         <div class="position-relative viewCourseThumbnail">
@@ -469,7 +461,7 @@ if($courseRow["page_background_type"]=="image"){
                         <input id="proceedUploadImage" name="uploadImg" type="submit"  hidden/>
                     </form>
                 </div>
-                <div class="w-100">
+                <div class="w-100 sidebar1" style="overflow-y: scroll">
                     <div class="col-md-12 justify-content-center pb-3 customColors">
                         <div class="d-flex justify-content-around align-items-center mb-3">
                             <h3 class="customHeading text-center customColors" id="lsnHeading"></h3>
@@ -497,7 +489,7 @@ if($courseRow["page_background_type"]=="image"){
                 </div>
                 <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
                     <div class="siteSignature text-center bg-light">
-                        <div class="d-flex align-items-center justify-content-center">
+                        <div class="d-flex align-items-center justify-content-center bottomSignatureBg">
                             <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
                             <div class="d-flex flex-column ps-2 fw-bold">
                                 <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
@@ -1011,7 +1003,7 @@ if($courseRow["page_background_type"]=="image"){
   </div>
 
   <div class="modal fade" id="colorPickerModal" tabindex="-1">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
           <div class="modal-content">
               <div class="modal-header bg-primary text-white">
                   <h5 class="modal-title">Menu Color Selection</h5>
@@ -1019,71 +1011,91 @@ if($courseRow["page_background_type"]=="image"){
               </div>
               <div class="modal-body">
                   <form action="" method="post" enctype="multipart/form-data">
-                      <div class="row mb-3">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Menu Background Color</label>
-                          <div class="col-sm-6">
-                              <input type="color" name="back" class="form-control form-control-color"
-                                     id="bgcolor" value="<?=$courseRow["back_clr"]?>" title="Choose your color">
-                          </div>
-                      </div>
-                      <div class="row mb-3">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Menu Text Color</label>
-                          <div class="col-sm-6">
-                              <input type="color" name="front"
-                                     class="form-control form-control-color" id="frontColor" value="<?=$courseRow["front_clr"]?>" title="Choose your color">
-                          </div>
-                      </div>
-                      <div class="row mb-3">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Course Title Background</label>
-                          <div class="col-sm-6">
-                              <input type="color" name="courseTitleBg"
-                                     class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["courseTitleBg"]?>" title="Choose your color">
-                          </div>
-                      </div>
-                      <div class="row mb-3">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Course Title Foreground</label>
-                          <div class="col-sm-6">
-                              <input type="color" name="courseTitleFg"
-                                     class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["courseTitleFg"]?>" title="Choose your color">
-                          </div>
-                      </div>
-                      <div class="row mb-3">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Text Lesson Background</label>
-                          <div class="col-sm-6">
-                              <input type="color" name="txtLessonBackground"
-                                     class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["txtLessonBackground"]?>" title="Choose your color">
-                          </div>
-                      </div>
-                      <div class="row mb-3">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Background Type</label>
-                          <div class="col-sm-6">
-                              <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="bgType" id="inlineRadio2" value="color" <?php if($courseRow["page_background_type"]=="color") echo "checked"; ?>>
-                                  <label class="form-check-label" for="inlineRadio2">Color</label>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <div class="row mb-3">
+                                  <label for="inputColor" class="col-sm-8 col-form-label">Menu Background Color</label>
+                                  <div class="col-sm-2">
+                                      <input type="color" name="back" class="form-control form-control-color"
+                                             id="bgcolor" value="<?=$courseRow["back_clr"]?>" title="Choose your color">
+                                  </div>
                               </div>
-                              <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="bgType" id="inlineRadio1" value="image" <?php if($courseRow["page_background_type"]=="image") echo "checked"; ?>>
-                                  <label class="form-check-label" for="inlineRadio1">Image</label>
+                              <div class="row mb-3">
+                                  <label for="inputColor" class="col-sm-8 col-form-label">Menu Text Color</label>
+                                  <div class="col-sm-2">
+                                      <input type="color" name="front"
+                                             class="form-control form-control-color" id="frontColor" value="<?=$courseRow["front_clr"]?>" title="Choose your color">
+                                  </div>
+                              </div>
+                              <div class="row mb-3">
+                                  <label for="inputColor" class="col-sm-8 col-form-label">Course Title Background</label>
+                                  <div class="col-sm-2">
+                                      <input type="color" name="courseTitleBg"
+                                             class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["courseTitleBg"]?>" title="Choose your color">
+                                  </div>
+                              </div>
+                              <div class="row mb-3">
+                                  <label for="inputColor" class="col-sm-8 col-form-label">Course Title Foreground</label>
+                                  <div class="col-sm-2">
+                                      <input type="color" name="courseTitleFg"
+                                             class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["courseTitleFg"]?>" title="Choose your color">
+                                  </div>
+                              </div>
+                              <div class="row mb-3">
+                                  <label for="inputColor" class="col-sm-8 col-form-label">Text Lesson Background</label>
+                                  <div class="col-sm-2">
+                                      <input type="color" name="txtLessonBackground"
+                                             class="form-control form-control-color" id="txtLessonBackground" value="<?=$courseRow["txtLessonBackground"]?>" title="Choose your color">
+                                  </div>
                               </div>
                           </div>
-                      </div>
-                      <div id="selectBgImg">
-                          <div class="d-flex justify-content-end me-5">
-                              <input type="hidden" value="<?=$courseRow["page_background_image"]?>" name="selectedImg">
-                              <img src="assets/img/course-bg/<?=$courseRow["page_background_image"]?>" alt="Background Image" height="100px;">
-                          </div>
-                          <div class="row mb-3">
-                              <label for="inputNumber" class="col-sm-6 col-form-label">Select Image</label>
-                              <div class="col-sm-6">
-                                  <input class="form-control" type="file" id="formFile" name="fileToUpload">
+                          <div class="col-md-6">
+                              <div class="row mb-3">
+                                  <label for="inputColor" class="col-sm-8 col-form-label">Signature Background Color</label>
+                                  <div class="col-sm-2">
+                                      <input type="color" name="signBgColor"
+                                             class="form-control form-control-color signBgColor" id="txtLessonBackground" value="<?=$courseRow["signBgColor"]?>" title="Choose your color">
+                                  </div>
                               </div>
-                          </div>
-                      </div>
-                      <div class="row mb-3" id="selectBgClr">
-                          <label for="inputColor" class="col-sm-6 col-form-label">Page Background Color</label>
-                          <div class="col-sm-6">
-                              <input type="color" name="bgColor"
-                                     class="form-control form-control-color" id="frontColor" value="<?=$courseRow["page_background_color"]?>" title="Choose your color">
+                              <div class="row mb-3">
+                                  <label for="inputColor" class="col-sm-8 col-form-label">Signature Foreground Color</label>
+                                  <div class="col-sm-2">
+                                      <input type="color" name="signFgColor"
+                                             class="form-control form-control-color signFgColor" id="txtLessonBackground" value="<?=$courseRow["signFgColor"]?>" title="Choose your color">
+                                  </div>
+                              </div>
+                              <div class="row mb-3">
+                                  <label for="inputColor" class="col-sm-6 col-form-label">Background Type</label>
+                                  <div class="col-sm-6">
+                                      <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="bgType" id="inlineRadio2" value="color" <?php if($courseRow["page_background_type"]=="color") echo "checked"; ?>>
+                                          <label class="form-check-label" for="inlineRadio2">Color</label>
+                                      </div>
+                                      <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="bgType" id="inlineRadio1" value="image" <?php if($courseRow["page_background_type"]=="image") echo "checked"; ?>>
+                                          <label class="form-check-label" for="inlineRadio1">Image</label>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div id="selectBgImg">
+                                  <div class="d-flex justify-content-end me-3 mb-3">
+                                      <input type="hidden" value="<?=$courseRow["page_background_image"]?>" name="selectedImg">
+                                      <img src="assets/img/course-bg/<?=$courseRow["page_background_image"]?>" alt="Background Image" height="100px;">
+                                  </div>
+                                  <div class="row mb-3">
+                                      <label for="inputNumber" class="col-sm-6 col-form-label">Select Image</label>
+                                      <div class="col-sm-6">
+                                          <input class="form-control" type="file" id="formFile" name="fileToUpload">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row mb-3" id="selectBgClr">
+                                  <label for="inputColor" class="col-sm-8 col-form-label">Page Background Color</label>
+                                  <div class="col-sm-2">
+                                      <input type="color" name="bgColor"
+                                             class="form-control form-control-color" id="frontColor" value="<?=$courseRow["page_background_color"]?>" title="Choose your color">
+                                  </div>
+                              </div>
                           </div>
                       </div>
                       <hr>
@@ -1294,6 +1306,26 @@ if($courseRow["page_background_type"]=="image"){
            }
        );
 
+       $('.signBgColor').on('input',
+           function() {
+               $('.bottomSignatureBg').css('background-color', $(this).val());
+           }
+       );
+
+       $('.signFgColor').on('input',
+           function() {
+               $('.bottomSignature').css('color', $(this).val());
+           }
+       );
+
+       $('#frontColor').on('input',
+           function() {
+               $('li.list-group-item').css('color', $(this).val());
+               $('.customColors').css('color', $(this).val());
+               $('#lsnHeading').css('color', $(this).val());
+           }
+       );
+
        $('#frontColor').on('input',
            function() {
                $('li.list-group-item').css('color', $(this).val());
@@ -1452,7 +1484,8 @@ if($courseRow["page_background_type"]=="image"){
            $('.titleColors').css('color', '<?=$courseRow["courseTitleFg"]?>');
            $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
            $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
-           $('.bottomSignature').css('color', '<?=$courseRow["back_clr"]?>');
+           $('.bottomSignature').css('color', '<?=$courseRow["signFgColor"]?>');
+           $('.bottomSignatureBg').css('background', '<?=$courseRow["signBgColor"]?>');
            $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
            $("button.customColors").css('border', '1px solid <?=$courseRow["front_clr"]?>');
        }

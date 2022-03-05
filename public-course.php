@@ -21,35 +21,22 @@ $courseID = $courseRow["id"];
     ?>
     <style>
         /* Let's get this party started */
-        .sidebar::-webkit-scrollbar {
+        .sidebar1::-webkit-scrollbar {
             width: 12px;
         }
 
         /* Track */
-        .sidebar::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        .sidebar1::-webkit-scrollbar-track {
             -webkit-border-radius: 10px;
             border-radius: 10px;
         }
 
         /* Handle */
-        .sidebar::-webkit-scrollbar-thumb {
+        .sidebar1::-webkit-scrollbar-thumb {
             -webkit-border-radius: 10px;
             border-radius: 10px;
-            background: <?=$courseRow["back_clr"]?>;
-            -webkit-box-shadow: inset 0 0 0 <?=$courseRow["courseTitleBg"]?>;
-        }
-        .sidebar::-webkit-scrollbar-thumb:window-inactive {
-            background: <?=$courseRow["back_clr"]?>;
-        }
-        .sidebar::-webkit-scrollbar-track-piece:end {
-            background: transparent;
-            margin-bottom: 80px;
-        }
-
-        .sidebar::-webkit-scrollbar-track-piece:start {
-            background: transparent;
-            margin-top: 120px;
+            background: <?=$courseRow["front_clr"]?>;
+            -webkit-box-shadow: inset 0 0 0 <?=$courseRow["back_clr"]?>;
         }
     </style>
 </head>
@@ -138,13 +125,13 @@ $courseID = $courseRow["id"];
         </header>
 
         <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden;border-top-left-radius: 40px;border-bottom-left-radius: 40px;">
-            <div class="d-flex flex-column h-100 pe-0 pb-0">
+            <div class="d-flex flex-column h-100 pe-0 pb-0" style="overflow: hidden">
                 <div class="w-100 sticky-top">
                     <img style="max-height: 120px"
                          id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
                          alt="Profile" class="w-100">
                 </div>
-                <div class="w-100">
+                <div class="w-100 sidebar1" style="overflow: auto">
                     <div class="col-md-12 justify-content-center pb-3 customColors">
                         <div class="d-flex justify-content-around align-items-center mb-3">
                             <h3 class="customHeading text-center customColors" id="lsnHeading"></h3>
@@ -162,7 +149,7 @@ $courseID = $courseRow["id"];
                 </div>
                 <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
                     <div class="siteSignature text-center bg-light">
-                        <div class="d-flex align-items-center justify-content-center">
+                        <div class="d-flex align-items-center justify-content-center bottomSignatureBg">
                             <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
                             <div class="d-flex flex-column ps-2 fw-bold">
                                 <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
@@ -184,19 +171,7 @@ $courseID = $courseRow["id"];
                         </div>
                         <span class="ms-2">Fetching Lessons..</span>
                     </div>
-                    <div id="courseContent" class="w-100 customColors" style="height: 100%">
-                        <div class="row justify-content-center h-100 customColors w-100">
-                            <?php
-                            if($courseRow["access"]=="Registration"){
-                                echo signUp();
-                            }
-                            elseif($courseRow["access"]=="Paid"){
-                                echo paypal();
-                            }else{
-                                echo defaultTxt();
-                            }
-                            ?>
-                        </div>
+                    <div id="courseContent" class="w-100 customColors customColors w-100" style="height: 100%">
                     </div>
                 </div>
                 <section class="section col-md-12 bg-white" style="height: 20%;border-bottom-right-radius: 40px;">
@@ -244,6 +219,7 @@ $courseID = $courseRow["id"];
     loader1('none');
     $( "#lesssonType_1" ).show();
     getLessons();
+    loadFirstLesson();
 
 
     $("#courseImageChange").click(function() {
@@ -256,6 +232,28 @@ $courseID = $courseRow["id"];
         $("#proceedUploadImage").click();
     });
 
+    function loadFirstLesson() {
+        $.ajax({
+            url: "api/getFirstLessonPublicView.php",
+            type: "post",
+            data: {
+                courseID: <?=$courseID?>,
+                publicView: true
+            },
+            success: function(response) {
+                loader1('none');
+                if(response==""){
+                    $('#courseContent').empty();
+                }else{
+                    $('#courseContent').html(response);
+                }
+                implementColors();
+            },
+            error: function(xhr) {
+                alert("Error while fetching courses!\n "+xhr);
+            }
+        });
+    }
 
     function getLessons() {
         loader('block');
@@ -327,7 +325,8 @@ $courseID = $courseRow["id"];
         $('.titleColors').css('color', '<?=$courseRow["courseTitleFg"]?>');
         $('.list-group-item').css('color', '<?=$courseRow["front_clr"]?>');
         $('.customColors').css('color', '<?=$courseRow["front_clr"]?>');
-        $('.bottomSignature').css('color', '<?=$courseRow["back_clr"]?>');
+        $('.bottomSignature').css('color', '<?=$courseRow["signFgColor"]?>');
+        $('.bottomSignatureBg').css('background', '<?=$courseRow["signBgColor"]?>');
         $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
     }
     implementColors();
@@ -371,18 +370,6 @@ function signUp(){
                         <label for="yourEmail" class="form-label">Your Email</label>
                         <input type="email" name="email" class="form-control" id="yourEmail" required="">
                         <div class="invalid-feedback">Please enter a valid Email address!</div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="yourContactNum" class="form-label">Contact #</label>
-                        <input type="text" name="contactNum" class="form-control" id="yourContactNum" required="">
-                        <div class="invalid-feedback">Please enter a valid contact number!</div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="yourAddress" class="form-label">Your Address</label>
-                        <input type="text" name="address" class="form-control" id="yourAddress" required="">
-                        <div class="invalid-feedback">Please enter a valid Address!</div>
                     </div>
 
                     <div class="col-md-6">
