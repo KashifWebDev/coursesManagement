@@ -15,7 +15,16 @@ if(isset($_POST["login"])){
         $_SESSION["firstName"] = $row["firstname"];
         $_SESSION["fullName"] = $row["firstname"].' '.$row["lastname"];
         $_SESSION["role"] = $row["type"];
-        header('Location: instructorDashboard.php');
+        if($row["type"]=="Admin"){
+            header('Location: adminDashboard.php');
+        }
+        if($row["type"]=="Instructor"){
+            header('Location: instructorDashboard.php');
+        }
+        if($row["type"]=="Student"){
+            header('Location: studentDashboard.php');
+        }
+//        header('Location: instructorDashboard.php');
     }else{
         header('Location: index.php?login=failed');
     }

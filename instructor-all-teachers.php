@@ -9,7 +9,7 @@ validateSession();
 
 <head>
     <?php
-    $title = "My Students"." | TeachMe How";
+    $title = "My Instructor"." | TeachMe How";
         require "includes/head.inc.php";
     ?>
 </head>
@@ -36,17 +36,17 @@ validateSession();
 
       <div class="pagetitle d-flex justify-content-between">
           <div>
-              <h1>Profile</h1>
+              <h1>Instructors</h1>
               <nav>
                   <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a href="<?=$path?>instructorDashboard.php">Dashboard</a></li>
-                      <li class="breadcrumb-item active">My Students</li>
+                      <li class="breadcrumb-item active">All Instructors</li>
                   </ol>
               </nav>
           </div>
           <div>
 
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-check-fill me-2"></i>Add New Student</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-check-fill me-2"></i>Add New Instructor</button>
               <button type="button" class="btn btn-success" ><i class="ri-file-excel-line me-2" style="font-size: 17px;"></i>Export All</button>
           </div>
       </div><!-- End Page Title -->
@@ -55,7 +55,7 @@ validateSession();
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h5 class="modal-title">Enroll New Student</h5>
+                      <h5 class="modal-title">Add new instructor</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">

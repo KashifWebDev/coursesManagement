@@ -149,12 +149,8 @@ $courseID = $courseRow["id"];
                 </div>
                 <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
                     <div class="siteSignature text-center bg-light">
-                        <div class="d-flex align-items-center justify-content-center bottomSignatureBg">
-                            <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
-                            <div class="d-flex flex-column ps-2 fw-bold">
-                                <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
-                                <p class="m-0 bottomSignature">TeachMeHow.me</p>
-                            </div>
+                        <div class="d-flex align-items-center justify-content-center customColors">
+                            <img src="assets/img/bottomLogo/<?=$courseRow["bottomLogo"]?>" alt="Site Logo" class="w-100" height="120px">
                         </div>
                     </div>
                 </div>

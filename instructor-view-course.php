@@ -170,20 +170,54 @@ validateSession();
         $txtLessonBackground = sanitizeParam($_POST["txtLessonBackground"]);
         $courseTitleBg = sanitizeParam($_POST["courseTitleBg"]);
         $courseTitleFg = sanitizeParam($_POST["courseTitleFg"]);
-        $signBgColor = sanitizeParam($_POST["signBgColor"]);
-        $signFgColor = sanitizeParam($_POST["signFgColor"]);
+        $signBgColor = isset($_POST["signBgColor"]) ? sanitizeParam($_POST["signBgColor"]) : '';
+        $signFgColor = isset($_POST["signFgColor"]) ? sanitizeParam($_POST["signFgColor"]) : '';
 
+        $bottomLogo = "";
+       //Uplaod bottom logo if set
+        if (empty($_FILES['bottomLogo']['name'])) {
+            $bottomLogo = sanitizeParam($_POST["bottomLogoSelected"]);
+        }
+        else{
+            $target_dir = "assets/img/bottomLogo/";
+            $target_file = $target_dir . basename($_FILES["bottomLogo"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            // Check file size
+            if ($_FILES["bottomLogo"]["size"] > 10000000) {
+                $uploadErrMsg = "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+            if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
+                strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
+                || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
+                $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
+                $uploadOk = 0;
+            }
+
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo "<script>alert('".$uploadErrMsg."');</script>";
+            } else {
+                if (move_uploaded_file($_FILES["bottomLogo"]["tmp_name"], $target_file)) {
+                    $bottomLogo = $_FILES["bottomLogo"]["name"];
+                } else {
+                    echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+                }
+            }
+        }
         if($bgType=="image"){
             if (empty($_FILES['fileToUpload']['name'])) {
                 $fileName = sanitizeParam($_POST["selectedImg"]);
                 $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='image',
                           page_background_image='$fileName', txtLessonBackground='$txtLessonBackground', courseTitleBg='$courseTitleBg',
-                        courseTitleFg='$courseTitleFg', signFgColor='$signFgColor', signBgColor='$signBgColor'
+                        courseTitleFg='$courseTitleFg', signFgColor='$signFgColor', signBgColor='$signBgColor', bottomLogo='$bottomLogo'
                             WHERE id=$courseID ";
                 if(mysqli_query($con, $s)){
                     header('Location: instructor-view-course.php?courseID='.$courseID);
                 }
-            }else{
+            }
+            else{
                 $target_dir = "assets/img/course-bg/";
                 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
                 $uploadOk = 1;
@@ -209,7 +243,7 @@ validateSession();
                         $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='image',
                           page_background_image='$fileName', txtLessonBackground='$txtLessonBackground',
                         courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg',
-                         signFgColor='$signFgColor', signBgColor='$signBgColor'WHERE id=$courseID ";
+                         signFgColor='$signFgColor', signBgColor='$signBgColor', bottomLogo='$bottomLogo' WHERE id=$courseID ";
                         if(mysqli_query($con, $s)){
                             header('Location: instructor-view-course.php?courseID='.$courseID);
                         }
@@ -223,7 +257,8 @@ validateSession();
             $bgColor = sanitizeParam($_POST["bgColor"]);
             $s = "UPDATE courses SET back_clr='$back', front_clr='$front',page_background_type='color',
                           page_background_color='$bgColor', txtLessonBackground='$txtLessonBackground',
-                            courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg', signFgColor='$signFgColor', signBgColor='$signBgColor'
+                            courseTitleBg='$courseTitleBg', courseTitleFg='$courseTitleFg',
+                   signFgColor='$signFgColor', signBgColor='$signBgColor', bottomLogo='$bottomLogo' 
                     WHERE id=$courseID ";
             if(mysqli_query($con, $s)){
                 header('Location: instructor-view-course.php?courseID='.$courseID);
@@ -335,25 +370,26 @@ validateSession();
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
         $fileName = $_FILES["fileToUpload"]["name"];
         if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
+//            echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
         } else {
-            echo "File is not an image.";
+            $uploadErrMsg = "File is not an image.";
             $uploadOk = 0;
         }
         // Check file size
         if ($_FILES["fileToUpload"]["size"] > 999999) {
-            echo "Sorry, your file is too large.";
+            $uploadErrMsg = "Sorry, your file is too large.";
             $uploadOk = 0;
         }
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
             && $imageFileType != "gif") {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadErrMsg = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
         }
 
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
+            echo "<script>alert('".$uploadErrMsg."');</script>";
             echo "Sorry, your file was not uploaded.";
             // if everything is ok, try to upload file
         } elseif ($uploadOk==1) {
@@ -425,7 +461,10 @@ if($courseRow["page_background_type"]=="image"){
             <div class="col-md-4 header-nav d-flex justify-content-end">
                 <ul class="d-flex align-items-center">
 
-                    <button class="btn btn-primary btn-outline-dark customColors" data-bs-toggle="modal" data-bs-target="#colorPickerModal">
+                    <a href="instructor-all-courses.php" class="btn btn-danger text-white">
+                        <i class="bi bi-house-fill"></i>
+                    </a>
+                    <button class="btn btn-primary btn-outline-dark customColors ms-2" data-bs-toggle="modal" data-bs-target="#colorPickerModal">
                         <i class="bi bi-palette"></i>
                     </button>
                     <button class="btn btn-secondary ms-2" data-bs-toggle="modal" data-bs-target="#draftCourseModel">
@@ -487,14 +526,21 @@ if($courseRow["page_background_type"]=="image"){
                         </button>
                     </div>
                 </div>
+<!--                <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">-->
+<!--                    <div class="siteSignature text-center bg-light">-->
+<!--                        <div class="d-flex align-items-center justify-content-center bottomSignatureBg">-->
+<!--                            <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">-->
+<!--                            <div class="d-flex flex-column ps-2 fw-bold">-->
+<!--                                <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>-->
+<!--                                <p class="m-0 bottomSignature">TeachMeHow.me</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
                     <div class="siteSignature text-center bg-light">
-                        <div class="d-flex align-items-center justify-content-center bottomSignatureBg">
-                            <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">
-                            <div class="d-flex flex-column ps-2 fw-bold">
-                                <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>
-                                <p class="m-0 bottomSignature">TeachMeHow.me</p>
-                            </div>
+                        <div class="d-flex align-items-center justify-content-center customColors">
+                            <img src="assets/img/bottomLogo/<?=$courseRow["bottomLogo"]?>" alt="Site Logo" class="w-100" height="120px">
                         </div>
                     </div>
                 </div>
@@ -1051,21 +1097,7 @@ if($courseRow["page_background_type"]=="image"){
                           </div>
                           <div class="col-md-6">
                               <div class="row mb-3">
-                                  <label for="inputColor" class="col-sm-8 col-form-label">Signature Background Color</label>
-                                  <div class="col-sm-2">
-                                      <input type="color" name="signBgColor"
-                                             class="form-control form-control-color signBgColor" id="txtLessonBackground" value="<?=$courseRow["signBgColor"]?>" title="Choose your color">
-                                  </div>
-                              </div>
-                              <div class="row mb-3">
-                                  <label for="inputColor" class="col-sm-8 col-form-label">Signature Foreground Color</label>
-                                  <div class="col-sm-2">
-                                      <input type="color" name="signFgColor"
-                                             class="form-control form-control-color signFgColor" id="txtLessonBackground" value="<?=$courseRow["signFgColor"]?>" title="Choose your color">
-                                  </div>
-                              </div>
-                              <div class="row mb-3">
-                                  <label for="inputColor" class="col-sm-6 col-form-label">Background Type</label>
+                                  <label for="inputColor" class="col-sm-6 col-form-label">Page Background Type</label>
                                   <div class="col-sm-6">
                                       <div class="form-check form-check-inline">
                                           <input class="form-check-input" type="radio" name="bgType" id="inlineRadio2" value="color" <?php if($courseRow["page_background_type"]=="color") echo "checked"; ?>>
@@ -1095,6 +1127,17 @@ if($courseRow["page_background_type"]=="image"){
                                       <input type="color" name="bgColor"
                                              class="form-control form-control-color" id="frontColor" value="<?=$courseRow["page_background_color"]?>" title="Choose your color">
                                   </div>
+                              </div>
+                              <hr>
+                              <div class="row mb-3">
+                                  <label for="inputNumber" class="col-sm-6 col-form-label">Menu Bottom Logo</label>
+                                  <div class="col-sm-6">
+                                      <input class="form-control" type="file" id="formFile" name="bottomLogo">
+                                  </div>
+                              </div>
+                              <div class="d-flex justify-content-end me-3 mb-3">
+                                  <input type="hidden" value="<?=$courseRow["bottomLogo"]?>" name="bottomLogoSelected">
+                                  <img src="assets/img/bottomLogo/<?=$courseRow["bottomLogo"]?>" alt="Background Image" height="100px;">
                               </div>
                           </div>
                       </div>

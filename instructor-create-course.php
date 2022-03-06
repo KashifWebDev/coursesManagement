@@ -57,9 +57,17 @@ validateSession();
     <?=require_once "includes/header.inc.php";?>
   <!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <?=require_once "includes/instructorSideBar.inc.php";?>
-  <!-- End Sidebar-->
+  <?php
+  if($_SESSION["role"]=="Admin"){
+      require_once "includes/adminSideBar.inc.php";
+  }
+  if($_SESSION["role"]=="Instructor"){
+      require_once "includes/instructorSideBar.inc.php";
+  }
+  if($_SESSION["role"]=="Student"){
+      require_once "includes/studentSideBar.inc.php";
+  }
+  ?>
 
   <main id="main" class="main">
 

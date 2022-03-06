@@ -21,18 +21,28 @@ validateSession();
   <!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-  <?=require_once "includes/instructorSideBar.inc.php";?>
+  <?php
+  if($_SESSION["role"]=="Admin"){
+      require_once "includes/adminSideBar.inc.php";
+  }
+  if($_SESSION["role"]=="Instructor"){
+      require_once "includes/instructorSideBar.inc.php";
+  }
+  if($_SESSION["role"]=="Student"){
+      require_once "includes/studentSideBar.inc.php";
+  }
+  ?>
   <!-- End Sidebar-->
 
   <main id="main" class="main">
 
       <div class="pagetitle d-flex justify-content-between">
           <div>
-              <h1>My Courses</h1>
+              <h1>All Courses</h1>
               <nav>
                   <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a href="<?=ROOT_DIR?>instructorDashboard.php">Dashboard</a></li>
-                      <li class="breadcrumb-item">My Courses</li>
+                      <li class="breadcrumb-item">All Courses</li>
                   </ol>
               </nav>
           </div>
@@ -79,7 +89,10 @@ validateSession();
                                           <span style="border-radius: 10px" class="bg-<?=$badgeClass?> text-white px-2 py-1"><?=$badgeTxt?></span>
                                       </td>
                                       <td>
-                                          <a href="instructor-view-course.php?courseID=<?=$row["coursePrimaryKey"]?>" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Visit Course"><i class="bi bi-box-arrow-up-right me-2"></i>Open Course</a>
+                                          <a href="instructor-view-course.php?courseID=<?=$row["coursePrimaryKey"]?>" class="btn btn-outline-primary">
+                                              <i class="bi bi-box-arrow-up-right me-2"></i>
+                                              Edit Course
+                                          </a>
                                       </td>
                                   </tr>
                               <?php } ?>
