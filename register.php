@@ -7,8 +7,8 @@ if (isset($_POST["signUp"])){
     $firstName = sanitizeParam($_POST["firstName"]);
     $lastName = sanitizeParam($_POST["lastName"]);
     $email = sanitizeParam($_POST["email"]);
-    $contactNum = sanitizeParam($_POST["contactNum"]);
-    $address = sanitizeParam($_POST["address"]);
+    $contactNum = "";
+    $address =  "";
     $username = sanitizeParam($_POST["username"]);
     $password = md5(sanitizeParam($_POST["password"]));
     $confirmPassword = sanitizeParam($_POST["confirmPassword"]);

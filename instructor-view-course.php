@@ -408,7 +408,12 @@ validateSession();
     $s = "SELECT * FROM courses WHERE id=$courseID";
     $res = mysqli_query($con, $s);
     $courseRow = mysqli_fetch_array($res);
-//    print_r($courseRow);
+    $instructorID = $courseRow["instructor_id"];
+
+    $s = "SELECT concat(firstname,' ',lastname) as fullName FROM users WHERE id=$instructorID";
+    $res = mysqli_query($con, $s);
+    $instructorRow = mysqli_fetch_array($res);
+    $instructor_name = $instructorRow["fullName"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -456,7 +461,7 @@ if($courseRow["page_background_type"]=="image"){
 
             <div class="col-md-8 d-flex justify-content-end align-items-center">
                 <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
-                <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
+                <h2><?=$courseRow["title"];?><small class="ms-3">By <?=$instructor_name?></small></h2>
             </div>
             <div class="col-md-4 header-nav d-flex justify-content-end">
                 <ul class="d-flex align-items-center">
@@ -583,7 +588,7 @@ if($courseRow["page_background_type"]=="image"){
                         <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
                             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
                             <div class="d-flex flex-column ms-2">
-                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
+                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$instructor_name?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
                             </div>
                         </div>
@@ -613,13 +618,13 @@ if($courseRow["page_background_type"]=="image"){
 
                       <div class="col-md-12 d-flex align-items-center">
                           <p class="form-label me-2">Select Lesson Type  </p>
-                          <input type="radio" class="btn-check" name="options" id="option11" autocomplete="off" checked="" value="test">
-                          <label class="btn btn-outline-primary me-2" for="option11" style="margin-right: 10px!important;">
-                              <i class="bi bi-list-check"></i>
-                              Test
-                          </label>
+<!--                          <input type="radio" class="btn-check" name="options" id="option11" autocomplete="off" checked="" value="test">-->
+<!--                          <label class="btn btn-outline-primary me-2" for="option11" style="margin-right: 10px!important;">-->
+<!--                              <i class="bi bi-list-check"></i>-->
+<!--                              Test-->
+<!--                          </label>-->
 
-                          <input type="radio" class="btn-check" name="options" id="option22" autocomplete="off" value="link">
+                          <input type="radio" class="btn-check" name="options" id="option22" autocomplete="off" value="link" checked>
                           <label class="btn btn-outline-primary me-2" for="option22">
                               <i class="ri-links-line"></i>
                               Link
@@ -1231,7 +1236,7 @@ if($courseRow["page_background_type"]=="image"){
        });
 
        hideAll();
-       $( "#lesssonType_1" ).show();
+       $( "#lesssonType_2" ).show();
        getLessons();
        implementColors();
        // loader('none');

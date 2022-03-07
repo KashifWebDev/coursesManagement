@@ -110,11 +110,11 @@ if(mysqli_num_rows($res)){
 
                                 <div class="col-md-12 d-flex align-items-center">
                                     <p class="form-label me-2">Select Lesson Type  </p>
-                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">
-                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">
-                                        <i class="bi bi-list-check"></i>
-                                        Test
-                                    </label>
+<!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
+<!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
+<!--                                        <i class="bi bi-list-check"></i>-->
+<!--                                        Test-->
+<!--                                    </label>-->
 
                                     <input type="radio" class="btn-check" name="options_1" id="option_2" autocomplete="off" value="link">
                                     <label class="btn btn-outline-primary me-2" for="option_2">
@@ -410,11 +410,11 @@ if(mysqli_num_rows($res)){
 
                                 <div class="col-md-12 d-flex align-items-center">
                                     <p class="form-label me-2">Select Lesson Type  </p>
-                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">
-                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">
-                                        <i class="bi bi-list-check"></i>
-                                        Test
-                                    </label>
+<!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
+<!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
+<!--                                        <i class="bi bi-list-check"></i>-->
+<!--                                        Test-->
+<!--                                    </label>-->
 
                                     <input type="radio" class="btn-check" name="options_1" id="option_2" autocomplete="off" value="link">
                                     <label class="btn btn-outline-primary me-2" for="option_2">
@@ -720,11 +720,11 @@ if(mysqli_num_rows($res)){
 
                                 <div class="col-md-12 d-flex align-items-center">
                                     <p class="form-label me-2">Select Lesson Type  </p>
-                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">
-                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">
-                                        <i class="bi bi-list-check"></i>
-                                        Test
-                                    </label>
+<!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
+<!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
+<!--                                        <i class="bi bi-list-check"></i>-->
+<!--                                        Test-->
+<!--                                    </label>-->
 
                                     <input type="radio" class="btn-check" name="options_1" id="option_2" autocomplete="off" value="link">
                                     <label class="btn btn-outline-primary me-2" for="option_2">
@@ -951,7 +951,7 @@ if(mysqli_num_rows($res)){
 
                                             <div class="col-md-12 mt-3">
                                       <textarea class="tinymce-editor" name="lessonContent">
-                                        <?=$content?>
+
                                       </textarea>
                                             </div>
 
@@ -1028,11 +1028,11 @@ if(mysqli_num_rows($res)){
 
                                 <div class="col-md-12 d-flex align-items-center">
                                     <p class="form-label me-2">Select Lesson Type  </p>
-                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">
-                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">
-                                        <i class="bi bi-list-check"></i>
-                                        Test
-                                    </label>
+<!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
+<!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
+<!--                                        <i class="bi bi-list-check"></i>-->
+<!--                                        Test-->
+<!--                                    </label>-->
 
                                     <input type="radio" class="btn-check" name="options_1" id="option_2" autocomplete="off" value="link" checked="">
                                     <label class="btn btn-outline-primary me-2" for="option_2">

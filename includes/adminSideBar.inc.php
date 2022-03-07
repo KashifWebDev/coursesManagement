@@ -16,18 +16,8 @@
             </a>
             <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?=$path?>instructor-create-course.php">
-                        <i class="bi bi-circle"></i><span>Add New Course</span>
-                    </a>
-                </li>
-                <li>
                     <a href="<?=$path?>instructor-all-courses.php">
                         <i class="bi bi-circle"></i><span>My Courses</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?=$path?>instructor-my-students.php">
-                        <i class="bi bi-circle"></i><span>My Students</span>
                     </a>
                 </li>
             </ul>
@@ -57,7 +47,7 @@
             </a>
             <ul id="third-collapse" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?=$path?>instructor-all-teachers.php">
+                    <a href="<?=$path?>admin-all-teachers.php">
                         <i class="bi bi-circle"></i><span>All Instructor</span>
                     </a>
                 </li>

@@ -12,6 +12,7 @@ if(isset($_POST["login"])){
     if(mysqli_num_rows($qry)>0){
         $email = sanitizeParam($_POST["username"]);
         $row = mysqli_fetch_array($qry);
+        $_SESSION["userID"] = $row["id"];
         $_SESSION["firstName"] = $row["firstname"];
         $_SESSION["fullName"] = $row["firstname"].' '.$row["lastname"];
         $_SESSION["role"] = $row["type"];

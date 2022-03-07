@@ -21,7 +21,17 @@ validateSession();
   <!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-  <?=require_once "includes/instructorSideBar.inc.php";?>
+  <?php
+  if($_SESSION["role"]=="Admin"){
+      require_once "includes/adminSideBar.inc.php";
+  }
+  if($_SESSION["role"]=="Instructor"){
+      require_once "includes/instructorSideBar.inc.php";
+  }
+  if($_SESSION["role"]=="Student"){
+      require_once "includes/studentSideBar.inc.php";
+  }
+  ?>
   <!-- End Sidebar-->
 
   <main id="main" class="main">
@@ -46,13 +56,13 @@ validateSession();
 
                           <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
                           <h2>Kevin Anderson</h2>
-                          <h3>Instructor</h3>
-                          <div class="social-links mt-2">
-                              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                          </div>
+                          <h3><?=$_SESSION["role"]?></h3>
+<!--                          <div class="social-links mt-2">-->
+<!--                              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>-->
+<!--                              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>-->
+<!--                              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>-->
+<!--                              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>-->
+<!--                          </div>-->
                       </div>
                   </div>
 

@@ -38,13 +38,11 @@ validateSession();
 
     <section class="section dashboard">
       <div class="row">
-
-        <!-- Left side columns -->
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="row">
 
             <!-- Courses Card -->
-            <div class="col-xxl-4 col-md-6">
+            <div class="col-xxl-3 col-md-6">
               <div class="card info-card sales-card">
 
                 <div class="card-body">
@@ -65,7 +63,7 @@ validateSession();
             </div><!-- End Courses Card -->
 
             <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
+            <div class="col-xxl-3 col-md-6">
               <div class="card info-card revenue-card">
 
                 <div class="card-body">
@@ -87,7 +85,7 @@ validateSession();
             </div><!-- End Revenue Card -->
 
             <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
+            <div class="col-xxl-3 col-xl-12">
 
               <div class="card info-card customers-card">
 
@@ -101,6 +99,29 @@ validateSession();
                     <div class="ps-3">
                       <h6>1244</h6>
                       <span class="text-muted small pt-2 ps-1">All Students</span>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+            <!-- Customers Card -->
+            <div class="col-xxl-3 col-xl-12">
+
+              <div class="card info-card sales-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Instructors</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>78</h6>
+                      <span class="text-muted small pt-2 ps-1">All Instructors</span>
 
                     </div>
                   </div>
@@ -241,128 +262,7 @@ validateSession();
             </div><!-- End Recent Sales -->
 
           </div>
-        </div><!-- End Left side columns -->
-
-        <!-- Right side columns -->
-        <div class="col-lg-4">
-
-          <!-- Recent Activity -->
-          <div class="card">
-
-            <div class="card-body">
-              <h5 class="card-title">Recent Activity <span>| Last Week</span></h5>
-
-              <div class="activity">
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    You created a course <a href="#" class="fw-bold text-dark">Testing Course</a>
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                      You updated a course <a href="#" class="fw-bold text-dark">Learn new Language</a>
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                      You Deleted a course <a href="#" class="fw-bold text-dark">Learn Web Designing</a>
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                      You created a course <a href="#" class="fw-bold text-dark">Master in Algebra</a>
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                      You deleted a course <a href="#" class="fw-bold text-dark">Master in Algebra</a>
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                      You updated a course <a href="#" class="fw-bold text-dark">Learn new Language</a>
-                  </div>
-                </div><!-- End activity item-->
-
-              </div>
-
-            </div>
-          </div><!-- End Recent Activity -->
-
-          <!-- Website Traffic -->
-          <div class="card">
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Coupons History</h5>
-
-              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#trafficChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Access From',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [{
-                          value: 54,
-                          name: 'Available Coupons'
-                        },
-                        {
-                          value: 19,
-                          name: 'Used Coupons'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div><!-- End Website Traffic -->
-
-
-        </div><!-- End Right side columns -->
+        </div>>
 
       </div>
     </section>

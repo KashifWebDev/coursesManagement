@@ -46,8 +46,8 @@ validateSession();
           </div>
           <div>
 
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-check-fill me-2"></i>Add New Student</button>
-              <button type="button" class="btn btn-success" ><i class="ri-file-excel-line me-2" style="font-size: 17px;"></i>Export All</button>
+<!--              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal"><i class="bi bi-person-check-fill me-2"></i>Add New Student</button>-->
+<!--              <button type="button" class="btn btn-success" ><i class="ri-file-excel-line me-2" style="font-size: 17px;"></i>Export All</button>-->
           </div>
       </div><!-- End Page Title -->
 
@@ -115,44 +115,38 @@ validateSession();
                                   <th scope="col">#</th>
                                   <th scope="col">Name</th>
                                   <th scope="col">Course</th>
-                                  <th scope="col">Age</th>
                                   <th scope="col">Start Date</th>
                               </tr>
                               </thead>
                               <tbody>
                               <tr>
                                   <th scope="row">1</th>
-                                  <td>Brandon Jacob</td>
+                                  <td><img style="height: 32px; border-radius: 50%;" class="me-2" src="assets/img/profilePics/default.jpg" alt="">Brandon Jacob</td>
                                   <td>Designer</td>
-                                  <td>28</td>
                                   <td>2016-05-25</td>
                               </tr>
                               <tr>
                                   <th scope="row">2</th>
-                                  <td>Bridie Kessler</td>
+                                  <td><img style="height: 32px; border-radius: 50%;" class="me-2" src="assets/img/profilePics/default.jpg" alt="">Bridie Kessler</td>
                                   <td>Developer</td>
-                                  <td>35</td>
                                   <td>2014-12-05</td>
                               </tr>
                               <tr>
                                   <th scope="row">3</th>
-                                  <td>Ashleigh Langosh</td>
+                                  <td><img style="height: 32px; border-radius: 50%;" class="me-2" src="assets/img/profilePics/default.jpg" alt="">Ashleigh Langosh</td>
                                   <td>Finance</td>
-                                  <td>45</td>
                                   <td>2011-08-12</td>
                               </tr>
                               <tr>
                                   <th scope="row">4</th>
-                                  <td>Angus Grady</td>
+                                  <td><img style="height: 32px; border-radius: 50%;" class="me-2" src="assets/img/profilePics/default.jpg" alt="">Angus Grady</td>
                                   <td>HR</td>
-                                  <td>34</td>
                                   <td>2012-06-11</td>
                               </tr>
                               <tr>
                                   <th scope="row">5</th>
-                                  <td>Raheem Lehner</td>
+                                  <td><img style="height: 32px; border-radius: 50%;" class="me-2" src="assets/img/profilePics/default.jpg" alt="">Raheem Lehner</td>
                                   <td>Dynamic Division Officer</td>
-                                  <td>47</td>
                                   <td>2011-04-19</td>
                               </tr>
                               </tbody>

@@ -3,6 +3,16 @@
 validateSession();
     require_once "includes/functions.php";
     $path = ROOT_DIR;
+
+if(isset($_POST["updateDraftStatus"])){
+    $setStatus = $_POST["setStatus"]=="active" ? 0:1;
+    $courseID = sanitizeParam($_POST["courseID"]);
+
+    $s = "UPDATE courses SET draft=$setStatus WHERE id=$courseID";
+    if(mysqli_query($con, $s)){
+        header('Location: instructor-all-courses.php');
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +79,7 @@ validateSession();
                               </thead>
                               <tbody>
                               <?php
-                              $sql = "SELECT c.id as coursePrimaryKey, c.title, COUNT(l.course_id) AS total_lessons, c.thumbnail, c.access, c.draft, c.courseID
+                              $sql = "SELECT c.id as coursePrimaryKey, c.title, COUNT(l.course_id) AS total_lessons, c.thumbnail, c.access, c.draft, c.courseID, c.draft
                                         FROM courses c LEFT JOIN lessons l
                                         ON l.course_id = c.id GROUP BY c.id";
                               $res = mysqli_query($con, $sql);
@@ -89,36 +99,61 @@ validateSession();
                                           <span style="border-radius: 10px" class="bg-<?=$badgeClass?> text-white px-2 py-1"><?=$badgeTxt?></span>
                                       </td>
                                       <td>
-                                          <a href="instructor-view-course.php?courseID=<?=$row["coursePrimaryKey"]?>" class="btn btn-outline-primary">
+                                          <a href="instructor-view-course.php?courseID=<?=$row["coursePrimaryKey"]?>" class="btn btn-primary">
                                               <i class="bi bi-box-arrow-up-right me-2"></i>
                                               Edit Course
                                           </a>
+                                          <button class="btn btn-secondary ms-2" data-bs-toggle="modal" data-bs-target="#draftCourseModel_<?=$row["coursePrimaryKey"]?>">
+                                              <i class="ri-save-3-line me-1"></i> Status
+                                          </button>
+                                          <a target="_blank" class="btn btn-info text-white ms-2" href="course-123">
+                                              <i class="bi bi-eye-fill"></i> Preview
+                                          </a>
                                       </td>
                                   </tr>
-                              <?php } ?>
-
-
-                              <div class="modal fade" id="delModal" tabindex="-1">
-                                  <div class="modal-dialog modal-lg">
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <h5 class="modal-title">Delete Course</h5>
-                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                          </div>
-                                          <div class="modal-body">
-                                              Are you sure you want to delete this course?
-                                          </div>
-                                          <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                              <button type="button" class="btn btn-danger">Delete</button>
+                                  <div class="modal fade" id="draftCourseModel_<?=$row["coursePrimaryKey"]?>" tabindex="-1">
+                                      <div class="modal-dialog">
+                                          <div class="modal-content">
+                                              <div class="modal-header bg-secondary text-white">
+                                                  <h5 class="modal-title">Update Course Status</h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                              </div>
+                                              <div class="modal-body">
+                                                  <form action="" method="post">
+                                                      <input type="hidden" name="courseID" value="<?=$row["coursePrimaryKey"]?>">
+                                                      <fieldset class="row mb-3">
+                                                          <div class="col-sm-10">
+                                                              <div class="form-check">
+                                                                  <input class="form-check-input" type="radio" name="setStatus" id="gridRadios" value="active" <?php if(!$row["draft"]) echo "checked"; ?>>
+                                                                  <label class="form-check-label" for="gridRadios">
+                                                                      Set course active
+                                                                  </label>
+                                                              </div>
+                                                          </div>
+                                                          <div class="col-sm-10">
+                                                              <div class="form-check">
+                                                                  <input class="form-check-input" type="radio" name="setStatus" id="gridRadios1" value="draft" <?php if($row["draft"]) echo "checked"; ?>>
+                                                                  <label class="form-check-label" for="gridRadios1">
+                                                                      Set as Draft
+                                                                  </label>
+                                                              </div>
+                                                          </div>
+                                                      </fieldset>
+                                                      <div class="row justify-content-around">
+                                                          <div class="col-md-6">
+                                                              <button type="submit" name="updateDraftStatus" class="btn btn-secondary w-100" id="submitBtn1">
+                                                                  <i class="ri-save-3-line me-2"></i>
+                                                                  Save Changes
+                                                              </button>
+                                                          </div>
+                                                      </div>
+                                                  </form>
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
-                              </div><!-- End Large Modal-->
-                              
-                              
-                              
-                              
+                              <?php } ?>
+
                               
                               </tbody>
                           </table>
