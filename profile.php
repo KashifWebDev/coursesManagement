@@ -3,6 +3,79 @@
 validateSession();
     require_once "includes/functions.php";
     $path = ROOT_DIR;
+
+$userID = $_SESSION["userID"];
+$s = "SELECT * FROM users WHERE id=$userID";
+$res = mysqli_query($con, $s);
+$userRow = mysqli_fetch_array($res);
+
+    if(isset($_POST["updateProfile"])){
+        $firstName = sanitizeParam($_POST["firstName"]);
+        $lastName = sanitizeParam($_POST["lastName"]);
+        $email = sanitizeParam($_POST["email"]);
+        $about = sanitizeParam($_POST["about"]);
+
+        $profilePic = "";
+        //Uplaod bottom logo if set
+        if (empty($_FILES['profilePic']['name'])) {
+            $profilePic = sanitizeParam($_POST["profilePic"]);
+        }
+        else{
+            $target_dir = "assets/img/profilePics/";
+            $target_file = $target_dir . basename($_FILES["profilePic"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            // Check file size
+            if ($_FILES["profilePic"]["size"] > 10000000) {
+                $uploadErrMsg = "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+            if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
+                strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
+                || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
+                $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
+                $uploadOk = 0;
+            }
+
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo "<script>alert('".$uploadErrMsg."');</script>";
+            } else {
+                if (move_uploaded_file($_FILES["profilePic"]["tmp_name"], $target_file)) {
+                    $profilePic = $_FILES["profilePic"]["name"];
+                } else {
+                    echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+                }
+            }
+        }
+
+        $s = "UPDATE users SET firstname='$firstName', lastname='$lastName',
+               email = '$email', about='$about', pic='$profilePic'
+                WHERE id=$userID";
+        if(mysqli_query($con, $s)){
+            header('Location: profile.php');
+        }
+    }
+
+    if(isset($_POST["changePass"])){
+//        print_r($_POST); exit(); die();
+        $oldPass = md5(sanitizeParam($_POST["password"]));
+        $newpassword = md5(sanitizeParam($_POST["newpassword"]));
+        $renewpassword = md5(sanitizeParam($_POST["renewpassword"]));
+
+        if($oldPass != $userRow["password"]){
+            header('Location: profile.php?err=Old password you entered was incorrect!');
+        }
+        if($newpassword != $renewpassword){
+            header('Location: profile.php?err=Confirm Password does not match!');
+        }
+
+        $s = "UPDATE users SET password='$newpassword' WHERE id=$userID";
+        if(mysqli_query($con, $s)){
+            header('Location: profile.php?success=1');
+        }
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,6 +120,23 @@ validateSession();
           </nav>
       </div><!-- End Page Title -->
 
+      <div class="row justify-content-center">
+          <div class="col-md-5">
+              <?php if(isset($_GET["err"])) { ?>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      <?=$_GET["err"]?>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+              <?php } ?>
+              <?php if(isset($_GET["success"])) { ?>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      Your password was updated successfully!
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+              <?php } ?>
+          </div>
+      </div>
+
       <section class="section profile">
           <div class="row">
               <div class="col-xl-4">
@@ -54,8 +144,8 @@ validateSession();
                   <div class="card">
                       <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                          <h2>Kevin Anderson</h2>
+                          <img src="assets/img/profilePics/<?=$userRow["pic"]?>" alt="Profile" class="rounded-circle">
+                          <h2><?=$userRow["firstname"].' '.$userRow["lastname"]?></h2>
                           <h3><?=$_SESSION["role"]?></h3>
 <!--                          <div class="social-links mt-2">-->
 <!--                              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>-->
@@ -83,9 +173,9 @@ validateSession();
                                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                               </li>
 
-                              <li class="nav-item">
-                                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
-                              </li>
+<!--                              <li class="nav-item">-->
+<!--                                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>-->
+<!--                              </li>-->
 
                               <li class="nav-item">
                                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
@@ -96,40 +186,40 @@ validateSession();
 
                               <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                   <h5 class="card-title">About</h5>
-                                  <p class="small fst-italic">I'm working as a instructor at TeachMe How since 5 years.
-                                      m maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. U
-                                      t sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                                  <p class="small fst-italic">
+                                      <?=$userRow["about"]?>
+                                  </p>
 
                                   <h5 class="card-title">Profile Details</h5>
 
                                   <div class="row">
                                       <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                      <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                                      <div class="col-lg-9 col-md-8"><?=$userRow["firstname"].' '.$userRow["lastname"]?></div>
                                   </div>
 
                                   <div class="row">
                                       <div class="col-lg-3 col-md-4 label ">Username</div>
-                                      <div class="col-lg-9 col-md-8">kevin_anderson</div>
+                                      <div class="col-lg-9 col-md-8"><?=$userRow["username"]?></div>
                                   </div>
 
                                   <div class="row">
                                       <div class="col-lg-3 col-md-4 label">Role</div>
-                                      <div class="col-lg-9 col-md-8">Instructor</div>
+                                      <div class="col-lg-9 col-md-8"><?=$userRow["type"]?></div>
                                   </div>
 
-                                  <div class="row">
-                                      <div class="col-lg-3 col-md-4 label">Address</div>
-                                      <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
-                                  </div>
-
-                                  <div class="row">
-                                      <div class="col-lg-3 col-md-4 label">Phone</div>
-                                      <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
-                                  </div>
+<!--                                  <div class="row">-->
+<!--                                      <div class="col-lg-3 col-md-4 label">Address</div>-->
+<!--                                      <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>-->
+<!--                                  </div>-->
+<!---->
+<!--                                  <div class="row">-->
+<!--                                      <div class="col-lg-3 col-md-4 label">Phone</div>-->
+<!--                                      <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>-->
+<!--                                  </div>-->
 
                                   <div class="row">
                                       <div class="col-lg-3 col-md-4 label">Email</div>
-                                      <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                                      <div class="col-lg-9 col-md-8"><?=$userRow["email"]?></div>
                                   </div>
 
                               </div>
@@ -137,98 +227,68 @@ validateSession();
                               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                   <!-- Profile Edit Form -->
-                                  <form>
+                                  <form action="" method="post" enctype="multipart/form-data">
                                       <div class="row mb-3">
                                           <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                                           <div class="col-md-8 col-lg-9">
-                                              <img src="assets/img/profile-img.jpg" alt="Profile">
+                                              <input type="hidden" name="profilePic" value="<?=$userRow["pic"]?>">
+                                              <img src="assets/img/profilePics/<?=$userRow["pic"]?>" alt="Profile">
                                               <div class="pt-2">
-                                                  <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                  <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                                  <div class="col-sm-5">
+                                                      <input name="profilePic" class="form-control" type="file" id="formFile">
+                                                  </div>
                                               </div>
                                           </div>
                                       </div>
 
                                       <div class="row mb-3">
-                                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
                                           <div class="col-md-8 col-lg-9">
-                                              <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                                              <input name="firstName" type="text" class="form-control" id="fullName" value="<?=$userRow["firstname"]?>">
+                                          </div>
+                                      </div>
+
+                                      <div class="row mb-3">
+                                          <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                                          <div class="col-md-8 col-lg-9">
+                                              <input name="lastName" type="text" class="form-control" id="fullName" value="<?=$userRow["lastname"]?>">
                                           </div>
                                       </div>
 
                                       <div class="row mb-3">
                                           <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                           <div class="col-md-8 col-lg-9">
-                                              <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                                              <textarea name="about" class="form-control" id="about" style="height: 100px"><?=$userRow["about"]?></textarea>
                                           </div>
                                       </div>
 
                                       <div class="row mb-3">
                                           <label for="company" class="col-md-4 col-lg-3 col-form-label">Username</label>
                                           <div class="col-md-8 col-lg-9">
-                                              <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke" disabled>
+                                              <input name="company" type="text" class="form-control" id="company" value="<?=$userRow["username"]?>" disabled>
                                           </div>
                                       </div>
 
                                       <div class="row mb-3">
                                           <label for="Job" class="col-md-4 col-lg-3 col-form-label">Role</label>
                                           <div class="col-md-8 col-lg-9">
-                                              <input name="job" type="text" class="form-control" id="Job" value="Instructor" disabled>
+                                              <input name="job" type="text" class="form-control" id="Job" value="<?=$userRow["type"]?>" disabled>
                                           </div>
                                       </div>
 
-
-                                      <div class="row mb-3">
-                                          <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                                          <div class="col-md-8 col-lg-9">
-                                              <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                                          </div>
-                                      </div>
-
-                                      <div class="row mb-3">
-                                          <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                                          <div class="col-md-8 col-lg-9">
-                                              <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
-                                          </div>
-                                      </div>
 
                                       <div class="row mb-3">
                                           <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                           <div class="col-md-8 col-lg-9">
-                                              <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                                              <input name="email" type="email" class="form-control" id="Email" value="<?=$userRow["email"]?>">
                                           </div>
                                       </div>
 
-<!--                                      <div class="row mb-3">-->
-<!--                                          <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>-->
-<!--                                          <div class="col-md-8 col-lg-9">-->
-<!--                                              <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">-->
-<!--                                          </div>-->
-<!--                                      </div>-->
-<!---->
-<!--                                      <div class="row mb-3">-->
-<!--                                          <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>-->
-<!--                                          <div class="col-md-8 col-lg-9">-->
-<!--                                              <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">-->
-<!--                                          </div>-->
-<!--                                      </div>-->
-<!---->
-<!--                                      <div class="row mb-3">-->
-<!--                                          <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>-->
-<!--                                          <div class="col-md-8 col-lg-9">-->
-<!--                                              <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">-->
-<!--                                          </div>-->
-<!--                                      </div>-->
-<!---->
-<!--                                      <div class="row mb-3">-->
-<!--                                          <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>-->
-<!--                                          <div class="col-md-8 col-lg-9">-->
-<!--                                              <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">-->
-<!--                                          </div>-->
-<!--                                      </div>-->
-
                                       <div class="text-center">
-                                          <button type="submit" class="btn btn-primary">Save Changes</button>
+                                          <button type="submit" class="btn btn-primary submitBtn" name="updateProfile">
+                                              <i class="bi bi-pencil-fill me-2"></i>
+                                              Save Changes
+                                          </button>
                                       </div>
                                   </form><!-- End Profile Edit Form -->
 
@@ -278,7 +338,7 @@ validateSession();
 
                               <div class="tab-pane fade pt-3" id="profile-change-password">
                                   <!-- Change Password Form -->
-                                  <form>
+                                  <form method="post" action="">
 
                                       <div class="row mb-3">
                                           <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
@@ -302,7 +362,10 @@ validateSession();
                                       </div>
 
                                       <div class="text-center">
-                                          <button type="submit" class="btn btn-primary">Change Password</button>
+                                          <button type="submit" class="btn btn-primary submitBtn" name="changePass">
+                                              <i class="bi bi-key me-2"></i>
+                                              Change Password
+                                          </button>
                                       </div>
                                   </form><!-- End Change Password Form -->
 
@@ -321,6 +384,19 @@ validateSession();
 
 
   <?=require_once "includes/footer.inc.php";?>
+
+
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script>
+      $('.submitBtn').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
+  </script>
 
 </body>
 

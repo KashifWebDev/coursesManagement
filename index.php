@@ -12,24 +12,39 @@ if(isset($_POST["login"])){
     if(mysqli_num_rows($qry)>0){
         $email = sanitizeParam($_POST["username"]);
         $row = mysqli_fetch_array($qry);
+
+        if($row["verified"]==0){
+            redirect('index.php?notVerified=failed');
+        }
+
         $_SESSION["userID"] = $row["id"];
         $_SESSION["firstName"] = $row["firstname"];
         $_SESSION["fullName"] = $row["firstname"].' '.$row["lastname"];
         $_SESSION["role"] = $row["type"];
         if($row["type"]=="Admin"){
-            header('Location: adminDashboard.php');
+            redirect('Location: adminDashboard.php');
         }
         if($row["type"]=="Instructor"){
-            header('Location: instructorDashboard.php');
+            redirect('instructorDashboard.php');
         }
         if($row["type"]=="Student"){
-            header('Location: studentDashboard.php');
+            redirect('studentDashboard.php');
         }
 //        header('Location: instructorDashboard.php');
     }else{
-        header('Location: index.php?login=failed');
+        redirect('index.php?login=failed');
     }
 
+}
+
+function redirect($addr){
+    error_reporting(E_ALL | E_WARNING | E_NOTICE);
+    ini_set('display_errors', TRUE);
+    flush();
+
+    echo '<script>window.location.replace("'.$addr.'");</script>';
+    echo '<script>window.location("'.$addr.'");</script>';
+//    header('Location: '.$addr);
 }
 ?>
 <!DOCTYPE html>
@@ -55,7 +70,7 @@ if(isset($_POST["login"])){
                 <?php if(isset($_GET["accountCreated"])){ ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <h4 class="alert-heading">Account Created</h4>
-                            <p>Congrats! Your account was created successfully. To continue using platform, please check your registered email and follow the instructions.</p>
+                            <p>Congrats! Your account was created successfully. To continue using platform, please check your registered email (spam/junk) and follow the instructions.</p>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                 <?php } ?>
@@ -87,6 +102,14 @@ if(isset($_POST["login"])){
                         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"></use></svg>
                         <div>
                             <b>Login Failed!</b> Invalid email or password! Please try again.
+                        </div>
+                    </div>
+                <?php } ?>
+                <?php if(isset($_GET["notVerified"])){ ?>
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"></use></svg>
+                        <div>
+                            <b>Verification Required!</b> You need to verify your account in order to proceed. Please check your mailbox.
                         </div>
                     </div>
                 <?php } ?>

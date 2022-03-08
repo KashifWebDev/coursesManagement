@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2022 at 10:28 AM
+-- Generation Time: Mar 08, 2022 at 11:26 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.30
 
@@ -52,17 +52,20 @@ CREATE TABLE `courses` (
   `page_background_color` varchar(100) DEFAULT '#000000',
   `txtLessonBackground` varchar(10) DEFAULT NULL,
   `courseTitleBg` varchar(10) NOT NULL DEFAULT '#ffffff',
-  `courseTitleFg` varchar(10) NOT NULL DEFAULT '#000'
+  `courseTitleFg` varchar(10) NOT NULL DEFAULT '#000',
+  `signBgColor` varchar(10) NOT NULL DEFAULT '#ffffff',
+  `signFgColor` varchar(10) NOT NULL DEFAULT '#000',
+  `bottomLogo` varchar(100) NOT NULL DEFAULT 'default.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `instructor_id`, `title`, `thumbnail`, `access`, `description`, `draft`, `courseID`, `timeLimitType`, `timeLimitValue`, `registration_required_email`, `registration_required_phone`, `registration_required_address`, `registration_required_tos`, `price`, `paypal_email`, `instructor_name`, `back_clr`, `front_clr`, `page_background_type`, `page_background_image`, `page_background_color`, `txtLessonBackground`, `courseTitleBg`, `courseTitleFg`) VALUES
-(1, 11, 'First Course', '12_DBLW4993.JPG', 'Free', '<p>description</p>', 1, 123, '', 0, 0, 0, 0, 0, 0, '', '', '#008a17', '#ffffff', 'image', '64BqZs.jpg', '#ff0000', '#fa0000', '#ffffff', '#088000'),
-(5, 1, 'asdfadsf', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, 2081827979, 'Without Time Limit', 0, 0, 0, 0, 0, 23, 'kmalik748@gmail.com', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000'),
-(6, 1, 'Ron Course', 'default.jpg', 'Free', '<h3><strong><em>Course Description here....123123123123</em></strong></h3>', 0, 190423710, '', 0, 0, 0, 0, 0, 0, '', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000');
+INSERT INTO `courses` (`id`, `instructor_id`, `title`, `thumbnail`, `access`, `description`, `draft`, `courseID`, `timeLimitType`, `timeLimitValue`, `registration_required_email`, `registration_required_phone`, `registration_required_address`, `registration_required_tos`, `price`, `paypal_email`, `instructor_name`, `back_clr`, `front_clr`, `page_background_type`, `page_background_image`, `page_background_color`, `txtLessonBackground`, `courseTitleBg`, `courseTitleFg`, `signBgColor`, `signFgColor`, `bottomLogo`) VALUES
+(1, 15, 'First Course', '12_DBLW4993.JPG', 'Paid', '<p>description</p>', 0, 123, '', 0, 0, 0, 0, 0, 0, '', '', '#009933', '#ffffff', 'image', '64BqZs.jpg', '#ff0000', '#fa0000', '#ffffff', '#088000', '', '', '178494758_10151503797559959_2041080596206641614_n.jpg'),
+(5, 15, 'asdfadsf', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, 2081827979, 'Without Time Limit', 0, 0, 0, 0, 0, 23, 'kmalik748@gmail.com', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png'),
+(6, 15, 'Ron Course', 'default.jpg', 'Free', '<h3><strong><em>Course Description here....123123123123</em></strong></h3>', 0, 190423710, '', 0, 0, 0, 0, 0, 0, '', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png');
 
 -- --------------------------------------------------------
 
@@ -108,19 +111,20 @@ CREATE TABLE `lessons` (
 --
 
 INSERT INTO `lessons` (`id`, `course_id`, `is_chapter`, `name`, `type`, `content`, `arrange_order`) VALUES
-(3, 1, 0, 'Third Course', 'video', 'https://www.youtube.com/watch?v=2sxEsG64CsY&ab_channel=Wrsh98', 4),
-(6, 1, 0, 'Forth Lesson', 'video', 'https://www.youtube.com/watch?v=n_RDt2LK_tY&ab_channel=Mythpat', 7),
+(3, 1, 0, 'Third Course', 'video', 'https://www.youtube.com/watch?v=2sxEsG64CsY&ab_channel=Wrsh98', 3),
+(6, 1, 0, 'Forth Lesson', 'video', 'https://www.youtube.com/watch?v=n_RDt2LK_tY&ab_channel=Mythpat', 6),
 (8, 1, 1, 'Ron Chapter', 'video', '<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/dxHTkqSpz-w\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', 2),
-(10, 1, 0, 'new', 'video', 'https://www.youtube.com/watch?v=2-dndZVOPEM&ab_channel=Geoislam', 8),
+(10, 1, 0, 'new', 'video', 'https://www.youtube.com/watch?v=2-dndZVOPEM&ab_channel=Geoislam', 7),
 (13, 5, 0, 'First Lesson', 'video', 'https://www.youtube.com/watch?v=RrpNF9Mu1mQ', 1),
-(15, 1, 0, 'test', 'video', 'https://www.youtube.com/watch?v=m-f0TnCfqtM&ab_channel=ARYDigital', 3),
-(16, 1, 1, 'Tom & Jerry Chap', 'video', 'https://www.youtube.com/watch?v=t0Q2otsqC4I&ab_channel=WBKids', 6),
+(15, 1, 0, 'test', 'video', 'https://www.youtube.com/watch?v=m-f0TnCfqtM&ab_channel=ARYDigital', 4),
+(16, 1, 1, 'Tom & Jerry Chap', 'video', 'https://www.youtube.com/watch?v=t0Q2otsqC4I&ab_channel=WBKids', 5),
 (17, 6, 0, 'Drama', 'video', 'https://www.youtube.com/watch?v=-e91ibFANEs&ab_channel=ARYDigital', 1),
-(19, 1, 0, 'first lesson of third chapter', 'video', 'https://www.youtube.com/watch?v=lHMlLCMkuPE&ab_channel=PrimitiveSurvivalTool', 5),
+(19, 1, 0, 'third Lsn', 'video', 'https://www.youtube.com/watch?v=lHMlLCMkuPE&ab_channel=PrimitiveSurvivalTool', 8),
 (20, 1, 1, 'Test', 'test', '', 9),
 (21, 1, 0, 'Songggg', 'video', 'https://www.youtube.com/watch?v=T3D6lpWxrzM&ab_channel=T-Series', 10),
-(24, 1, 0, 'Intro text', 'text', '<h1 style=\"text-align: center;\"><span style=\"color: #e03e2d;\">Intro to course</span></h1>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welcome !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welcome !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\"><span style=\"color: #fbeeb8;\">Welco456e !</span></p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\"><span style=\"color: #ecf0f1;\">Welc123e !</span></p>', 1),
-(25, 1, 0, 'file', 'file', 'CS304 - Midterm MCQS Solved With References By Moaaz.pdf', 11);
+(24, 1, 0, 'Intro text', 'text', '<h1 style=\"text-align: center;\"><span style=\"color: #e03e2d;\">Intro to course123</span></h1>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welcome !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welcome !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\"><span style=\"color: #fbeeb8;\">Welco456e !</span></p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\">Welc123e !</p>\r\n<h1 style=\"text-align: center;\">&nbsp;</h1>\r\n<p style=\"text-align: center;\"><span style=\"color: #ecf0f1;\">Welc123e !</span></p>', 1),
+(25, 1, 0, 'file', 'file', 'CS304 - Midterm MCQS Solved With References By Moaaz.pdf', 12),
+(27, 1, 0, 'kashif lesn', 'text', '<h3><strong><em>test lsn</em></strong></h3>', 11);
 
 -- --------------------------------------------------------
 
@@ -139,16 +143,21 @@ CREATE TABLE `users` (
   `password` varchar(100) NOT NULL,
   `type` enum('Admin','Instructor','Student') NOT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT 0,
-  `created_on` timestamp NOT NULL DEFAULT current_timestamp()
+  `pic` varchar(100) NOT NULL DEFAULT 'default.jpg',
+  `isBlocked` tinyint(1) NOT NULL DEFAULT 0,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
+  `about` varchar(1000) NOT NULL DEFAULT 'Some info about user, edit it form profile section.....   Some info about user, edit it form profile section.....'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `contactNum`, `address`, `username`, `password`, `type`, `verified`, `created_on`) VALUES
-(14, 'Administrator', '', 'admin@admin.com', NULL, NULL, 'admin', 'e6e061838856bf47e1de730719fb2609', 'Admin', 0, '2022-03-01 07:00:01'),
-(15, 'adsfkjl', 'lkj', 'kmalik748@gmail.com', 'asd', 'Main Street', 'adsf', '1a1dc91c907325c69271ddf0c944bc72', 'Instructor', 0, '2022-03-01 10:26:38');
+INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `contactNum`, `address`, `username`, `password`, `type`, `verified`, `pic`, `isBlocked`, `created_on`, `about`) VALUES
+(14, 'Administrator', '123', 'admin@admin.com', NULL, NULL, 'admin', '1a1dc91c907325c69271ddf0c944bc72', 'Admin', 0, '178494758_10151503797559959_2041080596206641614_n.jpg', 0, '2022-03-01 07:00:01', 'I\'m a admin'),
+(15, 'Instructor', 'User', 'kmalik748@gmail.com', 'asd', 'Main Street', 'adsf', '1a1dc91c907325c69271ddf0c944bc72', 'Instructor', 1, 'default.jpg', 0, '2022-03-01 10:26:38', 'Some info about user, edit it form profile section.....'),
+(16, 'Testing', 'asdf', 'sdf@adsf.ad', '', '', 'aksdfj', 'dcb64c94e1b81cd1cd3eb4a73ad27d99', 'Instructor', 0, 'default.jpg', 0, '2022-03-07 15:00:48', 'Some info about user, edit it form profile section.....'),
+(18, 'asdf', 'asdfasfd', 'km123alik748@gmail.com', '', '', '656554', '1a1dc91c907325c69271ddf0c944bc72', 'Student', 1, 'default.jpg', 0, '2022-03-07 15:02:02', 'Some info about user, edit it form profile section.....');
 
 --
 -- Indexes for dumped tables
@@ -198,13 +207,13 @@ ALTER TABLE `forgetpass`
 -- AUTO_INCREMENT for table `lessons`
 --
 ALTER TABLE `lessons`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

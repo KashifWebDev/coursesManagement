@@ -10,6 +10,13 @@ $s = "SELECT * FROM courses WHERE courseID=$courseID";
 $res = mysqli_query($con, $s);
 $courseRow = mysqli_fetch_array($res);
 $courseID = $courseRow["id"];
+$instructorID = $courseRow["instructor_id"];
+
+$s = "SELECT concat(firstname,' ',lastname) as fullName, about, pic FROM users WHERE id=$instructorID";
+$res = mysqli_query($con, $s);
+$instructorRow = mysqli_fetch_array($res);
+$instructor_name = $instructorRow["fullName"];
+$userPic = $instructorRow["pic"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,69 +64,64 @@ $courseID = $courseRow["id"];
 
             <div class="col-md-8 d-flex justify-content-end align-items-center">
                 <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
-                <h2><?=$courseRow["title"];?><small class="ms-3">By Kevin Anderson</small></h2>
+                <h2><?=$courseRow["title"];?><small class="ms-3">By <?=$instructor_name?></small></h2>
             </div>
-            <div class="col-md-4 header-nav d-flex justify-content-end">
-                <ul class="d-flex align-items-center">
+            <?php if(isset($_SESSION["userID"])) { ?>
 
-                    <li class="nav-item dropdown pe-3">
+                <div class="col-md-4 header-nav d-flex justify-content-end">
+                    <ul class="d-flex align-items-center">
 
-                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                            <span class="d-none d-md-block dropdown-toggle ps-2 titleColors">K. Anderson</span>
-                        </a><!-- End Profile Iamge Icon -->
+                        <li class="nav-item dropdown pe-3">
 
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                            <li class="dropdown-header">
-                                <h6>Kevin Anderson</h6>
-                                <span>Web Designer</span>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                                <img src="assets/img/profilePics/<?=$userPic?>" alt="Profile" class="rounded-circle">
+                                <span class="d-none d-md-block dropdown-toggle ps-2"><?=$_SESSION["firstName"]?></span>
+                            </a><!-- End Profile Iamge Icon -->
 
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                    <i class="bi bi-person"></i>
-                                    <span>My Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                                <li class="dropdown-header">
+                                    <h6><?=$_SESSION["fullName"]?></h6>
+                                    <span><?=$_SESSION["role"]?></span>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
 
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                    <i class="bi bi-gear"></i>
-                                    <span>Account Settings</span>
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="profile.php">
+                                        <i class="bi bi-person"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
 
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                                    <i class="bi bi-question-circle"></i>
-                                    <span>Need Help?</span>
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="profile.php">
+                                        <i class="bi bi-gear"></i>
+                                        <span>Account Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
 
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <span>Sign Out</span>
-                                </a>
-                            </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="includes/logout.php">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Sign Out</span>
+                                    </a>
+                                </li>
 
-                        </ul><!-- End Profile Dropdown Items -->
-                    </li><!-- End Profile Nav -->
-
-                </ul>
-            </div>
+                            </ul><!-- End Profile Dropdown Items -->
+                        </li><!-- End Profile Nav -->
+                    </ul>
+                </div>
+            <?php } ?>
 
 
         </header>
@@ -175,15 +177,15 @@ $courseID = $courseRow["id"];
                         <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
                             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
                             <div class="d-flex flex-column ms-2">
-                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;">Kevin Anderson</h2>
+                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$instructor_name?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
                             </div>
                         </div>
                         <div class="d-flex flex-column h-100 justify-content-center w-50">
                             <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
-                            <p class="small fst-italic text-dark">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
-                                Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
-                                odit. Fuga sequi sed ea saepe at unde.</p>
+                            <p class="small fst-italic text-dark">
+                                <?=$instructorRow["about"]?>
+                            </p>
                         </div>
                     </div>
                 </section>

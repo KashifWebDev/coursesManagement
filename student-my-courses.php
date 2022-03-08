@@ -9,7 +9,7 @@ validateSession();
 
 <head>
     <?php
-    $title = "My Students"." | TeachMe How";
+    $title = "My Courses"." | TeachMe How";
         require "includes/head.inc.php";
     ?>
 </head>
@@ -19,28 +19,19 @@ validateSession();
   <!-- ======= Header ======= -->
     <?=require_once "includes/header.inc.php";?>
   <!-- End Header -->
-
-  <?php
-  if($_SESSION["role"]=="Admin"){
-      require_once "includes/adminSideBar.inc.php";
-  }
-  if($_SESSION["role"]=="Instructor"){
-      require_once "includes/instructorSideBar.inc.php";
-  }
-  if($_SESSION["role"]=="Student"){
+<?php
       require_once "includes/studentSideBar.inc.php";
-  }
   ?>
 
   <main id="main" class="main">
 
       <div class="pagetitle d-flex justify-content-between">
           <div>
-              <h1>Profile</h1>
+              <h1>My Courses</h1>
               <nav>
                   <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a href="<?=$path?>instructorDashboard.php">Dashboard</a></li>
-                      <li class="breadcrumb-item active">My Students</li>
+                      <li class="breadcrumb-item active">My Courses</li>
                   </ol>
               </nav>
           </div>

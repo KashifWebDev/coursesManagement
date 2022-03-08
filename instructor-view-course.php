@@ -410,7 +410,7 @@ validateSession();
     $courseRow = mysqli_fetch_array($res);
     $instructorID = $courseRow["instructor_id"];
 
-    $s = "SELECT concat(firstname,' ',lastname) as fullName FROM users WHERE id=$instructorID";
+    $s = "SELECT concat(firstname,' ',lastname) as fullName, about FROM users WHERE id=$instructorID";
     $res = mysqli_query($con, $s);
     $instructorRow = mysqli_fetch_array($res);
     $instructor_name = $instructorRow["fullName"];
@@ -594,9 +594,9 @@ if($courseRow["page_background_type"]=="image"){
                         </div>
                         <div class="d-flex flex-column h-100 justify-content-center w-50">
                             <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
-                            <p class="small fst-italic text-dark">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor.
-                                Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
-                                odit. Fuga sequi sed ea saepe at unde.</p>
+                            <p class="small fst-italic text-dark">
+                                <?=$instructorRow["about"]?>
+                            </p>
                         </div>
                     </div>
                 </section>
