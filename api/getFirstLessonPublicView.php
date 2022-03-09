@@ -79,7 +79,7 @@ if(mysqli_num_rows($res)){
         ?>
         <div class="row h-100">
             <div class="<?=$firstClass?>">
-                <div class="row h-100 ps-5">
+                <div class="row h-100 ps-5 pt-4">
                     <div class="col-md-12 textBckColor h-100" style="overflow-y: auto;">
                         <?=$content?>
                     </div>
