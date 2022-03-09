@@ -335,6 +335,7 @@ validateSession();
         $paypal_email = sanitizeParam($_POST["paypal_email"]);
         $instructor_name = sanitizeParam($_POST["instructor_name"]);
         $course_description = sanitizeParam($_POST["course_description"]);
+        $coursePassword = $_POST["coursePassword"]=="" ? null : $_POST["coursePassword"];
 
         if($access_type=="Free"){
             $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = $paypal_email = null;
@@ -352,7 +353,7 @@ validateSession();
               timeLimitType='$timeLimit',timeLimitType='$timeLimitValue',registration_required_email='$reg_req_email',
               registration_required_phone='$reg_req_phone',registration_required_address='$reg_req_address',
               registration_required_tos='$reg_req_tos',price='$price',paypal_email='$paypal_email',
-                   instructor_name='$instructor_name' WHERE id=$courseID";
+                   instructor_name='$instructor_name', coursePassword='$coursePassword' WHERE id=$courseID";
         if(!mysqli_query($con, $s)){
             echo mysqli_error($con); exi(); die();
         }
@@ -968,6 +969,10 @@ if($courseRow["page_background_type"]=="image"){
                           </div>
                       </div>
                       <h5 class="card-title">About Course</h5>
+                      <div class="col-md-12">
+                          <label for="inputNanme4" class="form-label">Course Password <i class="text-black-50">(Leave Empty to make it public)</i></label>
+                          <input type="password" name="coursePassword" class="form-control w-50" id="inputNanme4" value="<?=$courseRow["coursePassword"]?>">
+                      </div>
                       <div class="col-md-6">
                           <label for="inputNanme4" class="form-label">Instructor Name</label>
                           <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$courseRow["instructor_name"]?>">

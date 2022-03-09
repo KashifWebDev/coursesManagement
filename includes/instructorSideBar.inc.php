@@ -1,4 +1,4 @@
-<aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar" style="<?=isset($_SESSION["impersonate"]) && $_SESSION["impersonate"] == true ? "top: 95px": ""?>">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 

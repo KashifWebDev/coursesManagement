@@ -22,7 +22,7 @@ if(isset($_POST["login"])){
         $_SESSION["fullName"] = $row["firstname"].' '.$row["lastname"];
         $_SESSION["role"] = $row["type"];
         if($row["type"]=="Admin"){
-            redirect('Location: adminDashboard.php');
+            redirect('adminDashboard.php');
         }
         if($row["type"]=="Instructor"){
             redirect('instructorDashboard.php');

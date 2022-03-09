@@ -53,7 +53,7 @@ validateSession();
                       <i class="bi bi-list-check"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
+                      <h6><?=getTotalCourses();?></h6>
                       <span class="text-muted small pt-2 ps-1">All Courses</span>
                     </div>
                   </div>
@@ -74,7 +74,7 @@ validateSession();
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>$265</h6>
+                      <h6>$0</h6>
                       <span class="text-muted small pt-2 ps-1">Available Discount</span>
 
                     </div>
@@ -97,7 +97,7 @@ validateSession();
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
+                      <h6><?=getTotalStudents()?></h6>
                       <span class="text-muted small pt-2 ps-1">All Students</span>
 
                     </div>
@@ -120,7 +120,7 @@ validateSession();
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>78</h6>
+                        <h6><?=getTotalInstructors()?></h6>
                       <span class="text-muted small pt-2 ps-1">All Instructors</span>
 
                     </div>
@@ -130,75 +130,6 @@ validateSession();
               </div>
 
             </div><!-- End Customers Card -->
-
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-
-                <div class="card-body">
-                  <h5 class="card-title">Courses Reports <span>/Last Day</span></h5>
-
-                  <!-- Line Chart -->
-                  <div id="reportsChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Views',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenue',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Students',
-                          data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Line Chart -->
-
-                </div>
-
-              </div>
-            </div><!-- End Reports -->
 
             <!-- Recent Sales -->
             <div class="col-12">
@@ -218,41 +149,7 @@ validateSession();
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
+
                     </tbody>
                   </table>
 
@@ -275,3 +172,21 @@ validateSession();
 </body>
 
 </html>
+<?php
+function getTotalCourses(){
+    $s = "SELECT * FROM courses";
+    $res = mysqli_query($GLOBALS["con"], $s);
+    return mysqli_num_rows($res);
+}
+function getTotalInstructors(){
+    $s = "SELECT * FROM users WHERE type='Instructor'";
+    $res = mysqli_query($GLOBALS["con"], $s);
+    return mysqli_num_rows($res);
+}
+
+function getTotalStudents(){
+    $s = "SELECT * FROM users WHERE type='Student'";
+    $res = mysqli_query($GLOBALS["con"], $s);
+    return mysqli_num_rows($res);
+}
+?>

@@ -4,21 +4,12 @@ validateSession();
     require_once "includes/functions.php";
     $path = ROOT_DIR;
 
-if(isset($_POST["updateDraftStatus"])){
-    $setStatus = $_POST["setStatus"]=="active" ? 0:1;
-    $courseID = sanitizeParam($_POST["courseID"]);
-
-    $s = "UPDATE courses SET draft=$setStatus WHERE id=$courseID";
-    if(mysqli_query($con, $s)){
-        header('Location: instructor-all-courses.php');
-    }
-}
 if(isset($_GET["del"])){
     $courseID = sanitizeParam($_GET["del"]);
 
-    $s = "UPDATE courses SET is_deleted=1 WHERE id=$courseID";
+    $s = "UPDATE courses SET is_deleted=0 WHERE id=$courseID";
     if(mysqli_query($con, $s)){
-        header('Location: instructor-all-courses.php');
+        header('Location: admin-archive-courses.php');
     }else{
         echo mysqli_error($con);
     }
@@ -29,7 +20,7 @@ if(isset($_GET["del"])){
 
 <head>
     <?php
-    $title = "All Courses"." | TeachMe How";
+    $title = "Archive Courses"." | TeachMe How";
         require "includes/head.inc.php";
     ?>
 </head>
@@ -58,11 +49,11 @@ if(isset($_GET["del"])){
 
       <div class="pagetitle d-flex justify-content-between">
           <div>
-              <h1>All Courses</h1>
+              <h1>Archive Courses</h1>
               <nav>
                   <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a href="<?=ROOT_DIR?>instructorDashboard.php">Dashboard</a></li>
-                      <li class="breadcrumb-item">All Courses</li>
+                      <li class="breadcrumb-item">Archive Courses</li>
                   </ol>
               </nav>
           </div>
@@ -91,7 +82,7 @@ if(isset($_GET["del"])){
                               <?php
                               $sql = "SELECT c.id as coursePrimaryKey, c.title, COUNT(l.course_id) AS total_lessons, c.thumbnail, c.access, c.draft, c.courseID, c.draft
                                         FROM courses c LEFT JOIN lessons l
-                                        ON l.course_id = c.id WHERE c.is_deleted=0 GROUP BY c.id";
+                                        ON l.course_id = c.id WHERE c.is_deleted=1 GROUP BY c.id";
                               $res = mysqli_query($con, $sql);
                               while($row = mysqli_fetch_array($res)){
                                   $badgeClass = $row["draft"]==0 ? "success" : "warning";
@@ -109,20 +100,10 @@ if(isset($_GET["del"])){
                                           <span style="border-radius: 10px" class="bg-<?=$badgeClass?> text-white px-2 py-1"><?=$badgeTxt?></span>
                                       </td>
                                       <td>
-                                          <a href="instructor-view-course.php?courseID=<?=$row["coursePrimaryKey"]?>" class="btn btn-primary">
-                                              <i class="bi bi-box-arrow-up-right me-2"></i>
-                                              Edit Course
-                                          </a>
-                                          <button class="btn btn-secondary ms-1" data-bs-toggle="modal" data-bs-target="#draftCourseModel_<?=$row["coursePrimaryKey"]?>">
-                                              <i class="ri-save-3-line me-1"></i> Status
-                                          </button>
                                           <button id="submitBtn2" type="button" class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delCourseModel_<?=$row["coursePrimaryKey"]?>">
-                                              <i class="bi bi-trash2-fill me-2"></i>
-                                              Delete
+                                              <i class="ri-recycle-fill me-2"></i>
+                                              Restore
                                           </button>
-                                          <a target="_blank" class="btn btn-info text-white ms-1" href="course-<?=$row["courseID"]?>">
-                                              <i class="bi bi-eye-fill"></i> Preview
-                                          </a>
                                       </td>
                                   </tr>
 
@@ -130,58 +111,17 @@ if(isset($_GET["del"])){
                                       <div class="modal-dialog">
                                           <div class="modal-content">
                                               <div class="modal-header bg-danger text-white">
-                                                  <h5 class="modal-title">Delete Course</h5>
+                                                  <h5 class="modal-title">Restore Course</h5>
                                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                               </div>
                                               <div class="modal-body">
-                                                  Are you sure you want to delete this course?
+                                                  Are you sure you want to restore this course?
                                               </div>
                                               <div class="modal-footer">
                                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                  <a href="instructor-all-courses.php?del=<?=$row["coursePrimaryKey"]?>" class="btn btn-danger">
-                                                      Delete
+                                                  <a href="admin-archive-courses.php?del=<?=$row["coursePrimaryKey"]?>" class="btn btn-danger">
+                                                      Restore
                                                   </a>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="modal fade" id="draftCourseModel_<?=$row["coursePrimaryKey"]?>" tabindex="-1">
-                                      <div class="modal-dialog">
-                                          <div class="modal-content">
-                                              <div class="modal-header bg-secondary text-white">
-                                                  <h5 class="modal-title">Update Course Status</h5>
-                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                              </div>
-                                              <div class="modal-body">
-                                                  <form action="" method="post">
-                                                      <input type="hidden" name="courseID" value="<?=$row["coursePrimaryKey"]?>">
-                                                      <fieldset class="row mb-3">
-                                                          <div class="col-sm-10">
-                                                              <div class="form-check">
-                                                                  <input class="form-check-input" type="radio" name="setStatus" id="gridRadios" value="active" <?php if(!$row["draft"]) echo "checked"; ?>>
-                                                                  <label class="form-check-label" for="gridRadios">
-                                                                      Set course active
-                                                                  </label>
-                                                              </div>
-                                                          </div>
-                                                          <div class="col-sm-10">
-                                                              <div class="form-check">
-                                                                  <input class="form-check-input" type="radio" name="setStatus" id="gridRadios1" value="draft" <?php if($row["draft"]) echo "checked"; ?>>
-                                                                  <label class="form-check-label" for="gridRadios1">
-                                                                      Set as Draft
-                                                                  </label>
-                                                              </div>
-                                                          </div>
-                                                      </fieldset>
-                                                      <div class="row justify-content-around">
-                                                          <div class="col-md-6">
-                                                              <button type="submit" name="updateDraftStatus" class="btn btn-secondary w-100" id="submitBtn1">
-                                                                  <i class="ri-save-3-line me-2"></i>
-                                                                  Save Changes
-                                                              </button>
-                                                          </div>
-                                                      </div>
-                                                  </form>
                                               </div>
                                           </div>
                                       </div>

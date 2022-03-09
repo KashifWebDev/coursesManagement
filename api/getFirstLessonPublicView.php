@@ -56,11 +56,14 @@ if(mysqli_num_rows($res)){
             </div>
             <div class="<?=$secondClass?>">
                 <?php
-                if($courseRow["access"]=="Registration"){
+                if($courseRow["access"]=="Registration" && $courseRow["coursePassword"]==""){
                     echo signUp();
                 }
-                if($courseRow["access"]=="Paid"){
+                if($courseRow["access"]=="Paid" && $courseRow["coursePassword"]==""){
                     echo paypal();
+                }
+                if($courseRow["coursePassword"]!=""){
+                    echo passwordProtected();
                 }
                 ?>
             </div>
@@ -104,11 +107,14 @@ if(mysqli_num_rows($res)){
             </div>
             <div class="<?=$secondClass?>">
                 <?php
-                if($courseRow["access"]=="Registration"){
+                if($courseRow["access"]=="Registration" && $courseRow["coursePassword"]==""){
                     echo signUp();
                 }
-                if($courseRow["access"]=="Paid"){
+                if($courseRow["access"]=="Paid" && $courseRow["coursePassword"]==""){
                     echo paypal();
+                }
+                if($courseRow["coursePassword"]!=""){
+                    echo passwordProtected();
                 }
                 ?>
             </div>
@@ -139,11 +145,14 @@ if(mysqli_num_rows($res)){
             </div>
             <div class="<?=$secondClass?>">
                 <?php
-                if($courseRow["access"]=="Registration"){
+                if($courseRow["access"]=="Registration" && $courseRow["coursePassword"]==""){
                     echo signUp();
                 }
-                if($courseRow["access"]=="Paid"){
+                if($courseRow["access"]=="Paid" && $courseRow["coursePassword"]==""){
                     echo paypal();
+                }
+                if($courseRow["coursePassword"]!=""){
+                    echo passwordProtected();
                 }
                 ?>
             </div>
@@ -166,13 +175,16 @@ if(mysqli_num_rows($res)){
                 <?php  echo loadScripts(); ?>
                 <script>$( "#lesssonType_12" ).show();</script>
             </div>
-            <div class="<?=$secondClass?>">
+            <div class="<?=$secondClass?> <?=$courseRow["coursePassword"]?>">
                 <?php
-                if($courseRow["access"]=="Registration"){
+                if($courseRow["access"]=="Registration" && $courseRow["coursePassword"]==""){
                     echo signUp();
                 }
-                if($courseRow["access"]=="Paid"){
+                if($courseRow["access"]=="Paid" && $courseRow["coursePassword"]==""){
                     echo paypal();
+                }
+                if($courseRow["coursePassword"]!=""){
+                    echo passwordProtected();
                 }
                 ?>
             </div>
@@ -437,6 +449,42 @@ function paypal(){
                         </button>
                     </div>
                 </form>
+
+            </div>
+        </div>
+
+    </div>
+';
+}
+
+function passwordProtected(){
+    return '
+    <div class="w-100 mt-5 d-flex flex-column align-items-center justify-content-center">
+
+
+        <div class="card mb-3">
+
+            <div class="card-body text-dark">
+
+                <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">
+                    <i class="bi bi-key-fill me-2"></i> Password Protected
+</h5>
+                    <p class="text-center small">Please enter password to unlock...</p>
+                    <form action="">
+                        <div class="form-floating mb-3">
+                          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                          <label for="floatingPassword">Password</label>
+                        </div>
+                        <div class="col-md-12">
+                            <button class="btn btn-outline-dark w-100 ">
+                            <i class="bi bi-shield-lock me-2"></i>
+                            Unlock
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
 
             </div>
         </div>

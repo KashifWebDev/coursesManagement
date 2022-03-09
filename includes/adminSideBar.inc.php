@@ -17,7 +17,12 @@
             <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="<?=$path?>instructor-all-courses.php">
-                        <i class="bi bi-circle"></i><span>My Courses</span>
+                        <i class="bi bi-circle"></i><span>All Courses</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?=$path?>admin-archive-courses.php">
+                        <i class="bi bi-circle"></i><span>Archive Courses</span>
                     </a>
                 </li>
             </ul>

@@ -4,20 +4,6 @@ validateSession();
     require_once "includes/functions.php";
     $path = ROOT_DIR;
 
-    if(isset($_POST["updateUserDetails"])){
-        $userID = sanitizeParam($_POST["userID"]);
-        $firstName = sanitizeParam($_POST["firstName"]);
-        $lastName = sanitizeParam($_POST["lastName"]);
-        $email = sanitizeParam($_POST["email"]);
-
-        $s = "UPDATE users SET firstname='$firstName', lastname='$lastName', email='$email'
-                WHERE id=$userID";
-        if(mysqli_query($con, $s)){
-            header('Location: admin-all-teachers.php');
-        }else{
-            echo mysqli_error($con); exit(); die();
-        }
-    }
     if(isset($_GET["blockUser"])){
         $blockUser = sanitizeParam($_GET["blockUser"]);
         $newStatus = sanitizeParam($_GET["newStatus"]);
@@ -127,9 +113,9 @@ validateSession();
                                             </td>
                                             <td><?=3;?></td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editInstructor_<?=$row["id"];?>">
-                                                    <i class="bi bi-pencil-fill me-1"></i> Edit
-                                                </button>
+                                                <a type="button" class="btn btn-primary" href="switchAdmin.php?impersonate=<?=$row["id"];?>">
+                                                    <i class="bi bi-person-bounding-box me-1"></i> Impersonate
+                                                </a>
                                                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delInstructor_<?=$row["id"];?>">
                                                     <i class="bi bi-trash2-fill me-1"></i> Delete
                                                 </button>
@@ -149,57 +135,6 @@ validateSession();
                                             </td>
                                         </tr>
 
-
-                                        <div class="modal fade" id="editInstructor_<?=$row["id"];?>" tabindex="-1">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header text-white bg-primary">
-                                                        <h5 class="modal-title">Edit Instructor</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-
-                                                        <form method="post" action="">
-                                                            <input type="hidden" name="userID" value="<?=$row["id"]?>">
-                                                            <div class="row">
-                                                                <div class="col-md-12 mb-3">
-                                                                    <div class="form-floating">
-                                                                        <input type="text" class="form-control" name="firstName" id="floatingName" placeholder="First Name" value="<?=$row["firstname"]?>">
-                                                                        <label for="floatingName">First Name</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12 mb-3">
-                                                                    <div class="form-floating">
-                                                                        <input type="text" class="form-control" name="lastName" id="floatingName" placeholder="Last Name" value="<?=$row["lastname"]?>">
-                                                                        <label for="floatingName">Last Name</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12 mb-3">
-                                                                    <div class="form-floating">
-                                                                        <input type="email" class="form-control" name="email" id="floatingName" placeholder="Email" value="<?=$row["email"]?>">
-                                                                        <label for="floatingName">Email</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <button type="submit" name="updateUserDetails" class="btn btn-primary w-100">
-                                                                        <i class="bi bi-pencil me-1"></i>
-                                                                        Update Details
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
-                                                                        <i class="ri-close-circle-line"></i>
-                                                                        Cancel
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
                                         <div class="modal fade" id="delInstructor_<?=$row["id"];?>" tabindex="-1">
                                             <div class="modal-dialog">

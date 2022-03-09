@@ -98,36 +98,38 @@ validateSession();
 
                   <div class="card">
                       <div class="card-body">
-
-                          <!-- Table with stripped rows -->
-                          <table class="table datatable">
+                          <table class="table table-borderless datatable">
                               <thead>
                               <tr>
                                   <th scope="col">#</th>
-                                  <th scope="col">Name</th>
+                                  <th scope="col">Instructor</th>
                                   <th scope="col">Course</th>
-                                  <th scope="col">Start Date</th>
+                                  <th scope="col">Price</th>
+                                  <th scope="col">Status</th>
                               </tr>
                               </thead>
                               <tbody>
                               <?php
-                              $s = "SELECT * FROM users WHERE type='Student'";
+                              $s = "SELECT * FROM courses WHERE draft=0";
                               $res = mysqli_query($con, $s);
                               while($row = mysqli_fetch_array($res)){
+                                  $instructorID = $row["instructor_id"];
+                                  $s = "SELECT concat(firstname,' ',lastname) as fullName FROM users WHERE id=$instructorID";
+                                  $res1 = mysqli_query($con, $s);
+                                  $row1 = mysqli_fetch_array($res1);
                                   ?>
                                   <tr>
-                                      <th scope="row"><?=$row["id"]?></th>
-                                      <td><img style="height: 32px; border-radius: 50%;" class="me-2" src="assets/img/profilePics/<?=$row["pic"]?>" alt="Profile Pic"><?=$row["firstname"].' '.$row["lastname"]?></td>
-                                      <td>Graphic Designing Course</td>
-                                      <td>2016-05-25</td>
+                                      <th scope="row"><a href="#">#<?=$row["id"]?></a></th>
+                                      <td><?=$row1["fullName"]?></td>
+                                      <td><a target="_blank" href="course-<?=$row["courseID"]?>" class="text-primary"><?=$row["title"]?></a></td>
+                                      <td><?=$row["price"]?>$</td>
+                                      <td><span class="badge bg-success">Approved</span></td>
                                   </tr>
                                   <?php
                               }
                               ?>
                               </tbody>
                           </table>
-                          <!-- End Table with stripped rows -->
-
                       </div>
                   </div>
 

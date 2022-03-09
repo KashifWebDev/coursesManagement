@@ -22,3 +22,6 @@
 
 <!-- Template Main JS File -->
 <script src="<?=$path?>assets/js/main.js?v=<?=rand()?>"></script>
+
+<?php echo isset($_SESSION["impersonate"]) && $_SESSION["impersonate"] == true ? "<script>document.getElementById('main').style.marginTop = '95px';</script>": "" ?>
+
