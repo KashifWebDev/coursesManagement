@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/app.php';
+require_once '../includes/functions.php';
 
 $output = array();
 
@@ -18,6 +19,44 @@ if(mysqli_num_rows($res)){
     $content = $url = isset($row["content"]) ? $row["content"] : "";
     $name = isset($row["name"]) ? $row["name"] : "";
 
+    if(!$row["is_free"] && $publicView){
+        if($courseRow["access"]=="Free"){
+            $firstClass = "col-md-12 h-100";
+            $secondClass = "d-none";
+        }
+        if($courseRow["access"]=="Registration"){
+            $firstClass = "col-md-7 h-100";
+            $secondClass = "col-md-5 h-100";
+        }
+        if($courseRow["access"]=="Paid" || $courseRow["access"]=="Password"){
+            $firstClass = "col-md-9 h-100";
+            $secondClass = "col-md-3 h-100";
+        }
+        ?>
+            <div class="row h-100">
+                <div class="<?=$secondClass?>">
+                    <?php
+                    if($courseRow["access"]=="Registration"){
+                        echo signUp();
+                    }
+                    if($courseRow["access"]=="Paid"){
+                        echo paypal();
+                    }
+                    if($courseRow["access"]=="Password"){
+                        echo PasswordProtected();
+                    }
+                    ?>
+                </div>
+            </div>
+        <?php
+        exit(); die();
+    }
+
+loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $content, $url, $name);
+
+}
+
+function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $content, $url, $name){
     if($row["is_chapter"]){
         ?>
         <div class="modal fade" id="EditLesson" tabindex="-1">
@@ -77,7 +116,7 @@ if(mysqli_num_rows($res)){
     }
     if($row["type"]=="video"){
         if(!$publicView){
-        ?>
+            ?>
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -110,11 +149,11 @@ if(mysqli_num_rows($res)){
 
                                 <div class="col-md-12 d-flex align-items-center">
                                     <p class="form-label me-2">Select Lesson Type  </p>
-<!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
-<!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
-<!--                                        <i class="bi bi-list-check"></i>-->
-<!--                                        Test-->
-<!--                                    </label>-->
+                                    <!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
+                                    <!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
+                                    <!--                                        <i class="bi bi-list-check"></i>-->
+                                    <!--                                        Test-->
+                                    <!--                                    </label>-->
 
                                     <input type="radio" class="btn-check" name="options_1" id="option_2" autocomplete="off" value="link">
                                     <label class="btn btn-outline-primary me-2" for="option_2">
@@ -138,6 +177,12 @@ if(mysqli_num_rows($res)){
                                     <label class="btn btn-outline-primary ms-2" for="option_5">
                                         <i class="bi bi-text-left"></i>
                                         Text
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="options_1" id="option_6" autocomplete="off" value="privacy">
+                                    <label class="btn btn-outline-primary ms-2" for="option_6">
+                                        <i class="bi bi-shield-lock-fill"></i>
+                                        Privacy
                                     </label>
 
                                 </div>
@@ -343,13 +388,50 @@ if(mysqli_num_rows($res)){
                                         </form>
                                     </div>
                                 </div>
+                                <div id="lesssonType_16">
+                                    <div class="row">
+                                        <form action="" method="post" class="row1 g-3">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
+
+                                            <fieldset class="row mb-3">
+                                                <legend class="col-form-label col-sm-2 pt-0">Lesson Privacy</legend>
+                                                <div class="col-sm-10">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="accessType" id="gridRadios11" value="1" <?php if($row["is_free"]) echo "checked"; ?>>
+                                                        <label class="form-check-label" for="gridRadios11">
+                                                            Everyone Can access
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="accessType" id="gridRadios22" value="0" <?php if(!$row["is_free"]) echo "checked"; ?>>
+                                                        <label class="form-check-label" for="gridRadios22">
+                                                            Access Requried
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <div class="col-md-12 d-flex justify-content-center">
+                                                <div class="col-md-6">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLessonAccess" id="submitBtn">
+                                                        <i class="bi bi-pencil-fill me-2"></i>
+                                                        Edit Lesson
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <?php } ?>
+        <?php } ?>
         <style>
             .videoContainer {
                 position: relative;
@@ -364,20 +446,20 @@ if(mysqli_num_rows($res)){
                 height: 100%;
             }
         </style>
-               <div class="videoContainer">
-                   <iframe
-                           src="<?=getYoutubeEmbedUrl($content)?>"
-                           title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                           allowfullscreen class="video">
-                   </iframe>
-               </div>
+        <div class="videoContainer">
+            <iframe
+                    src="<?=getYoutubeEmbedUrl($content)?>"
+                    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen class="video">
+            </iframe>
+        </div>
         <?php  echo loadScripts(); ?>
         <script>$( "#lesssonType_14" ).show();</script>
-<?php
+        <?php
     }
     if($row["type"]=="text"){
         if(!$publicView){
-        ?>
+            ?>
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -410,11 +492,11 @@ if(mysqli_num_rows($res)){
 
                                 <div class="col-md-12 d-flex align-items-center">
                                     <p class="form-label me-2">Select Lesson Type  </p>
-<!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
-<!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
-<!--                                        <i class="bi bi-list-check"></i>-->
-<!--                                        Test-->
-<!--                                    </label>-->
+                                    <!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
+                                    <!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
+                                    <!--                                        <i class="bi bi-list-check"></i>-->
+                                    <!--                                        Test-->
+                                    <!--                                    </label>-->
 
                                     <input type="radio" class="btn-check" name="options_1" id="option_2" autocomplete="off" value="link">
                                     <label class="btn btn-outline-primary me-2" for="option_2">
@@ -438,6 +520,12 @@ if(mysqli_num_rows($res)){
                                     <label class="btn btn-outline-primary ms-2" for="option_5">
                                         <i class="bi bi-text-left"></i>
                                         Text
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="options_1" id="option_6" autocomplete="off" value="privacy">
+                                    <label class="btn btn-outline-primary ms-2" for="option_6">
+                                        <i class="bi bi-shield-lock-fill"></i>
+                                        Privacy
                                     </label>
 
                                 </div>
@@ -646,18 +734,55 @@ if(mysqli_num_rows($res)){
                                         </form>
                                     </div>
                                 </div>
+                                <div id="lesssonType_16">
+                                    <div class="row">
+                                        <form action="" method="post" class="row1 g-3">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
+
+                                            <fieldset class="row mb-3">
+                                                <legend class="col-form-label col-sm-2 pt-0">Lesson Privacy</legend>
+                                                <div class="col-sm-10">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="accessType" id="gridRadios11" value="1" <?php if($row["is_free"]) echo "checked"; ?>>
+                                                        <label class="form-check-label" for="gridRadios11">
+                                                            Everyone Can access
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="accessType" id="gridRadios22" value="0" <?php if(!$row["is_free"]) echo "checked"; ?>>
+                                                        <label class="form-check-label" for="gridRadios22">
+                                                            Access Requried
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <div class="col-md-12 d-flex justify-content-center">
+                                                <div class="col-md-6">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLessonAccess" id="submitBtn">
+                                                        <i class="bi bi-pencil-fill me-2"></i>
+                                                        Edit Lesson
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <?php } ?>
-            <div class="row h-100">
-                <div class="col-md-12 textBckColor h-100" style="overflow-y: auto;">
-                    <?=$content?>
-                </div>
+        <?php } ?>
+        <div class="row h-100">
+            <div class="col-md-12 textBckColor h-100 px-5" style="overflow-y: auto;">
+                <?=$content?>
             </div>
+        </div>
         <style>
             ::-webkit-scrollbar {
                 height: 12px;
@@ -683,11 +808,11 @@ if(mysqli_num_rows($res)){
         </style>
         <?php  echo loadScripts(); ?>
         <script>$( "#lesssonType_15" ).show();</script>
-<?php
+        <?php
     }
     if($row["type"]=="file"){
         if(!$publicView){
-        ?>
+            ?>
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -720,11 +845,11 @@ if(mysqli_num_rows($res)){
 
                                 <div class="col-md-12 d-flex align-items-center">
                                     <p class="form-label me-2">Select Lesson Type  </p>
-<!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
-<!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
-<!--                                        <i class="bi bi-list-check"></i>-->
-<!--                                        Test-->
-<!--                                    </label>-->
+                                    <!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
+                                    <!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
+                                    <!--                                        <i class="bi bi-list-check"></i>-->
+                                    <!--                                        Test-->
+                                    <!--                                    </label>-->
 
                                     <input type="radio" class="btn-check" name="options_1" id="option_2" autocomplete="off" value="link">
                                     <label class="btn btn-outline-primary me-2" for="option_2">
@@ -748,6 +873,12 @@ if(mysqli_num_rows($res)){
                                     <label class="btn btn-outline-primary ms-2" for="option_5">
                                         <i class="bi bi-text-left"></i>
                                         Text
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="options_1" id="option_6" autocomplete="off" value="privacy">
+                                    <label class="btn btn-outline-primary ms-2" for="option_6">
+                                        <i class="bi bi-shield-lock-fill"></i>
+                                        Privacy
                                     </label>
 
                                 </div>
@@ -967,35 +1098,72 @@ if(mysqli_num_rows($res)){
                                         </form>
                                     </div>
                                 </div>
+                                <div id="lesssonType_16">
+                                    <div class="row">
+                                        <form action="" method="post" class="row1 g-3">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
+
+                                            <fieldset class="row mb-3">
+                                                <legend class="col-form-label col-sm-2 pt-0">Lesson Privacy</legend>
+                                                <div class="col-sm-10">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="accessType" id="gridRadios11" value="1" <?php if($row["is_free"]) echo "checked"; ?>>
+                                                        <label class="form-check-label" for="gridRadios11">
+                                                            Everyone Can access
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="accessType" id="gridRadios22" value="0" <?php if(!$row["is_free"]) echo "checked"; ?>>
+                                                        <label class="form-check-label" for="gridRadios22">
+                                                            Access Requried
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <div class="col-md-12 d-flex justify-content-center">
+                                                <div class="col-md-6">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLessonAccess" id="submitBtn">
+                                                        <i class="bi bi-pencil-fill me-2"></i>
+                                                        Edit Lesson
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <?php } ?>
-            <div class="row h-100">
-                <div class="col-md-12">
-                    <?php if(strpos($content,".pdf") !== false){ ?>
+        <?php } ?>
+        <div class="row h-100">
+            <div class="col-md-12">
+                <?php if(strpos($content,".pdf") !== false){ ?>
 
-                        <embed src="assets/lessonsFiles/<?=$content?>" width="100%" height="100%"
-                               type="application/pdf">
-                    <?php }else{ ?>
-                            <div class="row align-items-center justify-content-center">
-                                <div class="customHeading text-center">
-                                    <a href="assets/lessonsFiles/<?=$content?>">Click Here</a> to open the attached file.
-                                </div>
-                            </div>
-                    <?php } ?>
-                </div>
+                    <embed src="assets/lessonsFiles/<?=$content?>" width="100%" height="100%"
+                           type="application/pdf">
+                <?php }else{ ?>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="customHeading text-center">
+                            <a href="assets/lessonsFiles/<?=$content?>">Click Here</a> to open the attached file.
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
+        </div>
         <?php  echo loadScripts(); ?>
         <script>$( "#lesssonType_13" ).show();</script>
-<?php
+        <?php
     }
     if($row["type"]=="link"){
         if(!$publicView){
-        ?>
+            ?>
             <div class="modal fade" id="delModel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -1028,11 +1196,11 @@ if(mysqli_num_rows($res)){
 
                                 <div class="col-md-12 d-flex align-items-center">
                                     <p class="form-label me-2">Select Lesson Type  </p>
-<!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
-<!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
-<!--                                        <i class="bi bi-list-check"></i>-->
-<!--                                        Test-->
-<!--                                    </label>-->
+                                    <!--                                    <input type="radio" class="btn-check" name="options_1" id="option_1" autocomplete="off" value="test">-->
+                                    <!--                                    <label class="btn btn-outline-primary me-2" for="option_1" style="margin-right: 10px!important;">-->
+                                    <!--                                        <i class="bi bi-list-check"></i>-->
+                                    <!--                                        Test-->
+                                    <!--                                    </label>-->
 
                                     <input type="radio" class="btn-check" name="options_1" id="option_2" autocomplete="off" value="link" checked="">
                                     <label class="btn btn-outline-primary me-2" for="option_2">
@@ -1056,6 +1224,12 @@ if(mysqli_num_rows($res)){
                                     <label class="btn btn-outline-primary ms-2" for="option_5">
                                         <i class="bi bi-text-left"></i>
                                         Text
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="options_1" id="option_6" autocomplete="off" value="privacy">
+                                    <label class="btn btn-outline-primary ms-2" for="option_6">
+                                        <i class="bi bi-shield-lock-fill"></i>
+                                        Privacy
                                     </label>
 
                                 </div>
@@ -1286,27 +1460,63 @@ if(mysqli_num_rows($res)){
                                         </form>
                                     </div>
                                 </div>
+                                <div id="lesssonType_16">
+                                    <div class="row">
+                                        <form action="" method="post" class="row1 g-3">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
+
+                                            <fieldset class="row mb-3">
+                                                <legend class="col-form-label col-sm-2 pt-0">Lesson Privacy</legend>
+                                                <div class="col-sm-10">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="accessType" id="gridRadios11" value="1" <?php if($row["is_free"]) echo "checked"; ?>>
+                                                        <label class="form-check-label" for="gridRadios11">
+                                                            Everyone Can access
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="accessType" id="gridRadios22" value="0" <?php if(!$row["is_free"]) echo "checked"; ?>>
+                                                        <label class="form-check-label" for="gridRadios22">
+                                                            Access Requried
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <div class="col-md-12 d-flex justify-content-center">
+                                                <div class="col-md-6">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLessonAccess" id="submitBtn">
+                                                        <i class="bi bi-pencil-fill me-2"></i>
+                                                        Edit Lesson
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <?php } ?>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="customHeading text-center">
-                            <a target="_blank" href="<?=$content?>">Click Here</a> to open the link.
-                        </div>
+        <?php } ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row align-items-center justify-content-center">
+                    <div class="customHeading text-center">
+                        <a target="_blank" href="<?=$content?>">Click Here</a> to open the link.
                     </div>
                 </div>
             </div>
+        </div>
         <?php  echo loadScripts(); ?>
         <script>$( "#lesssonType_12" ).show();</script>
-<?php
+        <?php
     }
-
 }
 
 function loadScripts(){
@@ -1319,6 +1529,7 @@ function loadScripts(){
                 $( "#lesssonType_13" ).hide();
                 $( "#lesssonType_14" ).hide();
                 $( "#lesssonType_15" ).hide();
+                $( "#lesssonType_16" ).hide();
             }
 
             $(\'input[name="options_1"]\').change(function() {
@@ -1338,6 +1549,9 @@ function loadScripts(){
             }
             else if (this.value == \'text\') {
             $( "#lesssonType_15" ).show();
+            }
+            else if (this.value == \'privacy\') {
+            $( "#lesssonType_16" ).show();
             }
             });
             

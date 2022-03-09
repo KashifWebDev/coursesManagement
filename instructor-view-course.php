@@ -64,6 +64,19 @@ validateSession();
         }
     }
 
+    if(isset($_POST["updateLessonAccess"])){
+        $accessType = $_POST["accessType"]=="1" ? 1:0;
+
+        $courseID = sanitizeParam($_POST["courseID"]);
+        $lessonID = sanitizeParam($_POST["lessonID"]);
+
+        $s = "UPDATE lessons SET is_free=$accessType
+                WHERE course_id=$courseID AND id=$lessonID";
+        if(mysqli_query($con, $s)){
+            header('Location: instructor-view-course.php?courseID='.$courseID);
+        }
+    }
+
     if(isset($_POST["saveLesson_typeText"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $lessonContent = sanitizeParam($_POST["lessonContent"]);
@@ -907,6 +920,11 @@ if($courseRow["page_background_type"]=="image"){
                           <label class="btn btn-outline-success me-2" for="option3">
                               <i class="ri-paypal-fill me-2"></i>Paid
                           </label>
+
+                          <input type="radio" class="btn-check" name="access_type" id="option4" autocomplete="off" value="Password" <?php if($courseRow["access"]=="Password") echo "checked"; ?>>
+                          <label class="btn btn-outline-success me-2" for="option4">
+                              <i class="ri-key-2-fill me-2"></i>Password
+                          </label>
                       </div>
                       <div id="registration" class="row">
                           <div class="col-md-12 mt-2">
@@ -968,11 +986,13 @@ if($courseRow["page_background_type"]=="image"){
                               <input type="email" class="form-control" id="inputNanme4" name="paypal_email" value="<?=$courseRow["paypal_email"]?>">
                           </div>
                       </div>
-                      <h5 class="card-title">About Course</h5>
-                      <div class="col-md-12">
-                          <label for="inputNanme4" class="form-label">Course Password <i class="text-black-50">(Leave Empty to make it public)</i></label>
-                          <input type="password" name="coursePassword" class="form-control w-50" id="inputNanme4" value="<?=$courseRow["coursePassword"]?>">
+                      <div id="Password" class="row mt-2">
+                          <div class="col-md-12">
+                              <label for="inputNanme4" class="form-label">Course Password <i class="text-black-50">(Leave Empty to make it public)</i></label>
+                              <input type="password" name="coursePassword" class="form-control w-50" id="inputNanme4" value="<?=$courseRow["coursePassword"]?>">
+                          </div>
                       </div>
+                      <h5 class="card-title">About Course</h5>
                       <div class="col-md-6">
                           <label for="inputNanme4" class="form-label">Instructor Name</label>
                           <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$courseRow["instructor_name"]?>">
@@ -1224,19 +1244,28 @@ if($courseRow["page_background_type"]=="image"){
 
        $("#registration").hide();
        $("#paid").hide();
+       $("#Password").hide();
        $("input#timeLimitValueId").hide();
        $('input[type=radio][name=access_type]').change(function() {
            if (this.value == 'Free') {
                $("#registration").hide();
+               $("#Password").hide();
                $("#paid").hide();
            }
            else if (this.value == 'Registration') {
                $("#registration").show();
+               $("#Password").hide();
                $("#paid").hide();
            }
            else if (this.value == 'Paid') {
                $("#registration").hide();
+               $("#Password").hide();
                $("#paid").show();
+           }
+           else if (this.value == 'Password') {
+               $("#registration").hide();
+               $("#paid").hide();
+               $("#Password").show();
            }
        });
 

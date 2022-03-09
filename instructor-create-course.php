@@ -127,6 +127,11 @@ validateSession();
                                   <label class="btn btn-outline-success me-2" for="option3">
                                       <i class="ri-paypal-fill me-2"></i>Paid
                                   </label>
+
+                                  <input type="radio" class="btn-check" name="access_type" id="option4" autocomplete="off" value="Password">
+                                  <label class="btn btn-outline-success me-2" for="option4">
+                                      <i class="ri-key-2-fill me-2"></i>Password
+                                  </label>
                               </div>
                               <div id="registration" class="row">
                                   <div class="col-md-4 mt-2">
@@ -188,6 +193,14 @@ validateSession();
                                       <input type="email" class="form-control" id="inputNanme4" name="paypal_email">
                                   </div>
                               </div>
+                              <div id="Password" class="row mt-2">
+                                  <div class="col-md-12">
+                                      <label for="inputNanme4" class="form-label">Course Password <i class="text-black-50">(Leave Empty to make it public)</i></label>
+                                      <input type="password" name="coursePassword" class="form-control w-50" id="inputNanme4">
+                                  </div>
+                              </div>
+
+
                               <h5 class="card-title">About Course</h5>
                               <div class="col-md-12">
                                   <label for="inputNanme4" class="form-label">Course Password <i class="text-black-50">(Leave Empty to make it public)</i></label>
@@ -228,6 +241,7 @@ validateSession();
   <script>
       $("#registration").hide();
       $("#paid").hide();
+      $("#Password").hide();
       $("input#timeLimitValueId").hide();
       $('input[type=radio][name=access_type]').change(function() {
           if (this.value == 'Free') {
@@ -241,6 +255,11 @@ validateSession();
           else if (this.value == 'Paid') {
               $("#registration").hide();
               $("#paid").show();
+          }
+          else if (this.value == 'Password') {
+              $("#registration").hide();
+              $("#paid").hide();
+              $("#Password").show();
           }
       });
       $('#selectTimeLimitFactor').change(function() {
