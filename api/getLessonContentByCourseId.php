@@ -22,7 +22,7 @@ if(mysqli_num_rows($res)){
     if(!$row["is_free"] && $publicView){
         if($courseRow["access"]=="Free"){
             $firstClass = "col-md-12 h-100";
-            $secondClass = "d-none";
+            $secondClass = "col-md-12 h-100";
         }
         if($courseRow["access"]=="Registration"){
             $firstClass = "col-md-7 h-100";
@@ -44,6 +44,9 @@ if(mysqli_num_rows($res)){
                     }
                     if($courseRow["access"]=="Password"){
                         echo PasswordProtected();
+                    }
+                    if($courseRow["access"]=="Free"){
+                        loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $content, $url, $name);
                     }
                     ?>
                 </div>
