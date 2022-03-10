@@ -190,7 +190,7 @@ validateSession();
                                   </div>
                                   <div class="col-md-6">
                                       <label for="inputNanme4" class="form-label">Business Email Registered in PayPal</label>
-                                      <input type="email" class="form-control" id="inputNanme4" name="paypal_email">
+                                      <input type="text" class="form-control" id="inputNanme4" name="paypal_email">
                                   </div>
                               </div>
                               <div id="Password" class="row mt-2">
