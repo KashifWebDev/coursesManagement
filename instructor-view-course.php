@@ -596,7 +596,7 @@ if($courseRow["page_background_type"]=="image"){
                                             <h1 class="customColors">Start adding new lessons to the course!</h1>
                                             <p style="font-size: larger" class="customColors">Please use the left menu to add/edit lessosn and chapters!</p>
                                             <div class="alert alert-info mx-auto d-flex align-items-center" role="alert">
-                                                <i class="bi bi-bell-fill fw-bold me-2" style="font-size: x-large"></i> Use <i class="bi bi-grip-vertical fw-bold"></i> Icon to reposition courses. Drag the lesson to top to make it intro
+                                                <i class="bi bi-bell-fill fw-bold me-2" style="font-size: x-large"></i> Use <i class="bi bi-grip-vertical fw-bold"></i> Icon to reposition lessons. Drag the lesson to top to make it intro
                                             </div>
                                         </div>
                                     </div>
