@@ -193,7 +193,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                 <div id="lesssonType_11" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row g-3">
+                                        <form action="" method="post" class="row g-3">
                                             <input type="hidden" name="selectedOption" value="test">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
@@ -290,6 +290,10 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
                                             <input type="hidden" name="selectedLessonType" class="selectedLessonType">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$lessonID?>">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName" value="<?=$name?>">
@@ -299,7 +303,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="floatingTutLink" placeholder="Enter Link">
+                                                    <input type="text" name="link" class="form-control" id="floatingTutLink" placeholder="Enter Link">
                                                     <label for="floatingTutLink">Enter Link</label>
                                                 </div>
                                             </div>
@@ -560,7 +564,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                 <div id="lesssonType_11" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row g-3">
+                                        <form action="" method="post" class="row g-3">
                                             <input type="hidden" name="selectedOption" value="test">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
@@ -655,7 +659,11 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 </div>
                                 <div id="lesssonType_12" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row1 g-3">
+                                        <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$lessonID?>">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName" value="<?=$name?>">
@@ -664,7 +672,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             </div>
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="floatingTutLink" placeholder="Enter Link">
+                                                    <input type="text" name="link" class="form-control" id="floatingTutLink" placeholder="Enter Link">
                                                     <label for="floatingTutLink">Enter Link</label>
                                                 </div>
                                             </div>
@@ -933,7 +941,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                 <div id="lesssonType_11" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row g-3">
+                                        <form action="" method="post" class="row g-3">
                                             <input type="hidden" name="selectedOption" value="test">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
@@ -1041,7 +1049,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             </div>
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="floatingTutLink" placeholder="Enter Link">
+                                                    <input type="text" name="link" class="form-control" id="floatingTutLink" placeholder="Enter Link">
                                                     <label for="floatingTutLink">Enter Link</label>
                                                 </div>
                                             </div>
@@ -1298,7 +1306,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                 <div id="lesssonType_11" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row g-3">
+                                        <form action="" method="post" class="row g-3">
                                             <input type="hidden" name="selectedOption" value="test">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
@@ -1571,13 +1579,10 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                 </div>
             </div>
         <?php } ?>
-        <div class="row">
+        <div class="row h-100">
             <div class="col-md-12">
-                <div class="row align-items-center justify-content-center">
-                    <div class="customHeading text-center">
-                        <a target="_blank" href="<?=$content?>">Click Here</a> to open the link.
-                    </div>
-                </div>
+
+                <iframe src="<?=$content?>" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
             </div>
         </div>
         <?php  echo loadScripts(); ?>

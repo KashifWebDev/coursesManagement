@@ -595,6 +595,9 @@ if($courseRow["page_background_type"]=="image"){
                                         <div class="container-fluid p-5 text-white text-center h-100 d-flex flex-column justify-content-center customColors">
                                             <h1 class="customColors">Start adding new lessons to the course!</h1>
                                             <p style="font-size: larger" class="customColors">Please use the left menu to add/edit lessosn and chapters!</p>
+                                            <div class="alert alert-info mx-auto d-flex align-items-center" role="alert">
+                                                <i class="bi bi-bell-fill fw-bold me-2" style="font-size: x-large"></i> Use <i class="bi bi-grip-vertical fw-bold"></i> Icon to reposition courses. Drag the lesson to top to make it intro
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1581,6 +1584,20 @@ if($courseRow["page_background_type"]=="image"){
            $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
            $("button.customColors").css('border', '1px solid <?=$courseRow["front_clr"]?>');
        }
+   </script>
+
+   <div class="toast" id="myToast">
+       <div class="toast-header">
+           <strong class="me-auto"><i class="bi-gift-fill"></i> We miss you!</strong>
+           <small>10 mins ago</small>
+           <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+       </div>
+       <div class="toast-body">
+           It's been a long time since you visited us. We've something special for you. <a href="#">Click here!</a>
+       </div>
+   </div>
+   <script>
+       $("#myToast").toast("show");
    </script>
 
 </body>
