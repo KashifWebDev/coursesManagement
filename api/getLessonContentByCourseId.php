@@ -71,6 +71,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                     </div>
                     <div class="modal-body text-dark">
                         <form action="" method="post">
+                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                             <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
                             <div class="row mb-3">
@@ -287,7 +288,15 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 </div>
                                 <div id="lesssonType_12" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row1 g-3">
+                                        <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
+                                            <div class="col-md-12 mb-3">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName" value="<?=$name?>">
+                                                    <label for="floatingName">Lesson Name</label>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="floatingTutLink" placeholder="Enter Link">
@@ -297,7 +306,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
+                                                    <button name="updateLesson_typeLink" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
                                                         <i class="bi bi-plus-circle-fill mr-2"></i>
                                                         Update Lesson
                                                     </button>
@@ -309,17 +318,27 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 </div>
                                 <div id="lesssonType_13" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row1 g-3">
+                                        <form action="" method="post" class="row1 g-3" enctype="multipart/form-data">
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$lessonID?>">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
+
+                                            <div class="col-md-12 mb-3">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName" value="<?=$name?>">
+                                                    <label for="floatingName">Lesson Name</label>
+                                                </div>
+                                            </div>
                                             <div class="row mb-3">
                                                 <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" type="file" id="formFile">
+                                                    <input name="fileToUpload" class="form-control" type="file" id="formFile">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
+                                                    <button name="updateLesson_typeFile" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
                                                         <i class="bi bi-plus-circle-fill mr-2"></i>
                                                         Update Lesson
                                                     </button>
@@ -332,6 +351,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_14" style="">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -365,10 +385,14 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_15">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$lessonID?>">
 
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName">
+                                                    <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName" value="<?=$name?>">
                                                     <label for="floatingName">Lesson Name</label>
                                                 </div>
                                             </div>
@@ -381,7 +405,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="saveLesson_typeText" id="submitBtn">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeText" id="submitBtn">
                                                         <i class="bi bi-pencil-fill me-2"></i>
                                                         Edit Lesson
                                                     </button>
@@ -394,6 +418,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_16">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
@@ -633,6 +658,12 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                         <form action="instructor-all-courses.php" method="post" class="row1 g-3">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
+                                                    <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName" value="<?=$name?>">
+                                                    <label for="floatingName">Lesson Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mb-3">
+                                                <div class="form-floating">
                                                     <input type="text" class="form-control" id="floatingTutLink" placeholder="Enter Link">
                                                     <label for="floatingTutLink">Enter Link</label>
                                                 </div>
@@ -640,7 +671,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
+                                                    <button name="updateLesson_typeLink" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
                                                         <i class="bi bi-plus-circle-fill mr-2"></i>
                                                         Update Lesson
                                                     </button>
@@ -652,17 +683,28 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 </div>
                                 <div id="lesssonType_13" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row1 g-3">
+                                        <form action="" method="post" class="row1 g-3" enctype="multipart/form-data">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$lessonID?>">
+
+                                            <div class="col-md-12 mb-3">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName" value="<?=$name?>">
+                                                    <label for="floatingName">Lesson Name</label>
+                                                </div>
+                                            </div>
                                             <div class="row mb-3">
                                                 <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" type="file" id="formFile">
+                                                    <input name="fileToUpload" class="form-control" type="file" id="formFile">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
+                                                    <button name="updateLesson_typeFile" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
                                                         <i class="bi bi-pencil-fill mr-2"></i>
                                                         Update Lesson
                                                     </button>
@@ -675,6 +717,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_14" style="">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -695,7 +738,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="editVideo" id="submitBtn">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeVideo" id="submitBtn">
                                                         <i class="bi bi-pencil-fill me-2"></i>
                                                         Edit Lesson
                                                     </button>
@@ -708,6 +751,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_15" style="display: none;">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -740,6 +784,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_16">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
@@ -983,7 +1028,17 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 </div>
                                 <div id="lesssonType_12" style="display: none;">
                                     <div class="row">
-                                        <form action="instructor-all-courses.php" method="post" class="row1 g-3">
+                                        <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
+
+                                            <input type="hidden" name="courseID" value="<?=$courseID?>">
+                                            <input type="hidden" name="lessonID" value="<?=$lessonID?>">
+                                            <div class="col-md-12 mb-3">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="floatingName" placeholder="Lesson Name" name="lessonName" value="<?=$name?>">
+                                                    <label for="floatingName">Lesson Name</label>
+                                                </div>
+                                            </div>
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="floatingTutLink" placeholder="Enter Link">
@@ -993,7 +1048,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
+                                                    <button name="updateLesson_typeLink" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
                                                         <i class="bi bi-pencil-fill mr-2"></i>
                                                         Update Lesson
                                                     </button>
@@ -1006,6 +1061,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_13" style="display: none;">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3" enctype="multipart/form-data">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -1039,6 +1095,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_14" style="">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -1059,7 +1116,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="editVideo" id="submitBtn">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeVideo" id="submitBtn">
                                                         <i class="bi bi-pencil-fill me-2"></i>
                                                         Edit Lesson
                                                     </button>
@@ -1072,6 +1129,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_15" style="display: none;">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -1104,6 +1162,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_16">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
@@ -1335,6 +1394,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_12" style="display: none;">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -1368,6 +1428,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_13" style="display: none;">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3" enctype="multipart/form-data">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -1401,6 +1462,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_14" style="">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -1421,7 +1483,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
 
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="editVideo" id="submitBtn">
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeVideo" id="submitBtn">
                                                         <i class="bi bi-pencil-fill me-2"></i>
                                                         Edit Lesson
                                                     </button>
@@ -1434,6 +1496,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_15" style="display: none;">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$lessonID?>">
@@ -1466,6 +1529,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                 <div id="lesssonType_16">
                                     <div class="row">
                                         <form action="" method="post" class="row1 g-3">
+                                            <input type="hidden" name="selectedLessonType" class="selectedLessonType">
 
                                             <input type="hidden" name="courseID" value="<?=$courseID?>">
                                             <input type="hidden" name="lessonID" value="<?=$row["id"]?>">
@@ -1533,9 +1597,13 @@ function loadScripts(){
                 $( "#lesssonType_14" ).hide();
                 $( "#lesssonType_15" ).hide();
                 $( "#lesssonType_16" ).hide();
-            }
+            };
+            
+            $(\'input[type=hidden].selectedLessonType\').val($(\'input[name="options_1"]:checked\').val());
+//            console.log(($(\'input[name="options_1"]:checked\').val()));
 
             $(\'input[name="options_1"]\').change(function() {
+            $(\'input[type=hidden].selectedLessonType\').val(this.value);
             hideAll1();
             //console.log(this.value);
             if (this.value == \'test\') {

@@ -17,6 +17,7 @@ validateSession();
         $paypal_email = sanitizeParam($_POST["paypal_email"]);
         $instructor_name = sanitizeParam($_POST["instructor_name"]);
         $course_description = sanitizeParam($_POST["course_description"]);
+        $aboutInstructor = sanitizeParam($_POST["aboutInstructor"]);
         $coursePassword = $_POST["coursePassword"]=="" ? null : $_POST["coursePassword"];
 //        echo json_encode($_POST); exit(); die();
 
@@ -35,10 +36,10 @@ validateSession();
         $instructorID = $_SESSION["userID"];
 
         $s = "INSERT INTO courses (instructor_id, title, access, description, courseID,timeLimitType, timeLimitValue, registration_required_email,registration_required_phone,
-                     registration_required_address,registration_required_tos, price, paypal_email,instructor_name, coursePassword)
+                     registration_required_address,registration_required_tos, price, paypal_email,instructor_name, coursePassword, aboutInstructor)
              VALUES
             ($instructorID, '$course_title', '$access_type', '$course_description',$courseID, '$timeLimit', $timeLimitValue, $reg_req_email, $reg_req_phone,$reg_req_address,
-             $reg_req_tos, $price, '$paypal_email', '$instructor_name', '$coursePassword')";
+             $reg_req_tos, $price, '$paypal_email', '$instructor_name', '$coursePassword', '$aboutInstructor')";
 
 //        echo $s; exit(); die();
         if(!mysqli_query($con, $s)){
@@ -195,7 +196,7 @@ validateSession();
                               </div>
                               <div id="Password" class="row mt-2">
                                   <div class="col-md-12">
-                                      <label for="inputNanme4" class="form-label">Course Password <i class="text-black-50">(Leave Empty to make it public)</i></label>
+                                      <label for="inputNanme4" class="form-label">Course Password</label>
                                       <input type="password" name="coursePassword" class="form-control w-50" id="inputNanme4">
                                   </div>
                               </div>
@@ -203,12 +204,12 @@ validateSession();
 
                               <h5 class="card-title">About Course</h5>
                               <div class="col-md-12">
-                                  <label for="inputNanme4" class="form-label">Course Password <i class="text-black-50">(Leave Empty to make it public)</i></label>
-                                  <input type="password" name="coursePassword" class="form-control w-50" id="inputNanme4">
-                              </div>
-                              <div class="col-md-6">
                                   <label for="inputNanme4" class="form-label">Instructor Name</label>
-                                  <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$_SESSION["fullName"]?>">
+                                  <input type="text" name="instructor_name" class="form-control w-50" id="inputNanme4" value="<?=$_SESSION["fullName"]?>">
+                              </div>
+                              <div class="col-sm-12 col-md-6">
+                                  <label for="inputAddress5" class="form-label">About Instructor</label>
+                                  <textarea class="form-control w-100" rows="3" name="aboutInstructor"></textarea>
                               </div>
                               <div class="col-md-12 mt-3">
                                   <textarea class="tinymce-editor" name="course_description">

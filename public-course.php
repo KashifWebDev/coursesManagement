@@ -177,14 +177,14 @@ $userPic = $instructorRow["pic"];
                         <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
                             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
                             <div class="d-flex flex-column ms-2">
-                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$instructor_name?></h2>
+                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$courseRow["instructor_name"]?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
                             </div>
                         </div>
                         <div class="d-flex flex-column h-100 justify-content-center w-50">
                             <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
                             <p class="small fst-italic text-dark">
-                                <?=$instructorRow["about"]?>
+                                <?=$courseRow["aboutInstructor"]?>
                             </p>
                         </div>
                     </div>

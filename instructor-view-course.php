@@ -53,11 +53,12 @@ validateSession();
     if(isset($_POST["updateLesson_typeLink"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $link = sanitizeParam($_POST["link"]);
+        $lessonType = sanitizeParam($_POST["selectedLessonType"]);
 
         $courseID = sanitizeParam($_POST["courseID"]);
         $lessonID = sanitizeParam($_POST["lessonID"]);
 
-        $s = "UPDATE lessons SET name='$lessonName',content='$link'
+        $s = "UPDATE lessons SET name='$lessonName',content='$link', type='$lessonType' 
               WHERE course_id=$courseID AND id=$lessonID";
         if(mysqli_query($con, $s)){
             header('Location: instructor-view-course.php?courseID='.$courseID);
@@ -127,6 +128,7 @@ validateSession();
 
     if(isset($_POST["updateLesson_typeFile"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
+        $lessonType = sanitizeParam($_POST["selectedLessonType"]);
 
         $courseID = sanitizeParam($_POST["courseID"]);
         $lessonID = sanitizeParam($_POST["lessonID"]);
@@ -153,7 +155,7 @@ validateSession();
             echo "<script>alert('".$uploadErrMsg."');</script>";
         } else {
             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                    $s = "UPDATE lessons SET name='$lessonName', content='$fileName'
+                    $s = "UPDATE lessons SET name='$lessonName', content='$fileName', type='$lessonType' 
                             WHERE course_id=$courseID AND id=$lessonID";
                     if(mysqli_query($con, $s)){
                         header('Location: instructor-view-course.php?courseID='.$courseID);
@@ -281,12 +283,13 @@ validateSession();
 
     if(isset($_POST["updateLesson_typeVideo"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
+        $lessonType = sanitizeParam($_POST["selectedLessonType"]);
         $video = sanitizeParam($_POST["video"]);
 
         $courseID = sanitizeParam($_POST["courseID"]);
         $lessonID = sanitizeParam($_POST["lessonID"]);
 
-        $s = "UPDATE lessons SET name='$lessonName', content='$video' WHERE course_id=$courseID AND id=$lessonID";
+        $s = "UPDATE lessons SET name='$lessonName', content='$video', type='$lessonType' WHERE course_id=$courseID AND id=$lessonID";
         if(mysqli_query($con, $s)){
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
@@ -295,11 +298,12 @@ validateSession();
     if(isset($_POST["updateLesson_typeText"])){
         $lessonName = sanitizeParam($_POST["lessonName"]);
         $lessonContent = sanitizeParam($_POST["lessonContent"]);
+        $lessonType = sanitizeParam($_POST["selectedLessonType"]);
 
         $courseID = sanitizeParam($_POST["courseID"]);
         $lessonID = sanitizeParam($_POST["lessonID"]);
 
-        $s = "UPDATE lessons SET name='$lessonName', content='$lessonContent' WHERE course_id=$courseID AND id=$lessonID";
+        $s = "UPDATE lessons SET name='$lessonName', content='$lessonContent', type='$lessonType' WHERE course_id=$courseID AND id=$lessonID";
         if(mysqli_query($con, $s)){
             header('Location: instructor-view-course.php?courseID='.$courseID);
         }
@@ -348,6 +352,7 @@ validateSession();
         $paypal_email = sanitizeParam($_POST["paypal_email"]);
         $instructor_name = sanitizeParam($_POST["instructor_name"]);
         $course_description = sanitizeParam($_POST["course_description"]);
+        $aboutInstructor = sanitizeParam($_POST["aboutInstructor"]);
         $coursePassword = $_POST["coursePassword"]=="" ? null : $_POST["coursePassword"];
 
         if($access_type=="Free"){
@@ -366,7 +371,7 @@ validateSession();
               timeLimitType='$timeLimit',timeLimitType='$timeLimitValue',registration_required_email='$reg_req_email',
               registration_required_phone='$reg_req_phone',registration_required_address='$reg_req_address',
               registration_required_tos='$reg_req_tos',price='$price',paypal_email='$paypal_email',
-                   instructor_name='$instructor_name', coursePassword='$coursePassword' WHERE id=$courseID";
+                   instructor_name='$instructor_name', coursePassword='$coursePassword', aboutInstructor='$aboutInstructor' WHERE id=$courseID";
         if(!mysqli_query($con, $s)){
             echo mysqli_error($con); exi(); die();
         }
@@ -602,14 +607,14 @@ if($courseRow["page_background_type"]=="image"){
                         <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
                             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
                             <div class="d-flex flex-column ms-2">
-                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$instructor_name?></h2>
+                                <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$courseRow["instructor_name"]?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
                             </div>
                         </div>
                         <div class="d-flex flex-column h-100 justify-content-center w-50">
                             <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
                             <p class="small fst-italic text-dark">
-                                <?=$instructorRow["about"]?>
+                                <?=$courseRow["aboutInstructor"]?>
                             </p>
                         </div>
                     </div>
@@ -988,14 +993,19 @@ if($courseRow["page_background_type"]=="image"){
                       </div>
                       <div id="Password" class="row mt-2">
                           <div class="col-md-12">
-                              <label for="inputNanme4" class="form-label">Course Password <i class="text-black-50">(Leave Empty to make it public)</i></label>
+                              <label for="inputNanme4" class="form-label">Course Password</label>
                               <input type="password" name="coursePassword" class="form-control w-50" id="inputNanme4" value="<?=$courseRow["coursePassword"]?>">
                           </div>
                       </div>
                       <h5 class="card-title">About Course</h5>
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                           <label for="inputNanme4" class="form-label">Instructor Name</label>
                           <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$courseRow["instructor_name"]?>">
+                      </div>
+
+                      <div class="col-sm-12 col-md-6">
+                          <label for="inputAddress5" class="form-label">About Instructor</label>
+                          <textarea class="form-control w-100" rows="3" name="aboutInstructor"><?=$courseRow["aboutInstructor"]?></textarea>
                       </div>
                       <div class="col-md-12 mt-3">
                                   <textarea class="tinymce-editor" name="course_description">
