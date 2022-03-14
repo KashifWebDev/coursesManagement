@@ -65,7 +65,7 @@ if(mysqli_num_rows($res)){
                     echo signUp();
                 }
                 if($courseRow["access"]=="Paid"){
-                    echo paypal();
+                    echo paypal($courseRow);
                 }
                 if($courseRow["access"]=="Password"){
                     echo PasswordProtected();
@@ -79,8 +79,8 @@ if(mysqli_num_rows($res)){
         ?>
         <div class="row h-100">
             <div class="<?=$firstClass?>">
-                <div class="row h-100 ps-5 pt-4">
-                    <div class="col-md-12 textBckColor h-100" style="overflow-y: auto;">
+                <div class="w-100 h-100 ps-5 pt-4">
+                    <div class="textBckColor w-100 h-100" style="overflow-y: auto;">
                         <?=$content?>
                     </div>
                 </div>
@@ -116,7 +116,7 @@ if(mysqli_num_rows($res)){
                     echo signUp();
                 }
                 if($courseRow["access"]=="Paid"){
-                    echo paypal();
+                    echo paypal($courseRow);
                 }
                 if($courseRow["access"]=="Password"){
                     echo PasswordProtected();
@@ -154,7 +154,7 @@ if(mysqli_num_rows($res)){
                     echo signUp();
                 }
                 if($courseRow["access"]=="Paid"){
-                    echo paypal();
+                    echo paypal($courseRow);
                 }
                 if($courseRow["access"]=="Password"){
                     echo PasswordProtected();
@@ -186,7 +186,7 @@ if(mysqli_num_rows($res)){
                     echo signUp();
                 }
                 if($courseRow["access"]=="Paid"){
-                    echo paypal();
+                    echo paypal($courseRow);
                 }
                 if($courseRow["access"]=="Password"){
                     echo PasswordProtected();

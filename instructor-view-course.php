@@ -353,6 +353,7 @@ validateSession();
         $instructor_name = sanitizeParam($_POST["instructor_name"]);
         $course_description = sanitizeParam($_POST["course_description"]);
         $aboutInstructor = sanitizeParam($_POST["aboutInstructor"]);
+        $instructorPicture = sanitizeParam($_POST["instructorPicture"]);
         $coursePassword = $_POST["coursePassword"]=="" ? null : $_POST["coursePassword"];
 
         if($access_type=="Free"){
@@ -367,13 +368,47 @@ validateSession();
             $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = null;
         }
 
+        if (empty($_FILES['instructorPictureUpload']['name'])) {
+            $instructorPicture = sanitizeParam($_POST["instructorPicture"]);
+        }
+        else{
+            $target_dir = "assets/img/instructorPic/";
+            $target_file = $target_dir . basename($_FILES["instructorPictureUpload"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            // Check file size
+            if ($_FILES["bottomLogo"]["size"] > 10000000) {
+                $uploadErrMsg = "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+            if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
+                strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
+                || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
+                $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
+                $uploadOk = 0;
+            }
+
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo "<script>alert('".$uploadErrMsg."');</script>";
+            } else {
+                if (move_uploaded_file($_FILES["instructorPictureUpload"]["tmp_name"], $target_file)) {
+                    $instructorPicture = $_FILES["instructorPictureUpload"]["name"];
+                } else {
+                    echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+                }
+            }
+        }
+
         $s = "UPDATE courses SET title='$course_title',access='$access_type',description='$course_description',courseID=$randomCourseID,
               timeLimitType='$timeLimit',timeLimitType='$timeLimitValue',registration_required_email='$reg_req_email',
               registration_required_phone='$reg_req_phone',registration_required_address='$reg_req_address',
               registration_required_tos='$reg_req_tos',price='$price',paypal_email='$paypal_email',
-                   instructor_name='$instructor_name', coursePassword='$coursePassword', aboutInstructor='$aboutInstructor' WHERE id=$courseID";
+                   instructor_name='$instructor_name', coursePassword='$coursePassword', aboutInstructor='$aboutInstructor',
+                   instructorPicture='$instructorPicture' WHERE id=$courseID";
+//        echo $s; exit(); die();
         if(!mysqli_query($con, $s)){
-            echo mysqli_error($con); exi(); die();
+            echo mysqli_error($con); exit(); die();
         }
     if(mysqli_query($con, $s)){
         header('Location: instructor-view-course.php?courseID='.$courseID);
@@ -564,7 +599,7 @@ if($courseRow["page_background_type"]=="image"){
                 <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
                     <div class="siteSignature text-center bg-light">
                         <div class="d-flex align-items-center justify-content-center customColors">
-                            <img src="assets/img/bottomLogo/<?=$courseRow["bottomLogo"]?>" alt="Site Logo" class="w-100" height="120px">
+                            <img src="assets/img/bottomLogo/<?=$courseRow["bottomLogo"]?>" alt="Site Logo" class="" height="120px">
                         </div>
                     </div>
                 </div>
@@ -608,7 +643,7 @@ if($courseRow["page_background_type"]=="image"){
                 <section class="section col-md-12 bg-white" style="height: 20%;border-bottom-right-radius: 40px;">
                     <div class="align-items-center d-flex flex-row h-100 justify-content-evenly">
                         <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
+                            <img src="assets/img/instructorPic/<?=$courseRow["instructorPicture"]?>" alt="Profile" class="rounded-circle" style="max-width: 80px;">
                             <div class="d-flex flex-column ms-2">
                                 <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$courseRow["instructor_name"]?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
@@ -617,7 +652,7 @@ if($courseRow["page_background_type"]=="image"){
                         <div class="d-flex flex-column h-100 justify-content-center w-50">
                             <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
                             <p class="small fst-italic text-dark">
-                                <?=$courseRow["aboutInstructor"]?>
+                                <?php echo limit_text($courseRow["aboutInstructor"], 37); ?>
                             </p>
                         </div>
                     </div>
@@ -627,6 +662,22 @@ if($courseRow["page_background_type"]=="image"){
     </div>
 </div>
 
+   <div class="modal fade" id="aboutInstructorTextModal" tabindex="-1">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header bg-primary text-white ">
+                   <h5 class="modal-title">About Instructor</h5>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                   <?=$courseRow["aboutInstructor"]?>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+           </div>
+       </div>
+   </div>
 
   <div class="modal fade" id="addNewLesson" tabindex="-1">
       <div class="modal-dialog modal-lg">
@@ -898,7 +949,7 @@ if($courseRow["page_background_type"]=="image"){
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                  <form class="row g-3" action="" method="post">
+                  <form class="row g-3" action="" method="post" enctype="multipart/form-data">
                       <div class="col-md-12">
                           <label for="inputNanme4" class="form-label">Course Title</label>
                           <input type="text" class="form-control" id="inputNanme4" name="course_title" value="<?=$courseRow["title"]?>">
@@ -990,7 +1041,7 @@ if($courseRow["page_background_type"]=="image"){
                               <input type="number" class="form-control" id="inputNanme4" name="price" value="<?=$courseRow["price"]?>">
                           </div>
                           <div class="col-md-6">
-                              <label for="inputNanme4" class="form-label">Business Email Registered in PayPal</label>
+                              <label for="inputNanme4" class="form-label">Paypal API Client ID</label>
                               <input type="text" class="form-control" id="inputNanme4" name="paypal_email" value="<?=$courseRow["paypal_email"]?>">
                           </div>
                       </div>
@@ -1001,9 +1052,18 @@ if($courseRow["page_background_type"]=="image"){
                           </div>
                       </div>
                       <h5 class="card-title">About Course</h5>
-                      <div class="col-md-12">
+                      <div class="col-md-6">
                           <label for="inputNanme4" class="form-label">Instructor Name</label>
                           <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$courseRow["instructor_name"]?>">
+                      </div>
+                      <div class="col-md-6">
+                          <div class="row mb-3">
+                              <label for="inputNumber" class="col col-form-label">Instructor Picture</label>
+                              <div class="col-sm-10">
+                                  <input type="hidden" name="instructorPicture" value="<?=$courseRow["instructorPicture"]?>">
+                                  <input class="form-control" type="file" id="formFile" name="instructorPictureUpload">
+                              </div>
+                          </div>
                       </div>
 
                       <div class="col-sm-12 col-md-6">

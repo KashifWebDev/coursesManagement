@@ -26,6 +26,7 @@ $userPic = $instructorRow["pic"];
     $title = $courseRow["title"]." | TeachMe How";
     require "includes/head.inc.php";
     ?>
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
     <style>
         /* Let's get this party started */
         .sidebar1::-webkit-scrollbar {
@@ -46,6 +47,7 @@ $userPic = $instructorRow["pic"];
             -webkit-box-shadow: inset 0 0 0 <?=$courseRow["back_clr"]?>;
         }
     </style>
+    <?php echo loadPaypalScripts($courseRow["paypal_client_api_key"], $courseRow["price"], $courseRow["id"]); ?>
 </head>
 <?php
  if($courseRow["page_background_type"]=="image"){
@@ -152,7 +154,7 @@ $userPic = $instructorRow["pic"];
                 <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
                     <div class="siteSignature text-center bg-light">
                         <div class="d-flex align-items-center justify-content-center customColors">
-                            <img src="assets/img/bottomLogo/<?=$courseRow["bottomLogo"]?>" alt="Site Logo" class="w-100" height="120px">
+                            <img src="assets/img/bottomLogo/<?=$courseRow["bottomLogo"]?>" alt="Site Logo" class="" height="120px">
                         </div>
                     </div>
                 </div>
@@ -175,7 +177,7 @@ $userPic = $instructorRow["pic"];
                 <section class="section col-md-12 bg-white" style="height: 20%;border-bottom-right-radius: 40px;">
                     <div class="align-items-center d-flex flex-row h-100 justify-content-evenly">
                         <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="max-width: 80px;">
+                            <img src="assets/img/instructorPic/<?=$courseRow["instructorPicture"]?>" alt="Profile" class="rounded-circle" style="max-width: 80px;">
                             <div class="d-flex flex-column ms-2">
                                 <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$courseRow["instructor_name"]?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
@@ -207,7 +209,6 @@ $userPic = $instructorRow["pic"];
 <!-- Template Main JS File -->
 <script src="<?=$path?>assets/js/main.js?v=<?=rand()?>"></script>
 
-<script src="assets/vendor/jquery/jquery.min.js"></script>
 
 <script src="assets/vendor/jquery/jquery-ui.js"></script>
 <link rel="stylesheet" href="assets/vendor/jquery/jquery-ui.css">
@@ -293,6 +294,7 @@ $userPic = $instructorRow["pic"];
                     $('#courseContent').append(response);
                 }
                 implementColors();
+                loadPaypemtScript();
             },
             error: function(xhr) {
                 alert("Error while fetching courses!\n "+xhr);
@@ -322,6 +324,90 @@ $userPic = $instructorRow["pic"];
         $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
     }
     implementColors();
+
+    function loadPaypemtScript(){
+        var price = parseFloat(<?=$courseRow["price"]?>);
+        var courseID = parseInt(<?=$courseRow["id"]?>)
+        var userEmail;
+        paypal.Buttons({
+
+            onInit: function(data, actions) {
+                actions.disable();
+
+                document.querySelector('#PaypalEmail')
+                    .addEventListener('change', function(event) {
+
+                        var val = $.trim(event.target.value);
+
+                        if (val) {
+                            actions.enable();
+                        } else {
+                            actions.disable();
+                        }
+                    });
+
+            },
+            onClick: function() {
+
+                var val = $.trim($('#PaypalEmail').val());
+
+                if (!val) {
+                    alert('Please enter the email');
+                }
+                userEmail = val;
+            },
+
+            // Sets up the transaction when a payment button is clicked
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: price // Can reference variables or functions. Example: `value: document.getElementById('...').value`
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction after payer approval
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    // Successful capture! For dev/demo purposes:
+//                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                    console.log(JSON.stringify(orderData));
+                    var transaction = orderData.purchase_units[0].payments.captures[0];
+
+                    $.ajax({
+                        url: 'api/payment.php',
+                        type: 'POST',
+                        data: jQuery.param(
+                            { courseID: courseID,
+                                email : userEmail,
+                                response : JSON.stringify(orderData)
+                            }
+                        ) ,
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        success: function (response) {
+                            if(response=='yes'){
+                                alert('Payment was successfull');
+                                window.location.reload();
+//                        window.location.href ='course-123?done';
+                            }
+
+                        },
+                        error: function () {
+                            alert('error');
+                        }
+                    });
+
+                    // When ready to go live, remove the alert and show a success message within this page. For example:
+                    // var element = document.getElementById('paypal-button-container');
+                    // element.innerHTML = '';
+                    // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                    // Or go to another URL:  actions.redirect('thank_you.html');
+                });
+            }
+        }).render('#paypal-button-container');
+    }
 </script>
 
 

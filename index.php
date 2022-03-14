@@ -21,6 +21,7 @@ if(isset($_POST["login"])){
         $_SESSION["firstName"] = $row["firstname"];
         $_SESSION["fullName"] = $row["firstname"].' '.$row["lastname"];
         $_SESSION["role"] = $row["type"];
+        $_SESSION["email"] = $row["email"];
         if($row["type"]=="Admin"){
             redirect('adminDashboard.php');
         }

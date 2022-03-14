@@ -12,6 +12,15 @@ $s = "SELECT * FROM courses WHERE id=$courseID";
 $res = mysqli_query($con, $s);
 $courseRow = mysqli_fetch_array($res);
 
+$loggedInUserEmail = $_SESSION["email"];
+$userIsPaid = false;
+$s = "SELECT * FROM users_payments WHERE course_id=$courseID AND email='$loggedInUserEmail'";
+$res1 = mysqli_query($con, $s);
+if(mysqli_num_rows($res1)){
+    $userIsPaid = true;
+    $userRow = mysqli_fetch_array($res);
+}
+
 $s = "SELECT * FROM lessons WHERE course_id=$courseID AND id=$lessonID";
 $res = mysqli_query($con, $s);
 if(mysqli_num_rows($res)){
@@ -19,7 +28,7 @@ if(mysqli_num_rows($res)){
     $content = $url = isset($row["content"]) ? $row["content"] : "";
     $name = isset($row["name"]) ? $row["name"] : "";
 
-    if(!$row["is_free"] && $publicView){
+    if(!$row["is_free"] && $publicView && !$userIsPaid){
         if($courseRow["access"]=="Free"){
             $firstClass = "col-md-12 h-100";
             $secondClass = "col-md-12 h-100";
@@ -40,7 +49,7 @@ if(mysqli_num_rows($res)){
                         echo signUp();
                     }
                     if($courseRow["access"]=="Paid"){
-                        echo paypal();
+                        echo paypal($courseRow);
                     }
                     if($courseRow["access"]=="Password"){
                         echo PasswordProtected();
@@ -54,6 +63,13 @@ if(mysqli_num_rows($res)){
         <?php
         exit(); die();
     }
+    if($row["is_free"] && $publicView && $userIsPaid){ ?>
+    <div class="row h-100">
+        <div class="col-md-12 h-100">
+            <?php echo loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $content, $url, $name); ?>
+        </div>
+    </div>
+    <?php exit(); die(); }
 
 loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $content, $url, $name);
 

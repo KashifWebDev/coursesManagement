@@ -84,6 +84,24 @@ validateSession();
                       $res = mysqli_query($con, $s);
                       while($row = mysqli_fetch_array($res)){
                           $instructorID = $row["instructor_id"];
+                          $badge = "";
+                          $badgeTxt = "";
+                          if($row["access"]=="Free"){
+                            $badge = "success";
+                            $badgeTxt = "Free";
+                          }
+                          if($row["access"]=="Registration"){
+                            $badge = "secondary";
+                            $badgeTxt = "Registration";
+                          }
+                          if($row["access"]=="Paid"){
+                            $badge = "primary";
+                            $badgeTxt = "Paid";
+                          }
+                          if($row["access"]=="Password"){
+                            $badge = "danger";
+                            $badgeTxt = "Password";
+                          }
                           $s = "SELECT concat(firstname,' ',lastname) as fullName FROM users WHERE id=$instructorID";
                           $res1 = mysqli_query($con, $s);
                           $row1 = mysqli_fetch_array($res1);
@@ -93,7 +111,7 @@ validateSession();
                               <td><?=$row1["fullName"]?></td>
                               <td><a target="_blank" href="course-<?=$row["courseID"]?>" class="text-primary"><?=$row["title"]?></a></td>
                               <td><?=$row["price"]?>$</td>
-                              <td><span class="badge bg-success">Approved</span></td>
+                              <td><span class="badge bg-<?=$badge?>"><?=$badgeTxt?></span></td>
                           </tr>
                       <?php
                       }

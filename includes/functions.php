@@ -78,8 +78,9 @@ function signUp(){
 ';
 }
 
-function paypal(){
-    return '
+function paypal($course){
+    $price = $course["price"];
+    $a = '
     <div class="w-100 mt-5 d-flex flex-column align-items-center justify-content-center">
 
 
@@ -88,16 +89,19 @@ function paypal(){
             <div class="card-body text-dark">
 
                 <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Buy Course</h5>
+                    <h5 class="card-title text-center pb-0 fs-4">Buy Course in '.$price.'$</h5>
                     <p class="text-center small">Please buy this course to proceed...</p>
                 </div>
+                
 
                 <form >
+                
+                        <div class="form-floating mb-3">
+                          <input type="text" class="form-control" id="PaypalEmail" placeholder="Enter Email">
+                          <label for="PaypalEmail">Email</label>
+                        </div>
                     <div class="col-md-12">
-                        <button class="btn btn-warning w-100 ">
-                        <i class="ri-paypal-fill"></i>
-                        Buy Now
-                        </button>
+                        <div id="paypal-button-container"></div>
                     </div>
                 </form>
 
@@ -106,6 +110,8 @@ function paypal(){
 
     </div>
 ';
+
+    return $a;
 }
 
 function PasswordProtected(){
@@ -135,5 +141,112 @@ function PasswordProtected(){
         </div>
     </div>
 ';
+}
+
+function loadPaypalScripts($api, $price, $courseID){
+    $a = "";
+    if(isset($api) && !empty($api)){
+        $a .= '<script src="https://www.paypal.com/sdk/js?client-id='.$api.'&currency=CAD&disable-funding=credit,card"></script>';
+    }else{
+        $a .= '<script src="https://www.paypal.com/sdk/js?client-id=AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3&currency=CAD&disable-funding=credit,card"></script>';
+    }
+
+    $a .= "
+    <script>
+    var price = parseFloat(".$price.");
+    var courseID = parseInt(".$courseID.")
+    var userEmail;
+      paypal.Buttons({
+      
+        onInit: function(data, actions) {
+            actions.disable();
+
+            document.querySelector('#PaypalEmail')
+                .addEventListener('change', function(event) {
+
+                    var val = $.trim(event.target.value);
+
+                    if (val) {
+                        actions.enable();
+                    } else {
+                        actions.disable();
+                    }
+                });
+
+        },
+        onClick: function() {
+
+            var val = $.trim($('#PaypalEmail').val());
+
+            if (!val) {
+                alert('Please enter the email');
+            }
+            userEmail = val;
+        },
+
+        // Sets up the transaction when a payment button is clicked
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: price // Can reference variables or functions. Example: `value: document.getElementById('...').value`
+              }
+            }]
+          });
+        },
+
+        // Finalize the transaction after payer approval
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(orderData) {
+            // Successful capture! For dev/demo purposes:
+//                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                console.log(JSON.stringify(orderData));
+                var transaction = orderData.purchase_units[0].payments.captures[0];
+
+                $.ajax({
+                    url: 'api/payment.php',
+                    type: 'POST',
+                    data: jQuery.param(
+                        { courseID: courseID,
+                        email : userEmail,
+                        response : JSON.stringify(orderData)
+                        }
+                      ) ,
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    success: function (response) {
+                        if(response=='yes'){
+                        alert('Payment was successfull');
+                        window.location.reload();
+//                        window.location.href ='course-123?done';
+                        }
+                        
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                });  
+                
+            // When ready to go live, remove the alert and show a success message within this page. For example:
+            // var element = document.getElementById('paypal-button-container');
+            // element.innerHTML = '';
+            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+            // Or go to another URL:  actions.redirect('thank_you.html');
+          });
+        }
+      }).render('#paypal-button-container');
+
+    </script>";
+
+    return $a;
+}
+
+function limit_text($text, $limit) {
+    if (str_word_count($text, 0) > $limit) {
+        $words = str_word_count($text, 2);
+        $pos   = array_keys($words);
+        $text  = substr($text, 0, $pos[$limit]);
+        $text .= '<button type="button" class="bg-transparent border-0 text-primary" data-bs-toggle="modal" data-bs-target="#aboutInstructorTextModal">....Read More</button>';
+    }
+    return $text;
 }
 ?>
