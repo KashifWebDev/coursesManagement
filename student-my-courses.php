@@ -110,22 +110,24 @@ validateSession();
                               </thead>
                               <tbody>
                               <?php
-                              $s = "SELECT * FROM courses WHERE draft=0";
+                              $loggedInUserEmail = $_SESSION["email"];
+                              $s = "SELECT * FROM users_payments WHERE email='$loggedInUserEmail'";
                               $res = mysqli_query($con, $s);
+                              $count = 1;
                               while($row = mysqli_fetch_array($res)){
-                                  $instructorID = $row["instructor_id"];
-                                  $s = "SELECT concat(firstname,' ',lastname) as fullName FROM users WHERE id=$instructorID";
+                                  $courseID = $row["course_id"];
+                                  $s = "SELECT * FROM courses WHERE id=$courseID";
                                   $res1 = mysqli_query($con, $s);
                                   $row1 = mysqli_fetch_array($res1);
                                   ?>
                                   <tr>
-                                      <th scope="row"><a href="#">#<?=$row["id"]?></a></th>
-                                      <td><?=$row1["fullName"]?></td>
-                                      <td><a target="_blank" href="course-<?=$row["courseID"]?>" class="text-primary"><?=$row["title"]?></a></td>
-                                      <td><?=$row["price"]?>$</td>
+                                      <th scope="row"><a href="#">#<?=$count?></a></th>
+                                      <td><?=$row1["instructor_name"]?></td>
+                                      <td><a target="_blank" href="course-<?=$row1["courseID"]?>" class="text-primary"><?=$row1["title"]?></a></td>
+                                      <td><?=$row1["price"]?>$</td>
                                       <td><span class="badge bg-success">Approved</span></td>
                                   </tr>
-                                  <?php
+                                  <?php $count++;
                               }
                               ?>
                               </tbody>

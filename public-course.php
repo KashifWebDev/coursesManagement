@@ -247,6 +247,7 @@ $userPic = $instructorRow["pic"];
                     $('#courseContent').html(response);
                 }
                 implementColors();
+                loadPaypemtScript();
             },
             error: function(xhr) {
                 alert("Error while fetching courses!\n "+xhr);
@@ -274,7 +275,7 @@ $userPic = $instructorRow["pic"];
         });
     }
 
-        function getLessonContent(lessonID) {
+    function getLessonContent(lessonID) {
         placeHolderIcon("block");
         $('#courseContent').empty();
         loader1('block');

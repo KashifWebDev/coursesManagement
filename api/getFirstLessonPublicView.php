@@ -11,6 +11,15 @@ $s = "SELECT * FROM courses WHERE id=$courseID";
 $res = mysqli_query($con, $s);
 $courseRow = mysqli_fetch_array($res);
 
+$loggedInUserEmail = $_SESSION["email"];
+$userIsPaid = false;
+$s = "SELECT * FROM users_payments WHERE course_id=$courseID AND email='$loggedInUserEmail'";
+$res1 = mysqli_query($con, $s);
+if(mysqli_num_rows($res1)){
+    $userIsPaid = true;
+    $userRow = mysqli_fetch_array($res);
+}
+
 if($courseRow["access"]=="Free"){
     $firstClass = "col-md-12 h-100";
     $secondClass = "d-none";
@@ -22,6 +31,11 @@ if($courseRow["access"]=="Registration"){
 if($courseRow["access"]=="Paid" || $courseRow["access"]=="Password"){
     $firstClass = "col-md-9 h-100";
     $secondClass = "col-md-3 h-100";
+}
+
+if($userIsPaid){
+    $firstClass = "col-md-12 h-100";
+    $secondClass = "d-none";
 }
 
 $s = "SELECT * FROM lessons WHERE course_id=$courseID ORDER BY arrange_order ASC LIMIT 1";

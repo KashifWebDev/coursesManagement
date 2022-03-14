@@ -850,7 +850,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                 </div>
             </div>
         <?php } ?>
-        <div class="row h-100">
+        <div class="row h-100 w-100">
             <div class="col-md-12 textBckColor h-100 px-5 pt-4" style="overflow-y: auto;">
                 <?=$content?>
             </div>
