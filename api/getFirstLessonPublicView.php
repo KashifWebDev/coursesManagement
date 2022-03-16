@@ -11,7 +11,7 @@ $s = "SELECT * FROM courses WHERE id=$courseID";
 $res = mysqli_query($con, $s);
 $courseRow = mysqli_fetch_array($res);
 
-$loggedInUserEmail = $_SESSION["email"];
+$loggedInUserEmail = $_SESSION["email"] ?? null;
 $userIsPaid = false;
 $s = "SELECT * FROM users_payments WHERE course_id=$courseID AND email='$loggedInUserEmail'";
 $res1 = mysqli_query($con, $s);

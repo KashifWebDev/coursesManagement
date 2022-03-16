@@ -12,6 +12,16 @@ $courseRow = mysqli_fetch_array($res);
 $courseID = $courseRow["id"];
 $instructorID = $courseRow["instructor_id"];
 
+if(isset($_POST["unlockCourse_Pass"])){
+    $pass = sanitizeParam($_POST["coursePassValue"]);
+     if($courseRow["coursePassword"]==$pass){
+         $_SESSION["coursePass"] = true;
+         echo '<script>alert("Enjoy Learning..!");</script>';
+     }else{
+         echo '<script>alert("Incorrect password!");</script>';
+     }
+}
+
 $s = "SELECT concat(firstname,' ',lastname) as fullName, about, pic FROM users WHERE id=$instructorID";
 $res = mysqli_query($con, $s);
 $instructorRow = mysqli_fetch_array($res);
@@ -193,6 +203,24 @@ $userPic = $instructorRow["pic"];
                 </section>
             </div>
         </main>
+    </div>
+</div>
+
+
+<div class="modal fade" id="aboutInstructorTextModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white ">
+                <h5 class="modal-title">About Instructor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?=$courseRow["aboutInstructor"]?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 

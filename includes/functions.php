@@ -107,13 +107,15 @@ function PasswordProtected(){
                     <i class="bi bi-key-fill me-2"></i> Password Protected
 </h5>
                     <p class="text-center small">Please enter password to unlock...</p>
-                    <form action="">
+                    <form action="" method="post">
                         <div class="form-floating mb-3">
-                          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                          <input type="password" class="form-control" id="floatingPassword"
+                           placeholder="Password" name="coursePassValue">
                           <label for="floatingPassword">Password</label>
                         </div>
                         <div class="col-md-12">
-                            <button class="btn btn-outline-dark w-100 ">
+                            <button class="btn btn-outline-dark w-100"
+                            type="submit" name="unlockCourse_Pass">
                             <i class="bi bi-shield-lock me-2"></i>
                             Unlock
                             </button>

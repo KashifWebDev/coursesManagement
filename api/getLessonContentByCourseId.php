@@ -12,7 +12,7 @@ $s = "SELECT * FROM courses WHERE id=$courseID";
 $res = mysqli_query($con, $s);
 $courseRow = mysqli_fetch_array($res);
 
-$loggedInUserEmail = $_SESSION["email"];
+$loggedInUserEmail = $_SESSION["email"] ?? "";
 $userIsPaid = false;
 $s = "SELECT * FROM users_payments WHERE course_id=$courseID AND email='$loggedInUserEmail'";
 $res1 = mysqli_query($con, $s);
@@ -28,21 +28,36 @@ if(mysqli_num_rows($res)){
     $content = $url = isset($row["content"]) ? $row["content"] : "";
     $name = isset($row["name"]) ? $row["name"] : "";
 
-    if(!$row["is_free"] && $publicView && !$userIsPaid){
+    if(!$row["is_free"] && $publicView){
         if($courseRow["access"]=="Free"){
             $firstClass = "col-md-12 h-100";
+            $secondClass = "d-none";
+        }
+        if($courseRow["access"]=="Registration" && !empty($loggedInUserEmail)){
+            $firstClass = "col-md-12 h-100";
+            $secondClass = "d-none";
+        }
+        if($courseRow["access"]=="Registration" && empty($loggedInUserEmail)){
+            $firstClass = "d-none";
+            $secondClass = "ms-4 mt-3 col-md-5 h-100";
+        }
+        if($courseRow["access"]=="Paid" && $userIsPaid){
+            $firstClass = "col-md-12 h-100";
+            $secondClass = "d-none";
+        }
+        if($courseRow["access"]=="Password" && isset($_SESSION["coursePass"])){
+            $firstClass = "col-md-12 h-100";
+            $secondClass = "d-none";
+        }
+        if(($courseRow["access"]=="Paid" && !$userIsPaid) || ($courseRow["access"]=="Password" && !isset($_SESSION["coursePass"]))){
+            $firstClass = "d-none";
             $secondClass = "col-md-12 h-100";
-        }
-        if($courseRow["access"]=="Registration"){
-            $firstClass = "col-md-7 h-100";
-            $secondClass = "col-md-5 h-100";
-        }
-        if($courseRow["access"]=="Paid" || $courseRow["access"]=="Password"){
-            $firstClass = "col-md-9 h-100";
-            $secondClass = "col-md-3 h-100";
         }
         ?>
             <div class="row h-100">
+                <div class="<?=$firstClass?>">
+                    <?php loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $content, $url, $name); ?>
+                </div>
                 <div class="<?=$secondClass?>">
                     <?php
                     if($courseRow["access"]=="Registration"){
@@ -53,9 +68,6 @@ if(mysqli_num_rows($res)){
                     }
                     if($courseRow["access"]=="Password"){
                         echo PasswordProtected();
-                    }
-                    if($courseRow["access"]=="Free"){
-                        loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $content, $url, $name);
                     }
                     ?>
                 </div>
