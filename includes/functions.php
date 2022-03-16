@@ -15,58 +15,41 @@ function signUp(){
                     <p class="text-center small">Please sign up to get the course subscription...</p>
                 </div>
 
-                <form class="row g-3 needs-validation" novalidate="" method="post" action="">
-
+                <form class="row g-3 needs-validation" novalidate="" method="post" action="register.php">
+                
                     <div class="col-md-6">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" name="firstName" class="form-control" id="firstName" required="">
-                        <div class="invalid-feedback">Please, enter your first name!</div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" name="lastName" class="form-control" id="lastName" required="">
-                        <div class="invalid-feedback">Please, enter your last name!</div>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingEmail" placeholder="Name" name="firstName">
+                        <label for="floatingEmail">Your Name</label>
+                      </div>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="yourEmail" class="form-label">Your Email</label>
-                        <input type="email" name="email" class="form-control" id="yourEmail" required="">
-                        <div class="invalid-feedback">Please enter a valid Email address!</div>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingEmail" placeholder="Email" name="email">
+                        <label for="floatingEmail">Email</label>
+                      </div>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="yourUsername" class="form-label">Username</label>
-                        <div class="input-group has-validation">
-                            <span class="input-group-text" id="inputGroupPrepend">@</span>
-                            <input type="text" name="username" class="form-control" id="yourUsername" required="">
-                            <div class="invalid-feedback">Please choose a username.</div>
-                        </div>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingEmail" placeholder="Username" name="username">
+                        <label for="floatingEmail">Username</label>
+                      </div>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="yourPassword" class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" id="yourPassword" required="">
-                        <div class="invalid-feedback">Please enter your password!</div>
+                      <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingEmail" placeholder="Password" name="password">
+                        <label for="floatingEmail">Password</label>
+                      </div>
                     </div>
-
+                    <input type="hidden" name="options" value="Student">
+                    
                     <div class="col-md-6">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
-                        <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" required="">
-                        <div class="invalid-feedback">Renter the same password!</div>
+                        <button class="btn btn-primary w-100" type="submit" name="signUp" id="submitBtn">Create Account</button>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="form-check">
-                            <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required="">
-                            <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
-                            <div class="invalid-feedback">You must agree before submitting.</div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <button class="btn btn-primary w-100" type="submit">Create Account</button>
-                    </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6 d-flex justify-content-center align-items-center">
                         <p class="small mb-0">Already have an account? <a href="./">Log in</a></p>
                     </div>
                 </form>

@@ -186,7 +186,7 @@ $userPic = $instructorRow["pic"];
                         <div class="d-flex flex-column h-100 justify-content-center w-50">
                             <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
                             <p class="small fst-italic text-dark">
-                                <?=$courseRow["aboutInstructor"]?>
+                                <?php echo limit_text($courseRow["aboutInstructor"], 37); ?>
                             </p>
                         </div>
                     </div>

@@ -998,42 +998,42 @@ if($courseRow["page_background_type"]=="image"){
                                   <input type="text" class="form-control" id="timeLimitValueId" value="0" name="timeLimitValue">
                               </div>
                           </div>
-                          <div class="col-md-9">
-                              <div class="row mb-3">
-                                  <legend class="col-form-label col-sm-6 pt-0">Registration form fields</legend>
-                                  <div class="col-sm-6">
-
-                                      <div class="form-check">
-                                          <input name="reg_req_email" class="form-check-input" type="checkbox" id="gridCheck1" <?php if($courseRow["registration_required_email"]) echo "checked"; ?>>
-                                          <label class="form-check-label" for="gridCheck1">
-                                              Email
-                                          </label>
-                                      </div>
-
-                                      <div class="form-check">
-                                          <input name="reg_req_phone" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_phone"]) echo "checked"; ?>>
-                                          <label class="form-check-label" for="gridCheck2">
-                                              Phone Number
-                                          </label>
-                                      </div>
-
-                                      <div class="form-check">
-                                          <input name="reg_req_address" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_address"]) echo "checked"; ?>>
-                                          <label class="form-check-label" for="gridCheck2">
-                                              Address
-                                          </label>
-                                      </div>
-
-                                      <div class="form-check">
-                                          <input name="reg_req_tos" class="form-check-input" type="checkbox" id="gridCheck2" <?php if($courseRow["registration_required_tos"]) echo "checked"; ?>>
-                                          <label class="form-check-label" for="gridCheck2">
-                                              Terms of use and services
-                                          </label>
-                                      </div>
-
-                                  </div>
-                              </div>
-                          </div>
+<!--                          <div class="col-md-9">-->
+<!--                              <div class="row mb-3">-->
+<!--                                  <legend class="col-form-label col-sm-6 pt-0">Registration form fields</legend>-->
+<!--                                  <div class="col-sm-6">-->
+<!---->
+<!--                                      <div class="form-check">-->
+<!--                                          <input name="reg_req_email" class="form-check-input" type="checkbox" id="gridCheck1" --><?php //if($courseRow["registration_required_email"]) echo "checked"; ?><!-->-->
+<!--                                          <label class="form-check-label" for="gridCheck1">-->
+<!--                                              Email-->
+<!--                                          </label>-->
+<!--                                      </div>-->
+<!---->
+<!--                                      <div class="form-check">-->
+<!--                                          <input name="reg_req_phone" class="form-check-input" type="checkbox" id="gridCheck2" --><?php //if($courseRow["registration_required_phone"]) echo "checked"; ?><!-->-->
+<!--                                          <label class="form-check-label" for="gridCheck2">-->
+<!--                                              Phone Number-->
+<!--                                          </label>-->
+<!--                                      </div>-->
+<!---->
+<!--                                      <div class="form-check">-->
+<!--                                          <input name="reg_req_address" class="form-check-input" type="checkbox" id="gridCheck2" --><?php //if($courseRow["registration_required_address"]) echo "checked"; ?><!-->-->
+<!--                                          <label class="form-check-label" for="gridCheck2">-->
+<!--                                              Address-->
+<!--                                          </label>-->
+<!--                                      </div>-->
+<!---->
+<!--                                      <div class="form-check">-->
+<!--                                          <input name="reg_req_tos" class="form-check-input" type="checkbox" id="gridCheck2" --><?php //if($courseRow["registration_required_tos"]) echo "checked"; ?><!-->-->
+<!--                                          <label class="form-check-label" for="gridCheck2">-->
+<!--                                              Terms of use and services-->
+<!--                                          </label>-->
+<!--                                      </div>-->
+<!---->
+<!--                                  </div>-->
+<!--                              </div>-->
+<!--                          </div>-->
                       </div>
                       <div id="paid" class="row mt-2">
                           <div class="col-md-6">

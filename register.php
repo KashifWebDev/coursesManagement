@@ -5,13 +5,13 @@ require_once "includes/functions.php";
 $path = ROOT_DIR;
 if (isset($_POST["signUp"])){
     $firstName = sanitizeParam($_POST["firstName"]);
-    $lastName = sanitizeParam($_POST["lastName"]);
+    $lastName = isset($_POST["lastName"]) ? sanitizeParam($_POST["lastName"]) : "";
     $email = sanitizeParam($_POST["email"]);
     $contactNum = "";
     $address =  "";
     $username = sanitizeParam($_POST["username"]);
     $password = md5(sanitizeParam($_POST["password"]));
-    $confirmPassword = sanitizeParam($_POST["confirmPassword"]);
+    $confirmPassword = isset($_POST["confirmPassword"]) ? sanitizeParam($_POST["confirmPassword"]) : "";
     $userType = sanitizeParam($_POST["options"]);
 
     $sql= "SELECT * FROM users WHERE username = '$username'";
