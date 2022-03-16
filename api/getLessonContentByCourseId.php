@@ -14,12 +14,15 @@ $courseRow = mysqli_fetch_array($res);
 
 $loggedInUserEmail = $_SESSION["email"] ?? "";
 $userIsPaid = false;
-$s = "SELECT * FROM users_payments WHERE course_id=$courseID AND email='$loggedInUserEmail'";
-$res1 = mysqli_query($con, $s);
-if(mysqli_num_rows($res1)){
-    $userIsPaid = true;
-    $userRow = mysqli_fetch_array($res);
+if(!empty($loggedInUserEmail)){
+    $s = "SELECT * FROM users_payments WHERE course_id=$courseID AND email='$loggedInUserEmail'";
+    $res1 = mysqli_query($con, $s);
+    if(mysqli_num_rows($res1)){
+        $userIsPaid = true;
+        $userRow = mysqli_fetch_array($res);
+    }
 }
+
 
 $s = "SELECT * FROM lessons WHERE course_id=$courseID AND id=$lessonID";
 $res = mysqli_query($con, $s);
