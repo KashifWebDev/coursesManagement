@@ -22,12 +22,10 @@ if(isset($_POST["resetPass"])){
         $to = $userRow["email"];
         $from = 'no-reply@teachmehow.me';
 
-        $message = '<html><body>';
-        $message .= '<h2>Dear '.$userName.'!</h2>';
+        $message = '<h2>Dear '.$userName.'!</h2>';
         $message .= '<p style="font-size:18px;margin-left: 15px;">It is to inform you that, a password reset request was received for your account. Please note the following OTP in order to proceed.</p>';
         $message .= '<p style="font-size:18px;margin-left: 15px; font-style: italic">If it was not you, please don\t share the OTP with any one and ignore this mail.</p>';
         $message .= '<p style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;width: fit-content;">'.$code.'</a>';
-        $message .= '</body></html>';
 
         $subject = 'Password Reset Request - TeachMeHow';
         if(sendMail($to, $subject, $message)){

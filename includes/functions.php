@@ -158,7 +158,7 @@ function generateRandomString($length = 10) {
     return $randomString;
 }
 
-function sendMail($email, $subject, $message){
+function sendMail($email, $subject, $body){
     $from = 'no-reply@teachmehow.me';
 
 // To send HTML mail, the Content-type header must be set
@@ -169,6 +169,11 @@ function sendMail($email, $subject, $message){
     $headers .= 'From: '.$from."\r\n".
         'Reply-To: '.$from."\r\n" .
         'X-Mailer: PHP/' . phpversion();
+
+    $message = '<html><body>';
+    $message .= $body;
+    $message .= "<br><br>Regards,<br>TeachMeHow Team";
+    $message .= '</body></html>';
 
 // Sending email
     if(mail($email, $subject, $message, $headers)){
