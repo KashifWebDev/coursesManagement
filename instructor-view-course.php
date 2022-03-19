@@ -29,7 +29,7 @@ validateSession();
     }
 
     if(isset($_POST["saveLesson_typeVideo"])){
-        $lessonName = sanitizeParam($_POST["lessonName"]);
+        $lessonName = $_POST["lessonName"]=="" ? "Lesson Name" : sanitizeParam($_POST["lessonName"]);
         $video = sanitizeParam($_POST["video"]);
 
         $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
@@ -40,7 +40,7 @@ validateSession();
     }
 
     if(isset($_POST["saveLesson_typeLink"])){
-        $lessonName = sanitizeParam($_POST["lessonName"]);
+        $lessonName = $_POST["lessonName"]=="" ? "Lesson Name" : sanitizeParam($_POST["lessonName"]);
         $link = sanitizeParam($_POST["link"]);
 
         $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
@@ -51,7 +51,7 @@ validateSession();
     }
 
     if(isset($_POST["updateLesson_typeLink"])){
-        $lessonName = sanitizeParam($_POST["lessonName"]);
+        $lessonName = $_POST["lessonName"]=="" ? "Lesson Name" : sanitizeParam($_POST["lessonName"]);
         $link = sanitizeParam($_POST["link"]);
         $lessonType = sanitizeParam($_POST["selectedLessonType"]);
 
@@ -79,7 +79,7 @@ validateSession();
     }
 
     if(isset($_POST["saveLesson_typeText"])){
-        $lessonName = sanitizeParam($_POST["lessonName"]);
+        $lessonName = $_POST["lessonName"]=="" ? "Lesson Name" : sanitizeParam($_POST["lessonName"]);
         $lessonContent = sanitizeParam($_POST["lessonContent"]);
 
         $s = "INSERT INTO lessons (course_id, name, type, content) VALUES
@@ -90,8 +90,7 @@ validateSession();
     }
 
     if(isset($_POST["saveLesson_typeFile"])){
-        $lessonName = sanitizeParam($_POST["lessonName"]);
-
+        $lessonName = $_POST["lessonName"]=="" ? "Lesson Name" : sanitizeParam($_POST["lessonName"]);
 
         $target_dir = "assets/lessonsFiles/";
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);

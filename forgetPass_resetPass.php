@@ -20,17 +20,6 @@ if(isset($_POST["reset"])){
         echo mysqli_error($con);exit(); die();
     }
 }
-
-
-function redirect($addr){
-    error_reporting(E_ALL | E_WARNING | E_NOTICE);
-    ini_set('display_errors', TRUE);
-    flush();
-
-    echo '<script>window.location.replace("'.$addr.'");</script>';
-    echo '<script>window.location("'.$addr.'");</script>';
-//    header('Location: '.$addr);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">

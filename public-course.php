@@ -391,7 +391,7 @@ $userPic = $instructorRow["pic"];
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: price // Can reference variables or functions. Example: `value: document.getElementById('...').value`
+                            value: parseFloat(<?=$courseRow["price"]?>) // Can reference variables or functions. Example: `value: document.getElementById('...').value`
                         }
                     }]
                 });

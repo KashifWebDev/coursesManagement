@@ -20,6 +20,7 @@ validateSession();
         $aboutInstructor = sanitizeParam($_POST["aboutInstructor"]);
         $coursePassword = $_POST["coursePassword"]=="" ? null : $_POST["coursePassword"];
 //        echo json_encode($_POST); exit(); die();
+        $instructorPicture = "default.jpg";
 
         if($access_type=="Free"){
             $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = $paypal_email = 0;
@@ -33,13 +34,44 @@ validateSession();
             $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = 0;
         }
 
+        if (empty($_FILES['instructorPictureUpload']['name'])) {
+        }
+        else{
+            $target_dir = "assets/img/instructorPic/";
+            $target_file = $target_dir . basename($_FILES["instructorPictureUpload"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            // Check file size
+            if ($_FILES["bottomLogo"]["size"] > 10000000) {
+                $uploadErrMsg = "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+            if (strtolower($imageFileType) == "php" || strtolower($imageFileType) == "php5" ||
+                strtolower($imageFileType) == "shtml" || strtolower($imageFileType) == "php3"
+                || strtolower($imageFileType) == "php4" || strtolower($imageFileType) == "php5") {
+                $uploadErrMsg = "Sorry, this file extension could not be uploaded!.";
+                $uploadOk = 0;
+            }
+
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo "<script>alert('".$uploadErrMsg."');</script>";
+            } else {
+                if (move_uploaded_file($_FILES["instructorPictureUpload"]["tmp_name"], $target_file)) {
+                    $instructorPicture = $_FILES["instructorPictureUpload"]["name"];
+                } else {
+                    echo "<script>alert('Sorry, there was an error uploading your file.');</script>";
+                }
+            }
+        }
+
         $instructorID = $_SESSION["userID"];
 
         $s = "INSERT INTO courses (instructor_id, title, access, description, courseID,timeLimitType, timeLimitValue, registration_required_email,registration_required_phone,
-                     registration_required_address,registration_required_tos, price, paypal_email,instructor_name, coursePassword, aboutInstructor)
+                     registration_required_address,registration_required_tos, price, paypal_email,instructor_name, coursePassword, aboutInstructor, instructorPicture)
              VALUES
             ($instructorID, '$course_title', '$access_type', '$course_description',$courseID, '$timeLimit', $timeLimitValue, $reg_req_email, $reg_req_phone,$reg_req_address,
-             $reg_req_tos, $price, '$paypal_email', '$instructor_name', '$coursePassword', '$aboutInstructor')";
+             $reg_req_tos, $price, '$paypal_email', '$instructor_name', '$coursePassword', '$aboutInstructor', '$instructorPicture')";
 
 //        echo $s; exit(); die();
         if(!mysqli_query($con, $s)){
@@ -98,10 +130,10 @@ validateSession();
                           <h5 class="card-title">Enrolling a new course</h5>
 
                           <!-- Floating Labels Form -->
-                          <form class="row g-3" action="" method="post">
+                          <form class="row g-3" action="" method="post" enctype="multipart/form-data">
                               <div class="col-md-6">
                                   <label for="inputNanme4" class="form-label">Course Title</label>
-                                  <input type="text" class="form-control" id="inputNanme4" name="course_title">
+                                  <input type="text" class="form-control" id="inputNanme4" name="course_title" required>
                               </div>
                               <div class="col-md-6">
                                   <label for="inputNanme4" class="form-label">Link to the course publication</label>
@@ -203,9 +235,17 @@ validateSession();
 
 
                               <h5 class="card-title">About Course</h5>
-                              <div class="col-md-12">
+                              <div class="col-md-6">
                                   <label for="inputNanme4" class="form-label">Instructor Name</label>
-                                  <input type="text" name="instructor_name" class="form-control w-50" id="inputNanme4" value="<?=$_SESSION["fullName"]?>">
+                                  <input type="text" name="instructor_name" class="form-control" id="inputNanme4" value="<?=$_SESSION["fullName"]?>">
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="row mb-3">
+                                      <label for="inputNumber" class="">Instructor Picture</label>
+                                      <div class="col-sm-10">
+                                          <input class="form-control" type="file" id="formFile" name="instructorPictureUpload">
+                                      </div>
+                                  </div>
                               </div>
                               <div class="col-sm-12 col-md-6">
                                   <label for="inputAddress5" class="form-label">About Instructor</label>

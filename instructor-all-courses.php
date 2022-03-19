@@ -100,7 +100,7 @@ if(isset($_GET["del"])){
                                   <tr>
                                       <th scope="row"><?=$row["coursePrimaryKey"]?></th>
                                       <td>
-                                          <img style="max-height: 40px;" class="me-2 img-thumbnail" src="assets/img/courses-thumnail/<?=$row["thumbnail"]?>?> alt="">
+                                          <img style="max-height: 40px;" class="me-2 img-thumbnail" src="assets/img/courses-thumnail/<?=$row["thumbnail"]?>" alt="Course Thumbnail">
                                           <?=$row["title"]?>
                                       </td>
                                       <td><?=$row["total_lessons"]?></td>

@@ -1,43 +1,36 @@
 <?php
 
 
-function signUp(){
+function signUp($courseRow){
+    $courseID = $courseRow["id"];
     return '
     <div class="w-100 pe-2 mt-2 d-flex flex-column align-items-center justify-content-center">
-
-
         <div class="card mb-3">
-
             <div class="card-body text-dark">
-
                 <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                     <p class="text-center small">Please sign up to get the course subscription...</p>
                 </div>
-
                 <form class="row g-3 needs-validation" novalidate="" method="post" action="register.php">
-                
+                    <input type="hidden" name="courseID" value="'.$courseID.'">
                     <div class="col-md-6">
                       <div class="form-floating">
                         <input type="text" class="form-control" id="floatingEmail" placeholder="Name" name="firstName">
                         <label for="floatingEmail">Your Name</label>
                       </div>
                     </div>
-
                     <div class="col-md-6">
                       <div class="form-floating">
                         <input type="text" class="form-control" id="floatingEmail" placeholder="Email" name="email">
                         <label for="floatingEmail">Email</label>
                       </div>
                     </div>
-
                     <div class="col-md-6">
                       <div class="form-floating">
                         <input type="text" class="form-control" id="floatingEmail" placeholder="Username" name="username">
                         <label for="floatingEmail">Username</label>
                       </div>
                     </div>
-
                     <div class="col-md-6">
                       <div class="form-floating">
                         <input type="password" class="form-control" id="floatingEmail" placeholder="Password" name="password">
@@ -72,20 +65,22 @@ function paypal($course){
             <div class="card-body text-dark">
 
                 <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Buy Course in '.$price.'$</h5>
-                    <p class="text-center small">Please buy this course to proceed...</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Buy This Course</h5>
+                    <p class="text-center small text-muted" style="font-size: larger;">$'.$price.'</p>
                 </div>
                 
 
                 <form >
                 
                         <div class="form-floating mb-3">
-                          <input type="text" class="form-control" id="PaypalEmail" placeholder="Enter Email">
-                          <label for="PaypalEmail">Email</label>
+                          <input type="text" class="form-control" id="PaypalEmail" placeholder="Enter your email">
+                          <label for="PaypalEmail">Enter your email</label>
                         </div>
                     <div class="col-md-12">
                         <div id="paypal-button-container"></div>
                     </div>
+                    <hr>
+                    <p class="small mb-0">Already Purchased? <a href="./">Log in</a></p>
                 </form>
 
             </div>
@@ -97,7 +92,8 @@ function paypal($course){
     return $a;
 }
 
-function PasswordProtected(){
+function PasswordProtected($courseRow){
+    $price = $courseRow["price"];
     return '
     <div class="w-100 mt-5 d-flex flex-column align-items-center justify-content-center">
         <div class="card mb-3">
@@ -137,90 +133,7 @@ function loadPaypalScripts($api, $price, $courseID){
     }
 
     $a .= "
-    <script>
-    var price = parseFloat(".$price.");
-    var courseID = parseInt(".$courseID.")
-    var userEmail;
-      paypal.Buttons({
-      
-        onInit: function(data, actions) {
-            actions.disable();
-
-            document.querySelector('#PaypalEmail')
-                .addEventListener('change', function(event) {
-
-                    var val = $.trim(event.target.value);
-
-                    if (val) {
-                        actions.enable();
-                    } else {
-                        actions.disable();
-                    }
-                });
-
-        },
-        onClick: function() {
-
-            var val = $.trim($('#PaypalEmail').val());
-
-            if (!val) {
-                alert('Please enter the email');
-            }
-            userEmail = val;
-        },
-
-        // Sets up the transaction when a payment button is clicked
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: price // Can reference variables or functions. Example: `value: document.getElementById('...').value`
-              }
-            }]
-          });
-        },
-
-        // Finalize the transaction after payer approval
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(orderData) {
-            // Successful capture! For dev/demo purposes:
-//                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                console.log(JSON.stringify(orderData));
-                var transaction = orderData.purchase_units[0].payments.captures[0];
-
-                $.ajax({
-                    url: 'api/payment.php',
-                    type: 'POST',
-                    data: jQuery.param(
-                        { courseID: courseID,
-                        email : userEmail,
-                        response : JSON.stringify(orderData)
-                        }
-                      ) ,
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                    success: function (response) {
-                        if(response=='yes'){
-                        alert('Payment was successfull');
-                        window.location.reload();
-//                        window.location.href ='course-123?done';
-                        }
-                        
-                    },
-                    error: function () {
-                        alert('error');
-                    }
-                });  
-                
-            // When ready to go live, remove the alert and show a success message within this page. For example:
-            // var element = document.getElementById('paypal-button-container');
-            // element.innerHTML = '';
-            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-            // Or go to another URL:  actions.redirect('thank_you.html');
-          });
-        }
-      }).render('#paypal-button-container');
-
-    </script>";
+    ";
 
     return $a;
 }
@@ -234,4 +147,48 @@ function limit_text($text, $limit) {
     }
     return $text;
 }
+
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+function sendMail($email, $subject, $message){
+    $from = 'no-reply@teachmehow.me';
+
+// To send HTML mail, the Content-type header must be set
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+// Create email headers
+    $headers .= 'From: '.$from."\r\n".
+        'Reply-To: '.$from."\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+// Sending email
+    if(mail($email, $subject, $message, $headers)){
+        return true;
+    }else{
+        echo 'Unable to send email. Please try again.';
+        echo $email.'<br>';
+        echo $subject.'<br>';
+        echo $message.'<br>';
+        exit();die();
+    }
+}
+
+function redirect($addr){
+    error_reporting(E_ALL | E_WARNING | E_NOTICE);
+    ini_set('display_errors', TRUE);
+    flush();
+
+    echo '<script>window.location.replace("'.$addr.'");</script>';
+    echo '<script>window.location("'.$addr.'");</script>';
+}
+
 ?>

@@ -3,6 +3,12 @@
 validateSession();
     require_once "includes/functions.php";
     $path = ROOT_DIR;
+function myTotalCourses(){
+    $id = $_SESSION["userID"];
+    $s = "SELECT * FROM users_courses WHERE user_id=$id";
+    $res = mysqli_query($GLOBALS["con"], $s);
+    return mysqli_num_rows($res);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,15 +52,15 @@ validateSession();
               <div class="card info-card sales-card">
 
                 <div class="card-body">
-                  <h5 class="card-title">Enrolled Courses</h5>
+                  <h5 class="card-title">My Courses</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-list-check"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>4</h6>
-                      <span class="text-muted small pt-2 ps-1">All Courses</span>
+                      <h6><?=myTotalCourses()?></h6>
+                      <span class="text-muted small pt-2 ps-1">Enrolled Courses</span>
                     </div>
                   </div>
                 </div>

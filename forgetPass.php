@@ -20,19 +20,8 @@ if(isset($_POST["resetPass"])){
     if(mysqli_query($con, $s)){
         $newID = mysqli_insert_id($con);
         $to = $userRow["email"];
-        $subject = 'Password Reset Request - TeachMeHow';
         $from = 'no-reply@teachmehow.me';
 
-// To send HTML mail, the Content-type header must be set
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-// Create email headers
-        $headers .= 'From: '.$from."\r\n".
-            'Reply-To: '.$from."\r\n" .
-            'X-Mailer: PHP/' . phpversion();
-
-// Compose a simple HTML email message
         $message = '<html><body>';
         $message .= '<h2>Dear '.$userName.'!</h2>';
         $message .= '<p style="font-size:18px;margin-left: 15px;">It is to inform you that, a password reset request was received for your account. Please note the following OTP in order to proceed.</p>';
@@ -40,25 +29,14 @@ if(isset($_POST["resetPass"])){
         $message .= '<p style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;width: fit-content;">'.$code.'</a>';
         $message .= '</body></html>';
 
-
-// Sending email
-        if(mail($to, $subject, $message, $headers)){
+        $subject = 'Password Reset Request - TeachMeHow';
+        if(sendMail($to, $subject, $message)){
             redirect('forgetPass_pin.php?id='.$newID);
         } else{
             echo 'Unable to send email. Please try again.';exit();die();
         }
         header('Location: forgetPass.php?msg=Done');
     }
-}
-
-function redirect($addr){
-    error_reporting(E_ALL | E_WARNING | E_NOTICE);
-    ini_set('display_errors', TRUE);
-    flush();
-
-    echo '<script>window.location.replace("'.$addr.'");</script>';
-    echo '<script>window.location("'.$addr.'");</script>';
-//    header('Location: '.$addr);
 }
 ?>
 <!DOCTYPE html>

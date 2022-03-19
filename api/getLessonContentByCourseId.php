@@ -12,10 +12,10 @@ $s = "SELECT * FROM courses WHERE id=$courseID";
 $res = mysqli_query($con, $s);
 $courseRow = mysqli_fetch_array($res);
 
-$loggedInUserEmail = $_SESSION["email"] ?? "";
+$loggedInUserEmail = $_SESSION["userID"] ?? "";
 $userIsPaid = false;
 if(!empty($loggedInUserEmail)){
-    $s = "SELECT * FROM users_payments WHERE course_id=$courseID AND email='$loggedInUserEmail'";
+    $s = "SELECT * FROM users_payments WHERE course_id=$courseID AND user_id='$loggedInUserEmail'";
     $res1 = mysqli_query($con, $s);
     if(mysqli_num_rows($res1)){
         $userIsPaid = true;
@@ -64,13 +64,13 @@ if(mysqli_num_rows($res)){
                 <div class="<?=$secondClass?>">
                     <?php
                     if($courseRow["access"]=="Registration"){
-                        echo signUp();
+                        echo signUp($courseRow);
                     }
                     if($courseRow["access"]=="Paid"){
                         echo paypal($courseRow);
                     }
                     if($courseRow["access"]=="Password"){
-                        echo PasswordProtected();
+                        echo PasswordProtected($courseRow);
                     }
                     ?>
                 </div>
@@ -342,8 +342,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button name="updateLesson_typeLink" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
-                                                        <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Update Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -374,8 +374,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button name="updateLesson_typeFile" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
-                                                        <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Update Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -408,8 +408,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeVideo" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -441,8 +441,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeText" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -479,8 +479,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLessonAccess" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -711,8 +711,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button name="updateLesson_typeLink" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
-                                                        <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Update Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -778,8 +778,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeVideo" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -811,8 +811,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeText" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -849,8 +849,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLessonAccess" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1122,8 +1122,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" name="updateLesson_typeFile" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
-                                                        <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Update Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1156,8 +1156,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeVideo" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1189,8 +1189,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeText" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1227,8 +1227,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLessonAccess" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1489,8 +1489,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" name="updateLesson_typeFile" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
-                                                        <i class="bi bi-plus-circle-fill mr-2"></i>
-                                                        Update Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1523,8 +1523,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeVideo" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1556,8 +1556,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLesson_typeText" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1585,7 +1585,7 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="accessType" id="gridRadios22" value="0" <?php if(!$row["is_free"]) echo "checked"; ?>>
                                                         <label class="form-check-label" for="gridRadios22">
-                                                            Access Requried
+                                                            Access Required
                                                         </label>
                                                     </div>
                                                 </div>
@@ -1594,8 +1594,8 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
                                             <div class="col-md-12 d-flex justify-content-center">
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" name="updateLessonAccess" id="submitBtn">
-                                                        <i class="bi bi-pencil-fill me-2"></i>
-                                                        Edit Lesson
+                                                        <i class="bi bi-sticky-fill me-2"></i>
+                                                        Save
                                                     </button>
                                                 </div>
                                             </div>
@@ -1612,7 +1612,6 @@ function loadContent($courseID, $lessonID, $publicView, $courseRow, $row, $conte
         <?php } ?>
         <div class="row h-100">
             <div class="col-md-12">
-
                 <iframe src="<?=$content?>" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
             </div>
         </div>

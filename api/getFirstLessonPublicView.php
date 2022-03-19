@@ -11,9 +11,9 @@ $s = "SELECT * FROM courses WHERE id=$courseID";
 $res = mysqli_query($con, $s);
 $courseRow = mysqli_fetch_array($res);
 
-$loggedInUserEmail = $_SESSION["email"] ?? null;
+$loggedInUserEmail = $_SESSION["userID"] ?? null;
 $userIsPaid = false;
-$s = "SELECT * FROM users_payments WHERE course_id=$courseID AND email='$loggedInUserEmail'";
+$s = "SELECT * FROM users_payments WHERE course_id=$courseID AND user_id='$loggedInUserEmail'";
 $res1 = mysqli_query($con, $s);
 if(mysqli_num_rows($res1)){
     $userIsPaid = true;
@@ -182,13 +182,9 @@ if(mysqli_num_rows($res)){
         ?>
         <div class="row h-100">
             <div class="<?=$firstClass?>">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="customHeading text-center">
-                                <a target="_blank" href="<?=$content?>">Click Here</a> to open the link.
-                            </div>
-                        </div>
+                <div class="row h-100">
+                    <div class="col-md-12 h-100">
+                        <iframe src="<?=$content?>" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
                     </div>
                 </div>
                 <?php  echo loadScripts(); ?>
@@ -197,13 +193,13 @@ if(mysqli_num_rows($res)){
             <div class="<?=$secondClass?>">
                 <?php
                 if($courseRow["access"]=="Registration"){
-                    echo signUp();
+                    echo signUp($courseRow);
                 }
                 if($courseRow["access"]=="Paid"){
                     echo paypal($courseRow);
                 }
                 if($courseRow["access"]=="Password"){
-                    echo PasswordProtected();
+                    echo PasswordProtected($courseRow);
                 }
                 ?>
             </div>

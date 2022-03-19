@@ -37,16 +37,6 @@ if(isset($_POST["login"])){
     }
 
 }
-
-function redirect($addr){
-    error_reporting(E_ALL | E_WARNING | E_NOTICE);
-    ini_set('display_errors', TRUE);
-    flush();
-
-    echo '<script>window.location.replace("'.$addr.'");</script>';
-    echo '<script>window.location("'.$addr.'");</script>';
-//    header('Location: '.$addr);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,14 +61,14 @@ function redirect($addr){
                 <?php if(isset($_GET["accountCreated"])){ ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <h4 class="alert-heading">Account Created</h4>
-                            <p>Congrats! Your account was created successfully. To continue using platform, please check your registered email (spam/junk) and follow the instructions.</p>
+                            <p>Congratulations! Your account was created successfully. To continue using platform, please check your registered email (spam/junk) and follow the instructions.</p>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                 <?php } ?>
                 <?php if(isset($_GET["verified"])){ ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <h4 class="alert-heading">Account Verified!</h4>
-                            <p>Congrats! Your account was verified successfully! Please login to continue..</p>
+                            <p>Congratulations! Your account was verified successfully! Please login to continue..</p>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                 <?php } ?>

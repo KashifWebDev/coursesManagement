@@ -29,43 +29,25 @@ if (isset($_POST["signUp"])){
             ('$firstName','$lastName','$email','$contactNum','$address','$username','$password','$userType')";
     if(mysqli_query($con, $sql)){
         $newID = mysqli_insert_id($con);
-        $to = $email;
-        $subject = 'Welcome to TeachMeHow';
-        $from = 'no-reply@teachmehow.me';
 
-// To send HTML mail, the Content-type header must be set
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        if(isset($_POST["courseID"])){
+            $courseID = $_POST["courseID"];
+            $s = "INSERT INTO users_courses(course_id, user_id) VALUES ($courseID, $newID)";
+            mysqli_query($con, $s);
+        }
 
-// Create email headers
-        $headers .= 'From: '.$from."\r\n".
-            'Reply-To: '.$from."\r\n" .
-            'X-Mailer: PHP/' . phpversion();
-
-// Compose a simple HTML email message
         $message = '<html><body>';
         $message .= '<h2>Welcome!</h2>';
         $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Your account was created successfully! Please click on the following buttton to verify the account.</p>';
         $message .= '<a href="https://teachmehow.me/verifyAccount/'.$newID.'" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Verify Account Now</a>';
         $message .= '</body></html>';
 
-// Sending email
-        if(mail($to, $subject, $message, $headers)){
-            redirect('index.php?accountCreated=1');
-        } else{
-            echo 'Unable to send email. Please try again.';exit();die();
-        }
+        $subject = 'Welcome to TeachMeHow';
+        sendMail($email, $subject, $message);
+        redirect('index.php?accountCreated=1');
     }
 }
-function redirect($addr){
-    error_reporting(E_ALL | E_WARNING | E_NOTICE);
-    ini_set('display_errors', TRUE);
-    flush();
 
-    echo '<script>window.location.replace("'.$addr.'");</script>';
-    echo '<script>window.location("'.$addr.'");</script>';
-//    header('Location: '.$addr);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">

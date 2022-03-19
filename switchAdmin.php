@@ -1,6 +1,7 @@
 <?php
 
 require_once 'includes/app.php';
+require_once 'includes/functions.php';
 
 if(isset($_GET["impersonate"])){
     $userID = sanitizeParam($_GET["impersonate"]);
@@ -44,13 +45,4 @@ if(isset($_GET["admin"])){
     }
 }
 
-function redirect($addr){
-    error_reporting(E_ALL | E_WARNING | E_NOTICE);
-    ini_set('display_errors', TRUE);
-    flush();
-
-    echo '<script>window.location.replace("'.$addr.'");</script>';
-    echo '<script>window.location("'.$addr.'");</script>';
-//    header('Location: '.$addr);
-}
 ?>

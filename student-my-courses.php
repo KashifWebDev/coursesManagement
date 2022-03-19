@@ -104,14 +104,14 @@ validateSession();
                                   <th scope="col">#</th>
                                   <th scope="col">Instructor</th>
                                   <th scope="col">Course</th>
-                                  <th scope="col">Price</th>
                                   <th scope="col">Status</th>
+                                  <th scope="col">Actions</th>
                               </tr>
                               </thead>
                               <tbody>
                               <?php
-                              $loggedInUserEmail = $_SESSION["email"];
-                              $s = "SELECT * FROM users_payments WHERE email='$loggedInUserEmail'";
+                              $loggedInUserId = $_SESSION["userID"];
+                              $s = "SELECT * FROM users_courses WHERE user_id=$loggedInUserId";
                               $res = mysqli_query($con, $s);
                               $count = 1;
                               while($row = mysqli_fetch_array($res)){
@@ -123,9 +123,19 @@ validateSession();
                                   <tr>
                                       <th scope="row"><a href="#">#<?=$count?></a></th>
                                       <td><?=$row1["instructor_name"]?></td>
-                                      <td><a target="_blank" href="course-<?=$row1["courseID"]?>" class="text-primary"><?=$row1["title"]?></a></td>
-                                      <td><?=$row1["price"]?>$</td>
+                                      <td>
+                                          <a href="course-<?=$row1["courseID"]?>" class="text-primary">
+                                              <img style="max-height: 40px;" class="me-2 img-thumbnail" src="assets/img/courses-thumnail/<?=$row1["thumbnail"]?>" alt="Course Thumbnail"">
+                                              <?=$row1["title"]?>
+                                          </a>
+                                      </td>
                                       <td><span class="badge bg-success">Approved</span></td>
+                                      <td>
+                                          <a href="course-<?=$row1["courseID"]?>" class="btn btn-primary">
+                                              <i class="bi bi-box-arrow-up-right me-2"></i>
+                                              Open Course
+                                          </a>
+                                      </td>
                                   </tr>
                                   <?php $count++;
                               }
