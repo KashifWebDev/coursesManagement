@@ -32,8 +32,8 @@ if(mysqli_num_rows($checkEmail)>0) {
     $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Password: '.$pass.'</p>';
     $message .= '<a href="https://teachmehow.me" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Start Learning</a>';
     $message .= '</body></html>';
-    $sql = "INSERT INTO users(firstname, lastname, email, contactNum, address, username, password, type) VALUES
-            ('New','User','$email','','','','$pass','Student')";
+    $sql = "INSERT INTO users(firstname, lastname, email, contactNum, address, username, password, type, verified) VALUES
+            ('New','User','$email','','','','$pass_md5','Student', 1)";
     mysqli_query($con,$sql);
     $userId = mysqli_insert_id($con);
 }
