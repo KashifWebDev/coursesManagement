@@ -89,12 +89,11 @@ if(isset($_GET["del"])){
                               </thead>
                               <tbody>
                               <?php
-                              $instID = $_SESSION["userID"];
                               $sql = "SELECT c.id as coursePrimaryKey, c.title, COUNT(l.course_id) AS total_lessons, c.thumbnail, c.access,
                                         c.draft, c.courseID, c.draft, c.instructor_id 
                                         FROM courses c LEFT JOIN lessons l
                                         ON l.course_id = c.id
-                                        WHERE c.is_deleted=0 AND c.instructor_id = $instID GROUP BY c.id";
+                                        WHERE c.is_deleted=0  GROUP BY c.id";
                               $res = mysqli_query($con, $sql);
                               while($row = mysqli_fetch_array($res)){
                                   $badgeClass = $row["draft"]==0 ? "success" : "warning";

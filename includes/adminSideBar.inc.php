@@ -16,7 +16,7 @@
             </a>
             <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?=$path?>instructor-all-courses.php">
+                    <a href="<?=$path?>admin-all-courses.php">
                         <i class="bi bi-circle"></i><span>All Courses</span>
                     </a>
                 </li>
