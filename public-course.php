@@ -15,7 +15,7 @@ $instructorID = $courseRow["instructor_id"];
 if(isset($_POST["applyCoupon"])){
     $courseIDFromForm = sanitizeParam($_POST["courseID"]);
     $coupon = sanitizeParam($_POST["coupon"]);
-    $email = sanitizeParam($_POST["$email"]);
+    $email = sanitizeParam($_POST["email"]);
 
     $sql= "SELECT * FROM courses WHERE id = $courseID";
     $res = mysqli_query($con, $sql);
@@ -23,7 +23,7 @@ if(isset($_POST["applyCoupon"])){
     $courseName = $courseRow["title"];
     $courseLink = $courseRow["courseID"];
 
-    $s = "SELECT * FROM coupons WHERE code='$coupon' AND id=$courseIDFromForm";
+    $s = "SELECT * FROM coupons WHERE code='$coupon' AND course_id=$courseIDFromForm";
     $res = mysqli_query($con, $s);
     if(mysqli_num_rows($res)){
         $row = mysqli_fetch_array($res);
@@ -50,8 +50,8 @@ if(isset($_POST["applyCoupon"])){
                 $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Password: '.$pass.'</p>';
                 $message .= '<a href="https://teachmehow.me" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Start Learning</a>';
                 $message .= '</body></html>';
-                $sql = "INSERT INTO users(firstname, lastname, email, contactNum, address, username, password, type, verified) VALUES
-            ('New','User','$email','','','','$pass_md5','Student', 1)";
+                $sql = "INSERT INTO users(firstname, lastname, email, contactNum, address, username, password, type, verified, pic) VALUES
+            ('New','User','$email','','','','$pass_md5','Student', 1, 'default.jpg')";
                 mysqli_query($con,$sql);
                 $userId = mysqli_insert_id($con);
             }

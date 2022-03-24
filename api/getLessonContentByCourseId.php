@@ -15,7 +15,7 @@ $courseRow = mysqli_fetch_array($res);
 $loggedInUserEmail = $_SESSION["userID"] ?? "";
 $userIsPaid = false;
 if(!empty($loggedInUserEmail)){
-    $s = "SELECT * FROM users_payments WHERE course_id=$courseID AND user_id='$loggedInUserEmail'";
+    $s = "SELECT * FROM users_courses WHERE course_id=$courseID AND user_id='$loggedInUserEmail'";
     $res1 = mysqli_query($con, $s);
     if(mysqli_num_rows($res1)){
         $userIsPaid = true;
