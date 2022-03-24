@@ -3,6 +3,25 @@
 validateSession();
     require_once "includes/functions.php";
     $path = ROOT_DIR;
+
+    if(isset($_POST["addCoupon"])){
+        $name = sanitizeParam($_POST["name"]);
+        $code = sanitizeParam($_POST["code"]);
+        $date = $_POST["date"];
+        $userID = $_SESSION["userID"];
+        foreach ($_POST["courses"] as $course){
+            $s = "INSERT INTO coupons(user_id, name, code, exp_date, course_id) VALUES 
+                ($userID, '$name', '$code', '$date', $course)";
+            mysqli_query($con, $s);
+        }
+        ///// Redirect to either instructor or admin
+        if($_SESSION["role"]=="Admin"){
+            redirect("admin-all-coupons.php");
+        }else{
+            redirect("instructor-all-coupons.php");
+        }
+
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,41 +74,53 @@ validateSession();
                           <h5 class="card-title">Generate a new Coupon</h5>
 
                           <!-- Floating Labels Form -->
-                          <form class="row g-3">
-                              <div class="col-md-6">
-                                  <label for="inputNanme4" class="form-label">Course Title</label>
-                                  <input type="text" class="form-control" id="inputNanme4">
-                              </div>
+                          <form action="" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <label for="inputNanme4" class="form-label">Coupon Name</label>
+                                        <input type="text" class="form-control" id="inputNanme4" name="name">
+                                    </div>
 
-                              <div class="col-md-6">
-                                  <label for="inputNumber" class="col-sm-8 col-form-label">Coupon Code</label>
-                                  <div class="col-sm-10">
-                                      <input class="form-control" type="text" id="formFile" value="<?=generateRandomString()?>" disabled>
-                                  </div>
-                              </div>
+                                    <div class="col-md-12">
+                                        <label for="inputNumber" class="col-sm-8 col-form-label">Coupon Code</label>
+                                        <div class="col-sm-12">
+                                            <input name="code" class="form-control" type="text" id="formFile" value="<?=generateRandomString()?>">
+                                        </div>
+                                    </div>
 
-                              <div class="col-md-6">
-                                  <label for="expiryDate" class="col-sm-8 col-form-label">Expiry Date</label>
-                                  <div class="col-sm-10">
-                                      <input class="form-control" type="date" id="expiryDate">
-                                  </div>
-                              </div>
+                                    <div class="col-md-12">
+                                        <label for="expiryDate" class="col-sm-12 col-form-label">Expiry Date</label>
+                                        <div class="col-sm-12">
+                                            <input class="form-control" type="date" name="date" id="expiryDate">
+                                        </div>
+                                    </div>
+                                </div>
 
-                              <div class="col-md-6">
-                                  <label for="inputState" class="form-label">Select course for coupon</label>
-                                  <select id="inputState" class="form-select">
-                                      <option>Course 1</option>
-                                      <option>Course 2</option>
-                                      <option>Course 3</option>
-                                      <option>Course 4</option>
-                                      <option>Course 5</option>
-                                  </select>
-                              </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <label class="col-sm-12 col-form-label">Select Course(s) <span class="text-muted ms-2">(Select Ctrl to select multiple)</span></label>
+                                        <div class="col-sm-12">
+                                            <select class="form-select" multiple="" name="courses[]" aria-label="multiple select example">
+                                                <?php
+                                                    $s = "SELECT * FROM courses WHERE is_deleted=0";
+                                                    $res = mysqli_query($con, $s);
+                                                    while($row = mysqli_fetch_array($res)){
+                                                        ?>
+                                                        <option value="<?=$row["id"]?>"><?=$row["title"]?></option>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                              <div class="row justify-content-center">
+                              <div class="row justify-content-center mt-3">
                                   <div class="col-md-6">
-                                      <button type="submit" class="btn btn-primary w-100 mt-3 rounded-pill">
-                                          <i class="bi bi-plus-circle-fill mr-2"></i>
+                                      <button type="submit" name="addCoupon" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn">
+                                          <i class="bi bi-plus-circle me-2"></i>
                                           Generate Coupon Code
                                       </button>
                                   </div>
@@ -107,17 +138,18 @@ validateSession();
 
   <?=require_once "includes/footer.inc.php";?>
 
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script>
+      $('.submitBtn').on('click', function() {
+          var $this = $(this);
+          var loadingText = '<div class="spinner-border text-light" role="status"></div>';
+          if ($(this).html() !== loadingText) {
+              $this.data('original-text', $(this).html());
+              $this.html(loadingText);
+          }
+      });
+  </script>
+
 </body>
 
 </html>
-<?php
-function generateRandomString($length = 6) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
-}
-?>

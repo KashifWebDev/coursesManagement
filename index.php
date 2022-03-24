@@ -61,7 +61,7 @@ if(isset($_POST["login"])){
                 <?php if(isset($_GET["accountCreated"])){ ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <h4 class="alert-heading">Account Created</h4>
-                            <p>Congratulations! Your account was created successfully. To continue using platform, please check your registered email (spam/junk) and follow the instructions.</p>
+                            <p>Your account was created successfully. To begin using the platform, please check your email for further instructions. If the email is not in your inbox, check the spam/junk folders.</p>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                 <?php } ?>

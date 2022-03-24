@@ -18,7 +18,7 @@ if(mysqli_num_rows($checkEmail)>0) {
     $userRow = mysqli_fetch_array($checkEmail);
     $userId = $userRow["id"];
     $message = '<h2>Congrats!</h2>';
-    $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">It is to inform you that, you recently purchased a course, and now you can log in to your account to start learning without any interruptions!.</p>';
+    $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Thank you for your purchase. You can now log into your account and begin the course.</p>';
     $message .= '<a href="https://teachmehow.me" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Start Learning</a>';
 
 }else{
@@ -26,7 +26,7 @@ if(mysqli_num_rows($checkEmail)>0) {
     $pass_md5 = md5($pass);
     $message = '<html><body>';
     $message .= '<h2>Congratulations!</h2>';
-    $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">It is to inform you that, you recently purchased a course. In order to watch the course use the following details:</p>';
+    $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Thank you for your purchase. You can now log into your account and begin the course.</p>';
     $message .= '<p style="font-size:18px;margin-left: 15px;">Link to course: <a href="https://teachmehow.me/course-'.$courseLink.'">'.$courseName.'</a></p>';
     $message .= '<p style="font-size:18px;margin-left: 15px;">Email: '.$email.'</p>';
     $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Password: '.$pass.'</p>';
@@ -48,5 +48,5 @@ if(mysqli_query($con, $s)){
     echo "yes";
 }
 
-$subject = 'Course purchase successful | TeachMeHow';
+$subject = 'Course payment successful | TeachMeHow';
 sendMail($email, $subject, $message);

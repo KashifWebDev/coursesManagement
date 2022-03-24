@@ -56,35 +56,55 @@ function signUp($courseRow){
 
 function paypal($course){
     $price = $course["price"];
+    $courseID = $course["id"];
     $a = '
     <div class="w-100 mt-5 d-flex flex-column align-items-center justify-content-center">
 
-
-        <div class="card mb-3">
-
+    <div class="w-100 container">
+    <div class="card mb-3">
             <div class="card-body text-dark">
 
                 <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Buy This Course</h5>
-                    <p class="text-center small text-muted" style="font-size: larger;">$'.$price.'</p>
                 </div>
-                
-
-                <form >
-                
-                        <div class="form-floating mb-3">
-                          <input type="text" class="form-control" id="PaypalEmail" placeholder="Enter your email">
-                          <label for="PaypalEmail">Enter your email</label>
-                        </div>
-                    <div class="col-md-12">
-                        <div id="paypal-button-container"></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="card-title text-center pb-0 fs-4">Buy This Course</h5>
+                        <p class="text-center small text-muted" style="font-size: larger;">$'.$price.'</p>
+                        <form>
+                                <div class="form-floating mb-3">
+                                  <input type="text" class="form-control" id="PaypalEmail" placeholder="Enter your email">
+                                  <label for="PaypalEmail">Enter your email</label>
+                                </div>
+                            <div class="col-md-12">
+                                <div id="paypal-button-container"></div>
+                            </div>
+                        </form>
                     </div>
-                    <hr>
-                    <p class="small mb-0">Already Purchased? <a href="./">Log in</a></p>
-                </form>
+                    <div class="col-md-6">
+                        <h5 class="card-title text-center pb-0 fs-4">OR</h5>
+                        <p class="text-center small text-muted" style="font-size: larger;">Apply Coupon</p>
+                        <form action="" method="post">
+                            <input type="hidden" name="courseID" value="'.$courseID.'">
+                            <div class="form-floating mb-3">
+                                  <input type="text" class="form-control" name="email" placeholder="Enter your email" required>
+                                  <label for="PaypalEmail">Enter your email</label>
+                                </div>
+                            <div class="form-floating mb-3">
+                              <input type="text" name="coupon" class="form-control" placeholder="Enter Coupon" required>
+                              <label for="PaypalEmail">Enter Coupon</label>
+                            </div>
+                            <button type="submit" name="applyCoupon" class="w-100 btn btn-dark">Apply</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <p class="small mb-0 text-center">Already Purchased? <a href="./">Log in</a></p>
 
             </div>
         </div>
+    </div>
+
+        
 
     </div>
 ';

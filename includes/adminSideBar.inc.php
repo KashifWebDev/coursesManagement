@@ -3,7 +3,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="<?=$path?>instructorDashboard.php">
+            <a class="nav-link " href="<?=$path?>adminDashboard.php">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?=$path?>instructor-all-coupons.php">
+                    <a href="<?=$path?>admin-all-coupons.php">
                         <i class="bi bi-circle"></i><span>All Coupon</span>
                     </a>
                 </li>

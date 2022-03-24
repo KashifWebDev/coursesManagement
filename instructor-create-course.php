@@ -223,7 +223,7 @@ validateSession();
                                   </div>
                                   <div class="col-md-6">
                                       <label for="inputNanme4" class="form-label">Paypal API Client ID</label>
-                                      <input type="text" class="form-control" id="inputNanme4" name="paypal_email" value="AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3	">
+                                      <input type="text" class="form-control" id="inputNanme4" name="paypal_email" value="AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3">
                                   </div>
                               </div>
                               <div id="Password" class="row mt-2">

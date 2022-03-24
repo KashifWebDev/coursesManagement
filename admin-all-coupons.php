@@ -56,35 +56,35 @@ validateSession();
                               <thead>
                               <tr>
                                   <th scope="col">#</th>
+                                  <th scope="col">Coupon Name</th>
                                   <th scope="col">Coupon Code</th>
-                                  <th scope="col">Course Name</th>
+                                  <th scope="col">Course</th>
                                   <th scope="col">Expiry Date</th>
                               </tr>
                               </thead>
                               <tbody>
                               <?php
-                              $userID = $_SESSION["userID"];
-                              $s = "SELECT * FROM coupons WHERE user_id=$userID";
-                              $res = mysqli_query($con, $s);
-                              if(mysqli_num_rows($res)){
-                                  $count = 1;
-                                  while($row = mysqli_fetch_array($res)){
-                                      $courseID = $row["course_id"];
-                                      $s = "SELECT * FROM courses WHERE id=$courseID";
-                                      $res1 = mysqli_query($con, $s);
-                                      $course = mysqli_fetch_array($res1);
-                                      ?>
-                                      <tr>
-                                          <th scope="row"><?=$count?></th>
-                                          <td><?=$row["name"]?></td>
-                                          <td><?=$row["code"]?></td>
-                                          <td><?=$course["title"]?></td>
-                                          <td><?=date("d-m-Y", strtotime($row["exp_date"]))?></td>
-                                      </tr>
-                                      <?php
-                                      $count++;
-                                  }
-                              }
+                                $s = "SELECT * FROM coupons";
+                                $res = mysqli_query($con, $s);
+                                if(mysqli_num_rows($res)){
+                                    $count = 1;
+                                    while($row = mysqli_fetch_array($res)){
+                                        $courseID = $row["course_id"];
+                                        $s = "SELECT * FROM courses WHERE id=$courseID";
+                                        $res1 = mysqli_query($con, $s);
+                                        $course = mysqli_fetch_array($res1);
+                                        ?>
+                                        <tr>
+                                            <th scope="row"><?=$count?></th>
+                                            <td><?=$row["name"]?></td>
+                                            <td><?=$row["code"]?></td>
+                                            <td><?=$course["title"]?></td>
+                                            <td><?=date("d-m-Y", strtotime($row["exp_date"]))?></td>
+                                        </tr>
+                              <?php
+                                        $count++;
+                                    }
+                                }
                               ?>
                               </tbody>
                           </table>
