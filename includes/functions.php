@@ -67,7 +67,7 @@ function paypal($course){
                 <div class="pt-4 pb-2">
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <h5 class="card-title text-center pb-0 fs-4">Buy This Course</h5>
                         <p class="text-center small text-muted" style="font-size: larger;">$'.$price.'</p>
                         <form>
@@ -80,9 +80,27 @@ function paypal($course){
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-6">
-                        <h5 class="card-title text-center pb-0 fs-4">OR</h5>
-                        <p class="text-center small text-muted" style="font-size: larger;">Apply Coupon</p>
+                </div>
+                <hr>
+                <span class="small mb-0 d-flex justify-content-center">Have a coupon? <button type="button" class="bg-transparent border-0 text-primary" data-bs-toggle="modal" data-bs-target="#couponModal">Apply Coupon</button></span>
+                <p class="small mb-0 text-center">Already Purchased? <a href="./">Log in</a></p>
+
+            </div>
+        </div>
+    </div>
+
+        
+
+    </div>
+    
+    <div class="modal fade" id="couponModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                      <h5 class="modal-title"> Apply Coupon</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
                         <form action="" method="post">
                             <input type="hidden" name="courseID" value="'.$courseID.'">
                             <div class="form-floating mb-3">
@@ -96,17 +114,9 @@ function paypal($course){
                             <button type="submit" name="applyCoupon" class="w-100 btn btn-dark">Apply</button>
                         </form>
                     </div>
+                  </div>
                 </div>
-                <hr>
-                <p class="small mb-0 text-center">Already Purchased? <a href="./">Log in</a></p>
-
-            </div>
-        </div>
-    </div>
-
-        
-
-    </div>
+              </div>
 ';
 
     return $a;

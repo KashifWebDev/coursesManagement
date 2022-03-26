@@ -29,8 +29,8 @@ if($courseRow["access"]=="Registration"){
     $secondClass = "col-md-5 h-100";
 }
 if($courseRow["access"]=="Paid" || $courseRow["access"]=="Password"){
-    $firstClass = "col-md-7 h-100";
-    $secondClass = "col-md-5 h-100";
+    $firstClass = "col-md-9 h-100";
+    $secondClass = "col-md-3 h-100";
 }
 
 if($userIsPaid){
