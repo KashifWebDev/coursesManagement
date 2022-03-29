@@ -22,6 +22,18 @@ validateSession();
 //        echo json_encode($_POST); exit(); die();
         $instructorPicture = "default.jpg";
 
+        $website = sanitizeParam($_POST["website"]);
+        $facebook = sanitizeParam($_POST["facebook"]);
+        $insta = sanitizeParam($_POST["insta"]);
+        $linkedin = sanitizeParam($_POST["linkedin"]);
+
+        $sql = mysqli_query($con,"SELECT * FROM courses WHERE courseID='$courseID'");
+        $sql = mysqli_fetch_assoc($sql);
+        if  (mysqli_num_rows($sql)) {
+            echo '<script>alert("Course Link Already Exists!")';
+            redirect('instructor-create-course.php');
+        }
+
         if($access_type=="Free"){
             $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = $paypal_email = 0;
             $price = 0;
@@ -68,10 +80,11 @@ validateSession();
         $instructorID = $_SESSION["userID"];
 
         $s = "INSERT INTO courses (instructor_id, title, access, description, courseID,timeLimitType, timeLimitValue, registration_required_email,registration_required_phone,
-                     registration_required_address,registration_required_tos, price, paypal_email,instructor_name, coursePassword, aboutInstructor, instructorPicture)
+                     registration_required_address,registration_required_tos, price, paypal_email,instructor_name, coursePassword, aboutInstructor, instructorPicture,
+                     instructur_website, instructur_insta, instructur_facebook, instructur_linkedin)
              VALUES
-            ($instructorID, '$course_title', '$access_type', '$course_description',$courseID, '$timeLimit', $timeLimitValue, $reg_req_email, $reg_req_phone,$reg_req_address,
-             $reg_req_tos, $price, '$paypal_email', '$instructor_name', '$coursePassword', '$aboutInstructor', '$instructorPicture')";
+            ($instructorID, '$course_title', '$access_type', '$course_description','$courseID', '$timeLimit', $timeLimitValue, $reg_req_email, $reg_req_phone,$reg_req_address,
+             $reg_req_tos, $price, '$paypal_email', '$instructor_name', '$coursePassword', '$aboutInstructor', '$instructorPicture', '$website', '$insta', '$facebook', '$linkedin')";
 
 //        echo $s; exit(); die();
         if(!mysqli_query($con, $s)){
@@ -248,14 +261,39 @@ validateSession();
                                   </div>
                               </div>
                               <div class="col-sm-12 col-md-6">
-                                  <label for="inputAddress5" class="form-label">About Instructor</label>
+                                  <label for="inputAddress5" class="form-label">About Instructor <i>(40 words)</i></label>
                                   <textarea class="form-control w-100" rows="3" name="aboutInstructor"></textarea>
                               </div>
-                              <div class="col-md-12 mt-3">
-                                  <textarea class="tinymce-editor" name="course_description">
-                                    <h3><strong><em>Course Description here....</em></strong></h3>
-                                  </textarea>
+
+
+                              <input type="hidden" name="course_description" value="">
+<!--                              <div class="col-md-12 mt-3">-->
+<!--                                  <textarea class="tinymce-editor" name="course_description">-->
+<!--                                    <h3><strong><em>Course Description here....</em></strong></h3>-->
+<!--                                  </textarea>-->
+<!--                              </div>-->
+
+                              <h5 class="card-title">Social Media Links</h5>
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <label for="inputNanme4" class="form-label">Instructor' Website</label>
+                                      <input type="text" name="website" class="form-control" id="inputNanme4">
+                                  </div>
+                                  <div class="col-md-6">
+                                      <label for="inputNanme4" class="form-label">Instructor' Facebook</label>
+                                      <input type="text" name="facebook" class="form-control" id="inputNanme4">
+                                  </div>
+                                  <div class="col-md-6">
+                                      <label for="inputNanme4" class="form-label">Instructor' Instagram</label>
+                                      <input type="text" name="insta" class="form-control" id="inputNanme4">
+                                  </div>
+                                  <div class="col-md-6">
+                                      <label for="inputNanme4" class="form-label">Instructor' LinkedIn</label>
+                                      <input type="text" name="linkedin" class="form-control" id="inputNanme4">
+                                  </div>
                               </div>
+
+
                               <div class="row justify-content-center">
                                   <div class="col-md-6">
                                       <button name="createCourse" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill" id="submitBtn">

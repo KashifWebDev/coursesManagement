@@ -889,7 +889,7 @@ h1, h2, h3, h4, h5, h6 {
 .profile .profile-card h3 {
   font-size: 18px;
 }
-.profile .profile-card .social-links a {
+.social-links a {
   font-size: 20px;
   display: inline-block;
   color: rgba(1, 41, 112, 0.5);
@@ -898,6 +898,17 @@ h1, h2, h3, h4, h5, h6 {
   transition: 0.3s;
 }
 .profile .profile-card .social-links a:hover {
+  color: #012970;
+}
+.social-links a {
+  font-size: 20px;
+  display: inline-block;
+  color: rgba(1, 41, 112, 0.5);
+  line-height: 0;
+  margin-right: 10px;
+  transition: 0.3s;
+}
+.social-links a:hover {
   color: #012970;
 }
 .profile .profile-overview .row {

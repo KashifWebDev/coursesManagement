@@ -354,6 +354,10 @@ validateSession();
         $aboutInstructor = sanitizeParam($_POST["aboutInstructor"]);
         $instructorPicture = sanitizeParam($_POST["instructorPicture"]);
         $coursePassword = $_POST["coursePassword"]=="" ? null : $_POST["coursePassword"];
+        $website = sanitizeParam($_POST["website"]);
+        $facebook = sanitizeParam($_POST["facebook"]);
+        $insta = sanitizeParam($_POST["insta"]);
+        $linkedin = sanitizeParam($_POST["linkedin"]);
 
         if($access_type=="Free"){
             $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = $paypal_email = null;
@@ -399,12 +403,14 @@ validateSession();
             }
         }
 
-        $s = "UPDATE courses SET title='$course_title',access='$access_type',description='$course_description',courseID=$randomCourseID,
+        $s = "UPDATE courses SET title='$course_title',access='$access_type',description='$course_description',courseID='$randomCourseID',
               timeLimitType='$timeLimit',timeLimitType='$timeLimitValue',registration_required_email='$reg_req_email',
               registration_required_phone='$reg_req_phone',registration_required_address='$reg_req_address',
               registration_required_tos='$reg_req_tos',price='$price',paypal_email='$paypal_email',
                    instructor_name='$instructor_name', coursePassword='$coursePassword', aboutInstructor='$aboutInstructor',
-                   instructorPicture='$instructorPicture' WHERE id=$courseID";
+                   instructorPicture='$instructorPicture', instructur_website='$website', instructur_insta='$insta',
+                   instructur_facebook='$facebook', instructur_linkedin='$linkedin'
+                WHERE id=$courseID";
 //        echo $s; exit(); die();
         if(!mysqli_query($con, $s)){
             echo mysqli_error($con); exit(); die();
@@ -641,17 +647,23 @@ if($courseRow["page_background_type"]=="image"){
                 </div>
                 <section class="section col-md-12 bg-white" style="height: 20%;border-bottom-right-radius: 40px;">
                     <div class="align-items-center d-flex flex-row h-100 justify-content-evenly">
-                        <div class="d-flex flex-row flex-lg-colmumn align-items-md-start align-items-lg-center h-100" style="text-align: -webkit-center;">
-                            <img src="assets/img/instructorPic/<?=$courseRow["instructorPicture"]?>" alt="Profile" class="rounded-circle" style="max-width: 80px;">
+                        <div class="d-flex flex-row flex-lg-colmumn align-items-start align-items-center h-100" style="text-align: -webkit-center;">
+                            <img src="assets/img/instructorPic/<?=$courseRow["instructorPicture"]?>" alt="Profile" class="rounded-circle" style="max-height: 90px;">
                             <div class="d-flex flex-column ms-2">
                                 <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$courseRow["instructor_name"]?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
+                                <div class="social-links">
+                                    <a target="_blank" href="<?=$courseRow["instructur_website"]?>" class="twitter"><i class="bi bi-globe"></i></a>
+                                    <a target="_blank" href="<?=$courseRow["instructur_facebook"]?>" class="facebook"><i class="bi bi-facebook"></i></a>
+                                    <a target="_blank" href="<?=$courseRow["instructur_insta"]?>" class="instagram"><i class="bi bi-instagram"></i></a>
+                                    <a target="_blank" href="<?=$courseRow["instructur_linkedin"]?>" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                                </div>
                             </div>
                         </div>
                         <div class="d-flex flex-column h-100 justify-content-center w-50">
                             <h5 class="card-title d-lg-block d-md-none m-0 p-0">About Instructor</h5>
                             <p class="small fst-italic text-dark">
-                                <?php echo limit_text($courseRow["aboutInstructor"], 37); ?>
+                                <?php echo limit_text($courseRow["aboutInstructor"], 40); ?>
                             </p>
                         </div>
                     </div>
@@ -957,7 +969,7 @@ if($courseRow["page_background_type"]=="image"){
                           <label for="inputNanme4" class="form-label">Link to the course publication</label>
                           <div class="input-group mb-3">
                               <span class="input-group-text" id="basic-addon3">https://teachmehow.me/course-</span>
-                              <input type="text" name="courseID" class="form-control" value=" <?=$courseRow["courseID"]?>">
+                              <input type="text" name="courseID" class="form-control" value="<?=$courseRow["courseID"]?>">
                           </div>
                       </div>
                       <h5 class="card-title">Payment Settings</h5>
@@ -1030,15 +1042,38 @@ if($courseRow["page_background_type"]=="image"){
                           </div>
                       </div>
 
-                      <div class="col-sm-12 col-md-6">
-                          <label for="inputAddress5" class="form-label">About Instructor</label>
+                      <div class="col-sm-12 col-md-12">
+                          <label for="inputAddress5" class="form-label">About Instructor <i>(40 words)</i></label>
                           <textarea class="form-control w-100" rows="3" name="aboutInstructor"><?=$courseRow["aboutInstructor"]?></textarea>
                       </div>
-                      <div class="col-md-12 mt-3">
-                                  <textarea class="tinymce-editor" name="course_description">
-                                     <?=$courseRow["description"]?>
-                                  </textarea>
+
+                      <input type="hidden" name="course_description" value="<?=$courseRow["description"]?>">
+<!--                      <div class="col-md-12 mt-3">-->
+<!--                                  <textarea class="tinymce-editor" name="course_description">-->
+<!--                                     --><?//=$courseRow["description"]?>
+<!--                                  </textarea>-->
+<!--                      </div>-->
+
+                      <h5 class="card-title">Social Media Links</h5>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <label for="inputNanme4" class="form-label">Instructor' Website</label>
+                              <input type="text" name="website" class="form-control" id="inputNanme4" value="<?=$courseRow["instructur_website"]?>">
+                          </div>
+                          <div class="col-md-6">
+                              <label for="inputNanme4" class="form-label">Instructor' Facebook</label>
+                              <input type="text" name="facebook" class="form-control" id="inputNanme4" value="<?=$courseRow["instructur_facebook"]?>">
+                          </div>
+                          <div class="col-md-6">
+                              <label for="inputNanme4" class="form-label">Instructor' Instagram</label>
+                              <input type="text" name="insta" class="form-control" id="inputNanme4" value="<?=$courseRow["instructur_insta"]?>">
+                          </div>
+                          <div class="col-md-6">
+                              <label for="inputNanme4" class="form-label">Instructor' LinkedIn</label>
+                              <input type="text" name="linkedin" class="form-control" id="inputNanme4" value="<?=$courseRow["instructur_linkedin"]?>">
+                          </div>
                       </div>
+
                       <div class="row justify-content-center">
                           <div class="col-md-6">
                               <button name="editCourse" type="submit" class="btn btn-primary w-100 mt-3 rounded-pill submitBtn" id="submitBtn">
