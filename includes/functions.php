@@ -57,6 +57,7 @@ function signUp($courseRow){
 function paypal($course){
     $price = $course["price"];
     $courseID = $course["id"];
+    $currency = $course["currency"];
     $a = '
     <div class="w-100 mt-5 d-flex flex-column align-items-center justify-content-center">
 
@@ -69,7 +70,7 @@ function paypal($course){
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="card-title text-center pb-0 fs-4">Buy This Course</h5>
-                        <p class="text-center small text-muted" style="font-size: larger;">$'.$price.'</p>
+                        <p class="text-center small text-muted" style="font-size: larger;">'.$price.' '.$currency.'</p>
                         <form>
                                 <div class="form-floating mb-3">
                                   <input type="text" class="form-control" id="PaypalEmail" placeholder="Enter your email">
@@ -154,12 +155,16 @@ function PasswordProtected($courseRow){
 ';
 }
 
-function loadPaypalScripts($api, $price, $courseID){
+function loadPaypalScripts($courseRow){
+    $api = $courseRow["paypal_client_api_key"];
+    $price = $courseRow["price"];
+    $courseID = $courseRow["id"];
+    $currency = $courseRow["currency"];
     $a = "";
     if(isset($api) && !empty($api)){
-        $a .= '<script src="https://www.paypal.com/sdk/js?client-id='.$api.'&currency=CAD&disable-funding=credit,card"></script>';
+        $a .= '<script src="https://www.paypal.com/sdk/js?client-id='.$api.'&currency='.$currency.'&disable-funding=credit,card"></script>';
     }else{
-        $a .= '<script src="https://www.paypal.com/sdk/js?client-id=AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3&currency=CAD&disable-funding=credit,card"></script>';
+        $a .= '<script src="https://www.paypal.com/sdk/js?client-id=AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3&currency='.$currency.'&disable-funding=credit,card"></script>';
     }
 
     $a .= "

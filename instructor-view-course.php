@@ -358,6 +358,8 @@ validateSession();
         $facebook = sanitizeParam($_POST["facebook"]);
         $insta = sanitizeParam($_POST["insta"]);
         $linkedin = sanitizeParam($_POST["linkedin"]);
+        $currency = sanitizeParam($_POST["currency"]);
+        $fancy_title = sanitizeParam($_POST["fancy_title"]);
 
         if($access_type=="Free"){
             $timeLimitValue = $timeLimitValue = $reg_req_tos = $reg_req_address = $reg_req_phone = $reg_req_email = $paypal_email = null;
@@ -409,7 +411,7 @@ validateSession();
               registration_required_tos='$reg_req_tos',price='$price',paypal_email='$paypal_email',
                    instructor_name='$instructor_name', coursePassword='$coursePassword', aboutInstructor='$aboutInstructor',
                    instructorPicture='$instructorPicture', instructur_website='$website', instructur_insta='$insta',
-                   instructur_facebook='$facebook', instructur_linkedin='$linkedin'
+                   instructur_facebook='$facebook', instructur_linkedin='$linkedin', currency='$currency', fancy_title='$fancy_title'
                 WHERE id=$courseID";
 //        echo $s; exit(); die();
         if(!mysqli_query($con, $s)){
@@ -520,7 +522,7 @@ if($courseRow["page_background_type"]=="image"){
 
             <div class="col-md-8 d-flex justify-content-end align-items-center">
                 <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
-                <h2><?=$courseRow["title"];?><small class="ms-3">By <?=$instructor_name?></small></h2>
+                <h2><?=$courseRow["fancy_title"];?></h2>
             </div>
             <div class="col-md-4 header-nav d-flex justify-content-end">
                 <ul class="d-flex align-items-center">
@@ -549,12 +551,12 @@ if($courseRow["page_background_type"]=="image"){
 
         <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden;border-top-left-radius: 40px;border-bottom-left-radius: 40px;overflow: hidden;">
             <div class="d-flex flex-column h-100 pe-0 pb-0" style="overflow: hidden">
-                <div class="w-100 sticky-top">
+                <div class="d-flex justify-content-center sticky-top w-100">
                     <form action="" method="post" id="image_upload_form" enctype="multipart/form-data">
                         <div class="position-relative viewCourseThumbnail">
                             <img style="max-height: 120px;transition: .4s ease-in-out;"
                                  id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
-                                 alt="Profile" class="w-100">
+                                 alt="Profile" class="">
                             <button type="button" id="courseImageChange" class="btn btn-primary w-75">
                                 <i class="bi bi-image-fill me-2"></i>
                                 Upload
@@ -965,6 +967,12 @@ if($courseRow["page_background_type"]=="image"){
                           <label for="inputNanme4" class="form-label">Course Title</label>
                           <input type="text" class="form-control" id="inputNanme4" name="course_title" value="<?=$courseRow["title"]?>">
                       </div>
+                      <div class="col-md-12 mt-3">
+                          <label for="inputNanme4" class="form-label">Customize your title here</label>
+                          <textarea class="tinymce-editor-small" style="height: 20px;" name="fancy_title" id="fancyTitle">
+                                 <?=$courseRow["fancy_title"]?>
+                           </textarea>
+                      </div>
                       <div class="col-md-12">
                           <label for="inputNanme4" class="form-label">Link to the course publication</label>
                           <div class="input-group mb-3">
@@ -1017,8 +1025,33 @@ if($courseRow["page_background_type"]=="image"){
                               <input type="number" class="form-control" id="inputNanme4" name="price" value="<?=$courseRow["price"]?>">
                           </div>
                           <div class="col-md-6">
-                              <label for="inputNanme4" class="form-label">Paypal API Client ID</label>
+                              <label for="inputNanme4" class="form-label">Paypal Client ID</label>
                               <input type="text" class="form-control" id="inputNanme4" name="paypal_email" value="<?=$courseRow["paypal_email"]?>">
+                          </div>
+                          <div class="col-md-6 mt-2">
+                              <label for="validationTooltip04" class="form-label">Currency</label>
+                              <select class="form-select" id="validationTooltip04" name="currency">
+                                  <option value="USD" <?php if($courseRow["currency"]=="USD") echo " selected"; ?>>United States dollar</option>
+                                  <option value="AUD" <?php if($courseRow["currency"]=="AUD") echo " selected"; ?>>Australian dollar</option>
+                                  <option value="BRL" <?php if($courseRow["currency"]=="BRL") echo " selected"; ?>>Brazilian real</option>
+                                  <option value="CAD" <?php if($courseRow["currency"]=="CAD") echo " selected"; ?>>Canadian dollar</option>
+                                  <option value="CNY" <?php if($courseRow["currency"]=="CNY") echo " selected"; ?>>Chinese Renmenbi</option>
+                                  <option value="DKK" <?php if($courseRow["currency"]=="DKK") echo " selected"; ?>>Danish krone</option>
+                                  <option value="EUR" <?php if($courseRow["currency"]=="EUR") echo " selected"; ?>>Euro</option>
+                                  <option value="JPY" <?php if($courseRow["currency"]=="JPY") echo " selected"; ?>>Japanese yen</option>
+                                  <option value="MYR" <?php if($courseRow["currency"]=="MYR") echo " selected"; ?>>Malaysian ringgit</option>
+                                  <option value="MXN" <?php if($courseRow["currency"]=="MXN") echo " selected"; ?>>Mexican peso</option>
+                                  <option value="TWD" <?php if($courseRow["currency"]=="TWD") echo " selected"; ?>>New Taiwan dollar</option>
+                                  <option value="NZD" <?php if($courseRow["currency"]=="NZD") echo " selected"; ?>>New Zealand dollar</option>
+                                  <option value="PHP" <?php if($courseRow["currency"]=="PHP") echo " selected"; ?>>Philippine peso</option>
+                                  <option value="JPB" <?php if($courseRow["currency"]=="JPB") echo " selected"; ?>>Pound sterling</option>
+                                  <option value="RUB" <?php if($courseRow["currency"]=="RUB") echo " selected"; ?>>Russian ruble</option>
+                                  <option value="SGD" <?php if($courseRow["currency"]=="SGD") echo " selected"; ?>>Singapore dollar</option>
+                                  <option value="SEK" <?php if($courseRow["currency"]=="SEK") echo " selected"; ?>>Swedish krona</option>
+                              </select>
+                              <div class="invalid-tooltip">
+                                  Please select a valid state.
+                              </div>
                           </div>
                       </div>
                       <div id="Password" class="row mt-2">

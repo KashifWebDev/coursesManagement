@@ -116,7 +116,7 @@ $userPic = $instructorRow["pic"];
             -webkit-box-shadow: inset 0 0 0 <?=$courseRow["back_clr"]?>;
         }
     </style>
-    <?php echo loadPaypalScripts($courseRow["paypal_client_api_key"], $courseRow["price"], $courseRow["id"]); ?>
+    <?php echo loadPaypalScripts($courseRow); ?>
 </head>
 <?php
  if($courseRow["page_background_type"]=="image"){
@@ -135,7 +135,7 @@ $userPic = $instructorRow["pic"];
 
             <div class="col-md-8 d-flex justify-content-end align-items-center">
                 <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
-                <h2><?=$courseRow["title"];?><small class="ms-3">By <?=$instructor_name?></small></h2>
+                <h2><?=$courseRow["fancy_title"];?></h2>
             </div>
             <?php if(isset($_SESSION["userID"])) { ?>
 
@@ -199,10 +199,10 @@ $userPic = $instructorRow["pic"];
 
         <aside id="sidebar" class="sidebar customColors p-0 m-0" style=";z-index: 999; top: 0; position: absolute; overflow-x: hidden;border-top-left-radius: 40px;border-bottom-left-radius: 40px;">
             <div class="d-flex flex-column h-100 pe-0 pb-0" style="overflow: hidden">
-                <div class="w-100 sticky-top">
+                <div class="d-flex justify-content-center sticky-top w-100">
                     <img style="max-height: 120px"
                          id="courseImgThumbnail" src="assets/img/courses-thumnail/<?=$courseRow["thumbnail"];?>"
-                         alt="Profile" class="w-100">
+                         alt="Profile" class="">
                 </div>
                 <div class="w-100 sidebar1" style="overflow: auto">
                     <div class="col-md-12 justify-content-center pb-3 customColors">

@@ -18,6 +18,8 @@ validateSession();
         $instructor_name = sanitizeParam($_POST["instructor_name"]);
         $course_description = sanitizeParam($_POST["course_description"]);
         $aboutInstructor = sanitizeParam($_POST["aboutInstructor"]);
+        $fancy_title = sanitizeParam($_POST["fancy_title"]);
+        $currency = sanitizeParam($_POST["currency"]);
         $coursePassword = $_POST["coursePassword"]=="" ? null : $_POST["coursePassword"];
 //        echo json_encode($_POST); exit(); die();
         $instructorPicture = "default.jpg";
@@ -79,12 +81,12 @@ validateSession();
 
         $instructorID = $_SESSION["userID"];
 
-        $s = "INSERT INTO courses (instructor_id, title, access, description, courseID,timeLimitType, timeLimitValue, registration_required_email,registration_required_phone,
+        $s = "INSERT INTO courses (instructor_id, title, fancy_title, access, description, courseID,timeLimitType, timeLimitValue, registration_required_email,registration_required_phone,
                      registration_required_address,registration_required_tos, price, paypal_email,instructor_name, coursePassword, aboutInstructor, instructorPicture,
-                     instructur_website, instructur_insta, instructur_facebook, instructur_linkedin)
+                     instructur_website, instructur_insta, instructur_facebook, instructur_linkedin, currency)
              VALUES
-            ($instructorID, '$course_title', '$access_type', '$course_description','$courseID', '$timeLimit', $timeLimitValue, $reg_req_email, $reg_req_phone,$reg_req_address,
-             $reg_req_tos, $price, '$paypal_email', '$instructor_name', '$coursePassword', '$aboutInstructor', '$instructorPicture', '$website', '$insta', '$facebook', '$linkedin')";
+            ($instructorID, '$course_title', '$fancy_title', '$access_type', '$course_description','$courseID', '$timeLimit', $timeLimitValue, $reg_req_email, $reg_req_phone,$reg_req_address,
+             $reg_req_tos, $price, '$paypal_email', '$instructor_name', '$coursePassword', '$aboutInstructor', '$instructorPicture', '$website', '$insta', '$facebook', '$linkedin', '$currency')";
 
 //        echo $s; exit(); die();
         if(!mysqli_query($con, $s)){
@@ -145,9 +147,15 @@ validateSession();
                           <!-- Floating Labels Form -->
                           <form class="row g-3" action="" method="post" enctype="multipart/form-data">
                               <div class="col-md-6">
-                                  <label for="inputNanme4" class="form-label">Course Title</label>
-                                  <input type="text" class="form-control" id="inputNanme4" name="course_title" required>
+                                  <label for="courseTitle" class="form-label">Course Title</label>
+                                  <input type="text" class="form-control" id="courseTitle" name="course_title" required>
                               </div>
+                                <div class="col-md-12 mt-3">
+                                    <label for="inputNanme4" class="form-label">Customize your title here</label>
+                                    <textarea class="tinymce-editor-small" style="height: 20px;" name="fancy_title" id="fancyTitle">
+                                      <h3><strong><em>Course Description here....</em></strong></h3>
+                                    </textarea>
+                                </div>
                               <div class="col-md-6">
                                   <label for="inputNanme4" class="form-label">Link to the course publication</label>
                                   <div class="input-group mb-3">
@@ -230,13 +238,38 @@ validateSession();
                                   </div>
                               </div>
                               <div id="paid" class="row mt-2">
-                                  <div class="col-md-6">
+                                  <div class="col-md-4">
                                       <label for="inputNanme4" class="form-label">Price</label>
                                       <input type="number" class="form-control" id="inputNanme4" name="price" value="0">
                                   </div>
-                                  <div class="col-md-6">
-                                      <label for="inputNanme4" class="form-label">Paypal API Client ID</label>
+                                  <div class="col-md-4">
+                                      <label for="inputNanme4" class="form-label">Paypal Client ID</label>
                                       <input type="text" class="form-control" id="inputNanme4" name="paypal_email" value="AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3">
+                                  </div>
+                                  <div class="col-md-4">
+                                      <label for="validationTooltip04" class="form-label">Currency</label>
+                                      <select class="form-select" id="validationTooltip04" name="currency">
+                                          <option value="USD" selected>United States dollar</option>
+                                          <option value="AUD">Australian dollar</option>
+                                          <option value="BRL">Brazilian real</option>
+                                          <option value="CAD">Canadian dollar</option>
+                                          <option value="CNY">Chinese Renmenbi</option>
+                                          <option value="DKK">Danish krone</option>
+                                          <option value="EUR">Euro</option>
+                                          <option value="JPY">Japanese yen</option>
+                                          <option value="MYR">Malaysian ringgit</option>
+                                          <option value="MXN">Mexican peso</option>
+                                          <option value="TWD">New Taiwan dollar</option>
+                                          <option value="NZD">New Zealand dollar</option>
+                                          <option value="PHP">Philippine peso</option>
+                                          <option value="JPB">Pound sterling</option>
+                                          <option value="RUB">Russian ruble</option>
+                                          <option value="SGD">Singapore dollar</option>
+                                          <option value="SEK">Swedish krona</option>
+                                      </select>
+                                      <div class="invalid-tooltip">
+                                          Please select a valid state.
+                                      </div>
                                   </div>
                               </div>
                               <div id="Password" class="row mt-2">
@@ -318,6 +351,10 @@ validateSession();
 
   <script src="assets/vendor/jquery/jquery.min.js"></script>
   <script>
+      $('#courseTitle').on('input',function(e){
+
+          tinymce.activeEditor.setContent($('#courseTitle').val());
+      });
       $("#registration").hide();
       $("#paid").hide();
       $("#Password").hide();
