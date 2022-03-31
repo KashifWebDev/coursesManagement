@@ -655,10 +655,10 @@ if($courseRow["page_background_type"]=="image"){
                                 <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$courseRow["instructor_name"]?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
                                 <div class="social-links">
-                                    <?php if(!empty($courseRow["instructur_website"])) echo '<a target="_blank" href="'.$courseRow["instructur_website"].'" class="twitter"><i class="bi bi-globe"></i></a>'; ?>
-                                    <?php if(!empty($courseRow["instructur_facebook"])) echo '<a target="_blank" href="'.$courseRow["instructur_facebook"].'" class="twitter"><i class="bi bi-facebook"></i></a>'; ?>
-                                    <?php if(!empty($courseRow["instructur_insta"])) echo '<a target="_blank" href="'.$courseRow["instructur_insta"].'" class="twitter"><i class="bi bi-instagram"></i></a>'; ?>
-                                    <?php if(!empty($courseRow["instructur_linkedin"])) echo '<a target="_blank" href="'.$courseRow["instructur_linkedin"].'" class="twitter"><i class="bi bi-linkedin"></i></a>'; ?>
+                                    <?php if(!empty($courseRow["instructur_website"])) echo '<a target="_blank" href="'.reformatLink($courseRow["instructur_website"]).'" class="twitter"><i class="bi bi-globe"></i></a>'; ?>
+                                    <?php if(!empty($courseRow["instructur_facebook"])) echo '<a target="_blank" href="'.reformatLink($courseRow["instructur_facebook"]).'" class="twitter"><i class="bi bi-facebook"></i></a>'; ?>
+                                    <?php if(!empty($courseRow["instructur_insta"])) echo '<a target="_blank" href="'.reformatLink($courseRow["instructur_insta"]).'" class="twitter"><i class="bi bi-instagram"></i></a>'; ?>
+                                    <?php if(!empty($courseRow["instructur_linkedin"])) echo '<a target="_blank" href="'.reformatLink($courseRow["instructur_linkedin"]).'" class="twitter"><i class="bi bi-linkedin"></i></a>'; ?>
                                 </div>
                             </div>
                         </div>
