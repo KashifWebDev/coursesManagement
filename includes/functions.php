@@ -231,4 +231,11 @@ function redirect($addr){
     echo '<script>window.location("'.$addr.'");</script>';
 }
 
+function reformatLink($link){
+    if (strpos($link, 'http://') || strpos($link, 'https://')) {
+        return $link;
+    }else{
+        return 'https://'.$link;
+    }
+}
 ?>

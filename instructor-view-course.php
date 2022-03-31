@@ -522,7 +522,7 @@ if($courseRow["page_background_type"]=="image"){
 
             <div class="col-md-8 d-flex justify-content-end align-items-center">
                 <!--        <i class="bi bi-list toggle-sidebar-btn mb-2 me-3" id="lsnHeading"></i>-->
-                <h2><?=$courseRow["fancy_title"];?></h2>
+                <h2 style="height: 40px;" class="mb-0"><?=$courseRow["fancy_title"];?></h2>
             </div>
             <div class="col-md-4 header-nav d-flex justify-content-end">
                 <ul class="d-flex align-items-center">
@@ -655,10 +655,10 @@ if($courseRow["page_background_type"]=="image"){
                                 <h2 style="font-size: 24px; font-weight: 700; color: #2c384e; margin: 10px 0 0 0;"><?=$courseRow["instructor_name"]?></h2>
                                 <h3 style="font-size: 18px; color: #2c384e;">Instructor</h3>
                                 <div class="social-links">
-                                    <a target="_blank" href="<?=$courseRow["instructur_website"]?>" class="twitter"><i class="bi bi-globe"></i></a>
-                                    <a target="_blank" href="<?=$courseRow["instructur_facebook"]?>" class="facebook"><i class="bi bi-facebook"></i></a>
-                                    <a target="_blank" href="<?=$courseRow["instructur_insta"]?>" class="instagram"><i class="bi bi-instagram"></i></a>
-                                    <a target="_blank" href="<?=$courseRow["instructur_linkedin"]?>" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                                    <?php if(!empty($courseRow["instructur_website"])) echo '<a target="_blank" href="'.$courseRow["instructur_website"].'" class="twitter"><i class="bi bi-globe"></i></a>'; ?>
+                                    <?php if(!empty($courseRow["instructur_facebook"])) echo '<a target="_blank" href="'.$courseRow["instructur_facebook"].'" class="twitter"><i class="bi bi-facebook"></i></a>'; ?>
+                                    <?php if(!empty($courseRow["instructur_insta"])) echo '<a target="_blank" href="'.$courseRow["instructur_insta"].'" class="twitter"><i class="bi bi-instagram"></i></a>'; ?>
+                                    <?php if(!empty($courseRow["instructur_linkedin"])) echo '<a target="_blank" href="'.$courseRow["instructur_linkedin"].'" class="twitter"><i class="bi bi-linkedin"></i></a>'; ?>
                                 </div>
                             </div>
                         </div>
