@@ -232,7 +232,7 @@ function redirect($addr){
 }
 
 function reformatLink($link){
-    if (strpos($link, 'http://') || strpos($link, 'https://')) {
+    if (strpos($link, 'http://')!==false || strpos($link, 'https://')!==false) {
         return $link;
     }else{
         return 'https://'.$link;

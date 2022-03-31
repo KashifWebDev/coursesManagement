@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2022 at 10:41 AM
+-- Generation Time: Mar 31, 2022 at 01:21 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.30
 
@@ -56,6 +56,7 @@ CREATE TABLE `courses` (
   `id` int(10) NOT NULL,
   `instructor_id` int(10) NOT NULL,
   `title` varchar(200) NOT NULL,
+  `fancy_title` varchar(1000) NOT NULL,
   `thumbnail` varchar(100) NOT NULL DEFAULT 'default.jpg',
   `access` enum('Free','Registration','Paid','Password') NOT NULL,
   `description` varchar(1000) NOT NULL,
@@ -89,24 +90,27 @@ CREATE TABLE `courses` (
   `instructur_website` varchar(100) NOT NULL,
   `instructur_insta` varchar(100) NOT NULL,
   `instructur_facebook` varchar(100) NOT NULL,
-  `instructur_linkedin` varchar(100) NOT NULL
+  `instructur_linkedin` varchar(100) NOT NULL,
+  `currency` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `instructor_id`, `title`, `thumbnail`, `access`, `description`, `draft`, `courseID`, `timeLimitType`, `timeLimitValue`, `registration_required_email`, `registration_required_phone`, `registration_required_address`, `registration_required_tos`, `price`, `paypal_email`, `instructor_name`, `back_clr`, `front_clr`, `page_background_type`, `page_background_image`, `page_background_color`, `txtLessonBackground`, `courseTitleBg`, `courseTitleFg`, `signBgColor`, `signFgColor`, `bottomLogo`, `is_deleted`, `coursePassword`, `aboutInstructor`, `paypal_client_api_key`, `instructorPicture`, `instructur_website`, `instructur_insta`, `instructur_facebook`, `instructur_linkedin`) VALUES
-(1, 15, 'First Course', '12_DBLW4993.JPG', 'Paid', '<p>description</p>', 0, '123', '', 0, 0, 0, 0, 0, 1, 'AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8r', 'adsf', '#ffffff', '#000000', 'image', '64BqZs.jpg', '#ff0000', '#f0f0f0', '#ffffff', '#000000', '', '', '178494758_10151503797559959_2041080596206641614_n.jpg', 0, '111', 'I am a full stack developer, having over 4 Years of Experience in Web Applications Development, maintaining and updating apps. My areas of expertise are Angular, PHP, JavaScript, MySql, Python, Web Services and Security. My ambition is to reach the very top of my profession and to work with other leading developers in this field. I am committed to constantly improving myself by learning new technologies and frameworks.', NULL, 'default.jpg', '', '', '', ''),
-(5, 15, 'asdfadsf', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '2081827979', 'Without Time Limit', 0, 0, 0, 0, 0, 23, 'kmalik748@gmail.com', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, NULL, '', NULL, 'default.jpg', '', '', '', ''),
-(6, 15, 'Ron Course', 'default.jpg', 'Free', '<h3><strong><em>Course Description here....123123123123</em></strong></h3>', 0, '190423710', '', 0, 0, 0, 0, 0, 0, '', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, NULL, '', NULL, 'default.jpg', '', '', '', ''),
-(13, 14, 'kashfi', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '1641646634', '', 0, 0, 0, 0, 0, 0, '', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '2222', '', NULL, 'default.jpg', '11', '33', '22', '44'),
-(15, 14, '345345', 'default.jpg', 'Registration', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '111', '', 0, 0, 0, 0, 0, 0, '', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '123', '', NULL, 'default.jpg', '', '', '', ''),
-(16, 14, 'asf', 'default.jpg', 'Password', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '1189939914', 'Without Time Limit', 0, 1, 1, 1, 1, 0, '', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, 'asf', 'asdfasdf asd fsdaf  sfdaf sd fsd', NULL, 'default.jpg', '', '', '', ''),
-(17, 14, 'asdfasdfasdf', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '1367856839', '', 0, 0, 0, 0, 0, 4, '0', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', 'asdf', NULL, 'default.jpg', '', '', '', ''),
-(18, 21, 'asdffasdf', 'default.jpg', 'Free', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '102628435', 'Without Time Limit', 0, 0, 0, 0, 0, 0, '0', 'aaaaa bbbb', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', 'sadfasdf a sdf sdaf', NULL, 'default.jpg', '', '', '', ''),
-(19, 21, 'dg 23', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '1582839827', '', 0, 0, 0, 0, 0, 0, '0', 'aaaaa bbbb', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', '', NULL, 'IMG_1618.jpg', '', '', '', ''),
-(20, 14, '2345', 'default.jpg', 'Free', '', 0, '1104571009', 'Without Time Limit', 0, 0, 0, 0, 0, 0, '0', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', '', 'AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3', 'default.jpg', '44', '66', '55', '77');
+INSERT INTO `courses` (`id`, `instructor_id`, `title`, `fancy_title`, `thumbnail`, `access`, `description`, `draft`, `courseID`, `timeLimitType`, `timeLimitValue`, `registration_required_email`, `registration_required_phone`, `registration_required_address`, `registration_required_tos`, `price`, `paypal_email`, `instructor_name`, `back_clr`, `front_clr`, `page_background_type`, `page_background_image`, `page_background_color`, `txtLessonBackground`, `courseTitleBg`, `courseTitleFg`, `signBgColor`, `signFgColor`, `bottomLogo`, `is_deleted`, `coursePassword`, `aboutInstructor`, `paypal_client_api_key`, `instructorPicture`, `instructur_website`, `instructur_insta`, `instructur_facebook`, `instructur_linkedin`, `currency`) VALUES
+(1, 15, 'asdffds', '<p><span style=\"text-decoration: underline;\"><em><strong>asdffds</strong></em></span></p>', '12_DBLW4993.JPG', 'Paid', '<p>description</p>', 0, '123', '', 0, 0, 0, 0, 0, 1, 'AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8r', 'adsf', '#ffffff', '#000000', 'image', '64BqZs.jpg', '#ff0000', '#f0f0f0', '#ffffff', '#000000', '', '', '178494758_10151503797559959_2041080596206641614_n.jpg', 0, '111', 'I am a full stack developer, having over 4 Years of Experience in Web Applications Development, maintaining and updating apps. My areas of expertise are Angular, PHP, JavaScript, MySql, Python, Web Services and Security. My ambition is to reach the very top of my profession and to work with other leading developers in this field. I am committed to constantly improving myself by learning new technologies and frameworks.', NULL, 'default.jpg', 'https://kashifali.me', '', '', 'instagram.com/kashifali_11', 'USD'),
+(5, 15, 'asdfadsf', '', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '2081827979', 'Without Time Limit', 0, 0, 0, 0, 0, 23, 'kmalik748@gmail.com', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, NULL, '', NULL, 'default.jpg', '', '', '', '', ''),
+(6, 15, 'Ron Course', '', 'default.jpg', 'Free', '<h3><strong><em>Course Description here....123123123123</em></strong></h3>', 0, '190423710', '', 0, 0, 0, 0, 0, 0, '', 'Kelin Anderson', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, NULL, '', NULL, 'default.jpg', '', '', '', '', ''),
+(13, 14, 'kashfi', '', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '1641646634', '', 0, 0, 0, 0, 0, 0, '', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '2222', '', NULL, 'default.jpg', '11', '33', '22', '44', ''),
+(15, 14, '345345', '', 'default.jpg', 'Registration', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '111', '', 0, 0, 0, 0, 0, 0, '', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '123', '', NULL, 'default.jpg', '', '', '', '', ''),
+(16, 14, 'asf', '', 'default.jpg', 'Password', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '1189939914', 'Without Time Limit', 0, 1, 1, 1, 1, 0, '', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, 'asf', 'asdfasdf asd fsdaf  sfdaf sd fsd', NULL, 'default.jpg', '', '', '', '', ''),
+(17, 14, 'asdfasdfasdf', '', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '1367856839', '', 0, 0, 0, 0, 0, 4, '0', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', 'asdf', NULL, 'default.jpg', '', '', '', '', ''),
+(18, 21, 'asdffasdf', '', 'default.jpg', 'Free', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '102628435', 'Without Time Limit', 0, 0, 0, 0, 0, 0, '0', 'aaaaa bbbb', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', 'sadfasdf a sdf sdaf', NULL, 'default.jpg', '', '', '', '', ''),
+(19, 21, 'dg 23', '', 'default.jpg', 'Paid', '<h3><strong><em>Course Description here....</em></strong></h3>', 0, '1582839827', '', 0, 0, 0, 0, 0, 0, '0', 'aaaaa bbbb', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', '', NULL, 'IMG_1618.jpg', '', '', '', '', ''),
+(20, 14, '2345', '', 'default.jpg', 'Free', '', 0, '1104571009', 'Without Time Limit', 0, 0, 0, 0, 0, 0, '0', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', '', 'AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3', 'default.jpg', '44', '66', '55', '77', ''),
+(21, 14, 'dddddddddddd', '', 'default.jpg', 'Paid', '', 0, '317025682', '', 0, 0, 0, 0, 0, 3, 'AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', '', 'AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3', 'default.jpg', '', '', '', '', 'CAD'),
+(22, 14, 'kashif', '<p><span style=\"color: #e03e2d;\">testing course</span></p>', 'default.jpg', 'Free', '', 0, '1696474750', '', 0, 0, 0, 0, 0, 0, '', 'Administrator 123', '#ffffff', '#000000', 'color', NULL, '#000000', NULL, '#ffffff', '#000', '#ffffff', '#000', 'default.png', 0, '', '', 'AUV9WUKaXyoFG7UN6rgBt-NKkSJWJHUxKSxbfq6g97mJglHj8rrOcSJJHgvGOgaVQ-dARLQOKm0cBuQ3', 'default.jpg', '', '', '', '', 'USD');
 
 -- --------------------------------------------------------
 
@@ -179,7 +183,8 @@ INSERT INTO `lessons` (`id`, `course_id`, `is_chapter`, `name`, `type`, `content
 (38, 17, 0, '', 'link', 'https://kashifali.me', 1111, 0),
 (39, 17, 0, '', 'link', 'https://kashifali.me', 1111, 0),
 (40, 17, 0, 'Lesson Name', 'video', 'https://www.youtube.com/watch?v=RrpNF9Mu1mQ', 1111, 0),
-(41, 17, 1, 'asdf', 'test', '', 1111, 0);
+(41, 17, 1, 'asdf', 'test', '', 1111, 0),
+(42, 21, 0, 'now file', 'link', 'https://kashifali.me', 1111, 0);
 
 -- --------------------------------------------------------
 
@@ -328,7 +333,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `forgetpass`
@@ -340,7 +345,7 @@ ALTER TABLE `forgetpass`
 -- AUTO_INCREMENT for table `lessons`
 --
 ALTER TABLE `lessons`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `users`
