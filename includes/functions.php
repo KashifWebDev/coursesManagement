@@ -58,6 +58,11 @@ function paypal($course){
     $price = $course["price"];
     $courseID = $course["id"];
     $currency = $course["currency"];
+    if(isset($_SESSION["discountAmount"])){
+        $line = '<p class="text-center small text-muted" style="font-size: larger;font-weight: bolder;"><del style="text-decoration-thickness: 3px;">'.$price.'</del> '.$_SESSION["discountAmount"].' '.$currency.'</p>';
+    }else{
+        $line = '<p class="text-center small text-muted" style="font-size: larger;">'.$price.' '.$currency.'</p>';
+    }
     $a = '
     <div class="w-100 mt-5 d-flex flex-column align-items-center justify-content-center">
 
@@ -70,7 +75,7 @@ function paypal($course){
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="card-title text-center pb-0 fs-4">Buy This Course</h5>
-                        <p class="text-center small text-muted" style="font-size: larger;">'.$price.' '.$currency.'</p>
+                       '.$line.'
                         <form>
                                 <div class="form-floating mb-3">
                                   <input type="text" class="form-control" id="PaypalEmail" placeholder="Enter your email">

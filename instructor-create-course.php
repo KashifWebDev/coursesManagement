@@ -262,7 +262,7 @@ validateSession();
                                           <option value="TWD">New Taiwan dollar</option>
                                           <option value="NZD">New Zealand dollar</option>
                                           <option value="PHP">Philippine peso</option>
-                                          <option value="JPB">Pound sterling</option>
+                                          <option value="GBP">Pound sterling</option>
                                           <option value="RUB">Russian ruble</option>
                                           <option value="SGD">Singapore dollar</option>
                                           <option value="SEK">Swedish krona</option>

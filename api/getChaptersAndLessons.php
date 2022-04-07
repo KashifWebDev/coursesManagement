@@ -7,7 +7,21 @@ $publicView = isset($_POST["publicView"]) && $_POST["publicView"] ? 1 : 0;
 $s = "SELECT * FROM lessons WHERE course_id=$courseID ORDER BY arrange_order ASC";
 $res1 = mysqli_query($con, $s);
 if(mysqli_num_rows($res1)){
-    ?> <ul class="list-group <?php if(!$publicView) echo "sortable"; ?>" id="lessonsListItems"> <?php
+    $s = "SELECT * FROM course_intro WHERE course_id = $courseID ORDER BY id DESC LIMIT 1";
+    $result = mysqli_query($con, $s);
+    if(mysqli_num_rows($result)){
+        $introData = "getIntroContent($courseID)";
+    }else{
+        $introData = "getIntroContent(null)";
+    }
+    ?>
+    <ul class="list-group <?php if(!$publicView) echo "sortable"; ?>" id="lessonsListItems">
+        <li class="list-group-item border-0 fw-bold">
+            <span onclick="<?=$introData?>">
+                Course Introduction
+            </span>
+        </li>
+        <?php
     while ($lessonsRow = mysqli_fetch_array($res1, MYSQLI_ASSOC)){
         $isChap = $lessonsRow["is_chapter"];
         $chap_class = $isChap ? "fw-bold" : "fw-light ms-2 d-flex align-items-center py-0";

@@ -7,11 +7,12 @@ validateSession();
     if(isset($_POST["addCoupon"])){
         $name = sanitizeParam($_POST["name"]);
         $code = sanitizeParam($_POST["code"]);
+        $discount = sanitizeParam($_POST["discount"]);
         $date = $_POST["date"];
         $userID = $_SESSION["userID"];
         foreach ($_POST["courses"] as $course){
-            $s = "INSERT INTO coupons(user_id, name, code, exp_date, course_id) VALUES 
-                ($userID, '$name', '$code', '$date', $course)";
+            $s = "INSERT INTO coupons(user_id, name, code, percentage, exp_date, course_id) VALUES 
+                ($userID, '$name', '$code', $discount, '$date', $course)";
             mysqli_query($con, $s);
         }
         ///// Redirect to either instructor or admin
@@ -77,22 +78,34 @@ validateSession();
                           <form action="" method="post">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="col-md-12">
-                                        <label for="inputNanme4" class="form-label">Coupon Name</label>
-                                        <input type="text" class="form-control" id="inputNanme4" name="name">
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <label for="inputNumber" class="col-sm-8 col-form-label">Coupon Code</label>
-                                        <div class="col-sm-12">
-                                            <input name="code" class="form-control" type="text" id="formFile" value="<?=generateRandomString()?>">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="inputNanme4" class="form-label">Coupon Name</label>
+                                            <input type="text" class="form-control" id="inputNanme4" name="name">
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-12">
-                                        <label for="expiryDate" class="col-sm-12 col-form-label">Expiry Date</label>
-                                        <div class="col-sm-12">
-                                            <input class="form-control" type="date" name="date" id="expiryDate">
+                                        <div class="col-md-6">
+                                            <label for="inputNumber" class="col-sm-8 col-form-label">Coupon Code</label>
+                                            <div class="col-sm-12">
+                                                <input name="code" class="form-control" type="text" id="formFile" value="<?=generateRandomString()?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="inputNumber" class="col-sm-8 col-form-label">Discount</label>
+                                            <div class="col-sm-12">
+                                                <div class="input-group mb-3">
+                                                    <input type="number" name="discount" min="0" max="100" class="form-control" placeholder="Percentage Discount" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                    <span class="input-group-text" id="basic-addon2">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="expiryDate" class="col-sm-12 col-form-label">Expiry Date</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="date" name="date" id="expiryDate">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

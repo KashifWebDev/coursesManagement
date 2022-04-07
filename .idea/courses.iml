@@ -8,5 +8,7 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="jquery-ui" level="application" />
     <orderEntry type="library" name="jquery.validate" level="application" />
+    <orderEntry type="library" name="cdbootstrap" level="application" />
+    <orderEntry type="library" name="bs-stepper" level="application" />
   </component>
 </module>

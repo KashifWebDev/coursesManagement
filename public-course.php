@@ -22,46 +22,61 @@ if(isset($_POST["applyCoupon"])){
     $courseRow = mysqli_fetch_array($res);
     $courseName = $courseRow["title"];
     $courseLink = $courseRow["courseID"];
+    $coursePrice = $courseRow["price"];
 
     $s = "SELECT * FROM coupons WHERE code='$coupon' AND course_id=$courseIDFromForm";
     $res = mysqli_query($con, $s);
     if(mysqli_num_rows($res)){
         $row = mysqli_fetch_array($res);
+        $discountPercentage = $row["percentage"];
         $date_now = time();
         $date2    = strtotime($row["exp_date"]);
         if ($date_now <= $date2) {
-            $sql= "SELECT * FROM users WHERE email = '$email'";
-            $checkEmail = mysqli_query($con, $sql);
-            if(mysqli_num_rows($checkEmail)>0) {
-                $userRow = mysqli_fetch_array($checkEmail);
-                $userId = $userRow["id"];
-                $message = '<h2>Congrats!</h2>';
-                $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">The course was linked to your account. You can now log into your account and begin the course.</p>';
-                $message .= '<a href="https://teachmehow.me" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Start Learning</a>';
 
-            }else{
-                $pass = generateRandomString(8);
-                $pass_md5 = md5($pass);
-                $message = '<html><body>';
-                $message .= '<h2>Congratulations!</h2>';
-                $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">The course was linked to your account. You can now log into your account and begin the course.</p>';
-                $message .= '<p style="font-size:18px;margin-left: 15px;">Link to course: <a href="https://teachmehow.me/course-'.$courseLink.'">'.$courseName.'</a></p>';
-                $message .= '<p style="font-size:18px;margin-left: 15px;">Email: '.$email.'</p>';
-                $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Password: '.$pass.'</p>';
-                $message .= '<a href="https://teachmehow.me" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Start Learning</a>';
-                $message .= '</body></html>';
-                $sql = "INSERT INTO users(firstname, lastname, email, contactNum, address, username, password, type, verified, pic) VALUES
+
+//echo "($discountPercentage / 100) * $coursePrice = ".($discountPercentage/100)*$coursePrice; exit(); die();
+            $discountedAmount = ($discountPercentage/100)*$coursePrice;
+
+            if($discountedAmount==0 || $discountedAmount<1){
+                $sql= "SELECT * FROM users WHERE email = '$email'";
+                $checkEmail = mysqli_query($con, $sql);
+                if(mysqli_num_rows($checkEmail)>0) {
+                    $userRow = mysqli_fetch_array($checkEmail);
+                    $userId = $userRow["id"];
+                    $message = '<h2>Congrats!</h2>';
+                    $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">The course was linked to your account. You can now log into your account and begin the course.</p>';
+                    $message .= '<a href="https://teachmehow.me" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Start Learning</a>';
+
+                }else{
+                    $pass = generateRandomString(8);
+                    $pass_md5 = md5($pass);
+                    $message = '<html><body>';
+                    $message .= '<h2>Congratulations!</h2>';
+                    $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">The course was linked to your account. You can now log into your account and begin the course.</p>';
+                    $message .= '<p style="font-size:18px;margin-left: 15px;">Link to course: <a href="https://teachmehow.me/course-'.$courseLink.'">'.$courseName.'</a></p>';
+                    $message .= '<p style="font-size:18px;margin-left: 15px;">Email: '.$email.'</p>';
+                    $message .= '<p style="font-size:18px;margin-left: 15px; margin-bottom: 28px;">Password: '.$pass.'</p>';
+                    $message .= '<a href="https://teachmehow.me" style="background: black; color: white; padding: 11px 22px; font-size: larger; margin-left: 15px; border-radius: 20px;text-decoration: none;">Start Learning</a>';
+                    $message .= '</body></html>';
+                    $sql = "INSERT INTO users(firstname, lastname, email, contactNum, address, username, password, type, verified, pic) VALUES
             ('New','User','$email','','','','$pass_md5','Student', 1, 'default.jpg')";
-                mysqli_query($con,$sql);
-                $userId = mysqli_insert_id($con);
+                    mysqli_query($con,$sql);
+                    $userId = mysqli_insert_id($con);
+
+
+
+                    $s = "INSERT INTO users_courses(course_id, user_id) VALUES ($courseID, $userId)";
+                    mysqli_query($con, $s);
+
+                    $subject = 'Coupon applied successfully | TeachMeHow';
+                    sendMail($email, $subject, $message);
+                    echo '<script>alert("Coupon Applied Successful! Check your email");</script>';
+                }
             }
-
-            $s = "INSERT INTO users_courses(course_id, user_id) VALUES ($courseID, $userId)";
-            mysqli_query($con, $s);
-
-            $subject = 'Coupon applied successfully | TeachMeHow';
-            sendMail($email, $subject, $message);
-            echo '<script>alert("Coupon Applied Successful! Check your email");</script>';
+            if($discountedAmount>=1){
+                $_SESSION["discountAmount"] = $discountedAmount;
+                echo '<script>alert("Coupon was applied Successfully!")</script>';
+            }
         }else{
             echo '<script>alert("Applied Coupon was expired!");</script>';
         }
@@ -324,7 +339,7 @@ $userPic = $instructorRow["pic"];
         $("#proceedUploadImage").click();
     });
 
-    function loadFirstLesson() {
+    function loadFirstLesson_OLD() {
         $.ajax({
             url: "api/getFirstLessonPublicView.php",
             type: "post",
@@ -346,6 +361,10 @@ $userPic = $instructorRow["pic"];
                 alert("Error while fetching courses!\n "+xhr);
             }
         });
+    }
+
+    function loadFirstLesson(lol) {
+        getIntroContent(<?=$courseID?>);
     }
 
     function getLessons() {
@@ -419,6 +438,37 @@ $userPic = $instructorRow["pic"];
     }
     implementColors();
 
+
+    function getIntroContent(courseID) {
+        placeHolderIcon("block");
+        $('#courseContent').empty();
+        loader1('block');
+        if(courseID==null){
+            loader1('none');
+            $('#courseContent').append("Course introduction was not added by instructor.");
+        }else{
+            $.ajax({
+                url: "api/getIntroByCourseId.php",
+                type: "post",
+                data: {
+                    courseID: <?=$courseID?>
+                },
+                success: function(response) {
+                    loader1('none');
+                    if(response==""){
+                        $('#courseContent').empty();
+                    }else{
+                        $('#courseContent').append(response);
+                    }
+                    implementColors();
+                },
+                error: function(xhr) {
+                    alert("Error while fetching courses!\n "+xhr);
+                }
+            });
+        }
+    }
+
     function loadPaypemtScript(){
         var price = parseFloat(<?=$courseRow["price"]?>);
         var courseID = parseInt(<?=$courseRow["id"]?>)
@@ -456,7 +506,7 @@ $userPic = $instructorRow["pic"];
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: parseFloat(<?=$courseRow["price"]?>) // Can reference variables or functions. Example: `value: document.getElementById('...').value`
+                            value: parseFloat(<?php echo $_SESSION["discountAmount"] ?? $courseRow["price"]; ?>) // Can reference variables or functions. Example: `value: document.getElementById('...').value`
                         }
                     }]
                 });

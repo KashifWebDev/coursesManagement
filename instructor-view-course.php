@@ -138,7 +138,7 @@ validateSession();
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $fileName = $_FILES["fileToUpload"]["name"];
         // Check file size
-        if ($_FILES["fileToUpload"]["size"] > 500000) {
+        if ($_FILES["fileToUpload"]["size"] > 10000000) {
             $uploadErrMsg = "Sorry, your file is too large.";
             $uploadOk = 0;
         }
@@ -438,7 +438,7 @@ validateSession();
             $uploadOk = 0;
         }
         // Check file size
-        if ($_FILES["fileToUpload"]["size"] > 999999) {
+        if ($_FILES["fileToUpload"]["size"] > 10000000) {
             $uploadErrMsg = "Sorry, your file is too large.";
             $uploadOk = 0;
         }
@@ -582,7 +582,11 @@ if($courseRow["page_background_type"]=="image"){
                         </div>
 
                         <hr>
-                        <button class="btn w-100 customColors" data-bs-toggle="modal" data-bs-target="#addNewLesson">
+                        <a class="btn border-1 w-100 customColors customBorder" href="course-intro.php?courseID=<?=$courseID?>">
+                            <i class="bi bi-blockquote-left"></i>
+                            <span>Course Intro</span>
+                        </a>
+                        <button class="btn w-100 customColors mt-2" data-bs-toggle="modal" data-bs-target="#addNewLesson">
                             <i class="bi bi-plus-square-dotted"></i>
                             <span>Add a Lesson</span>
                         </button>
@@ -592,17 +596,6 @@ if($courseRow["page_background_type"]=="image"){
                         </button>
                     </div>
                 </div>
-<!--                <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">-->
-<!--                    <div class="siteSignature text-center bg-light">-->
-<!--                        <div class="d-flex align-items-center justify-content-center bottomSignatureBg">-->
-<!--                            <img src="assets/img/logo_top.png" alt="Site Logo" height="70px">-->
-<!--                            <div class="d-flex flex-column ps-2 fw-bold">-->
-<!--                                <p class="m-0 bottomSignature" style="font-size: larger">Created With</p>-->
-<!--                                <p class="m-0 bottomSignature">TeachMeHow.me</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
                 <div class="w-100 mt-auto sticky-bottom" style="; height: fit-content;">
                     <div class="siteSignature text-center bg-light">
                         <div class="d-flex align-items-center justify-content-center customColors">
@@ -637,9 +630,7 @@ if($courseRow["page_background_type"]=="image"){
                                         <div class="container-fluid p-5 text-white text-center h-100 d-flex flex-column justify-content-center customColors">
                                             <h1 class="customColors">Start adding new lessons to the course!</h1>
                                             <p style="font-size: larger" class="customColors">Please use the left menu to add/edit lessosn and chapters!</p>
-                                            <div class="alert alert-info mx-auto d-flex align-items-center" role="alert">
-                                                <i class="bi bi-bell-fill fw-bold me-2" style="font-size: x-large"></i> Use <i class="bi bi-grip-vertical fw-bold"></i> Icon to reposition lessons. Drag the lesson to top to make it intro
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -674,6 +665,7 @@ if($courseRow["page_background_type"]=="image"){
         </main>
     </div>
 </div>
+
 
    <div class="modal fade" id="aboutInstructorTextModal" tabindex="-1">
        <div class="modal-dialog">
@@ -1038,7 +1030,7 @@ if($courseRow["page_background_type"]=="image"){
                                   <option value="CNY" <?php if($courseRow["currency"]=="CNY") echo " selected"; ?>>Chinese Renmenbi</option>
                                   <option value="DKK" <?php if($courseRow["currency"]=="DKK") echo " selected"; ?>>Danish krone</option>
                                   <option value="EUR" <?php if($courseRow["currency"]=="EUR") echo " selected"; ?>>Euro</option>
-                                  <option value="JPY" <?php if($courseRow["currency"]=="JPY") echo " selected"; ?>>Japanese yen</option>
+                                  <option value="JPY" <?php if($courseRow["currency"]=="GBP") echo " selected"; ?>>Japanese yen</option>
                                   <option value="MYR" <?php if($courseRow["currency"]=="MYR") echo " selected"; ?>>Malaysian ringgit</option>
                                   <option value="MXN" <?php if($courseRow["currency"]=="MXN") echo " selected"; ?>>Mexican peso</option>
                                   <option value="TWD" <?php if($courseRow["currency"]=="TWD") echo " selected"; ?>>New Taiwan dollar</option>
@@ -1344,6 +1336,15 @@ if($courseRow["page_background_type"]=="image"){
    <script src="assets/vendor/jquery/jquery-ui.js"></script>
    <link rel="stylesheet" href="assets/vendor/jquery/jquery-ui.css">
 
+   <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+   <script>
+       ClassicEditor
+           .create( document.querySelector( '#editor' ) )
+           .catch( error => {
+               console.error( error );
+           } );
+   </script>
+
    <script>
        var chaptersArray = [];
 
@@ -1623,6 +1624,36 @@ if($courseRow["page_background_type"]=="image"){
            });
        }
 
+       function getIntroContent(courseID) {
+           placeHolderIcon("block");
+           $('#courseContent').empty();
+           loader1('block');
+           if(courseID==null){
+               loader1('none');
+               $('#courseContent').append("Course introduction was not added by instructor.");
+           }else{
+               $.ajax({
+                   url: "api/getIntroByCourseId.php",
+                   type: "post",
+                   data: {
+                       courseID: <?=$courseID?>
+                   },
+                   success: function(response) {
+                       loader1('none');
+                       if(response==""){
+                           $('#courseContent').empty();
+                       }else{
+                           $('#courseContent').append(response);
+                       }
+                       implementColors();
+                   },
+                   error: function(xhr) {
+                       alert("Error while fetching courses!\n "+xhr);
+                   }
+               });
+           }
+       }
+
        function loader(visible) {
            $('#loader').attr('style','display:'+visible+' !important');
        }
@@ -1674,23 +1705,13 @@ if($courseRow["page_background_type"]=="image"){
            $('.bottomSignature').css('color', '<?=$courseRow["signFgColor"]?>');
            $('.bottomSignatureBg').css('background', '<?=$courseRow["signBgColor"]?>');
            $('#lsnHeading').css('color', '<?=$courseRow["front_clr"]?>');
-           $("button.customColors").css('border', '1px solid <?=$courseRow["front_clr"]?>');
+           $("button.customColors").css('border', '1px solid <?=$courseRow["courseTitleFg"]?>');
+
+
+           $('.customBorder').css('border', '1px solid <?=$courseRow["front_clr"]?>');
        }
    </script>
 
-   <div class="toast" id="myToast">
-       <div class="toast-header">
-           <strong class="me-auto"><i class="bi-gift-fill"></i> We miss you!</strong>
-           <small>10 mins ago</small>
-           <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-       </div>
-       <div class="toast-body">
-           It's been a long time since you visited us. We've something special for you. <a href="#">Click here!</a>
-       </div>
-   </div>
-   <script>
-       $("#myToast").toast("show");
-   </script>
 
 </body>
 
